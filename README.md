@@ -6,7 +6,7 @@ LC Tweaks Free is **not Divi-dependent**. It can run on a standard WordPress sit
 
 ## Why This Plugin
 
-After working on many sites that needed similar customizations over the years, I created LC Tweaks as a go-to toolkit for quickly applying common fixes, cleanup tasks, and quality-of-life improvements without rebuilding the same snippets for every project.
+After working on many sites that needed similar customizations over the years, I created LC Tweaks as a go-to toolkit for quickly applying common fixes, cleanup tasks, and quality-of-life improvements without rebuilding the same snippets for every project or manually reapplying updates across multiple sites.
 
 ## Installation
 
