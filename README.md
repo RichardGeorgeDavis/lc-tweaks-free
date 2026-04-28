@@ -186,7 +186,7 @@ These options appear when WooCommerce is active.
 LC Tweaks Free intentionally excludes these pro/current features:
 
 - LC Tweaks pro licensing and private updater code.
-- The bundled **Modules** tab and all bundled modules:
+- The bundled **Modules** tab and all bundled modules, custom modules, and module overrides, including:
   - WP Page Transitions Advanced
   - Divi Woo Product Carousel
   - TM Divi Shop Extended
