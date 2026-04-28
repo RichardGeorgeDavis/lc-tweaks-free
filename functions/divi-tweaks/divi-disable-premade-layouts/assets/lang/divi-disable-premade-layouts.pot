@@ -1,0 +1,110 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Divi - Disable Premade Layouts\n"
+"POT-Creation-Date: 2018-02-07 13:59+0100\n"
+"PO-Revision-Date: 2018-02-01 21:25+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: divi-disable-premade-layouts.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: divi-disable-premade-layouts.php:337
+msgid "Layouts Disable User Check"
+msgstr ""
+
+#: divi-disable-premade-layouts.php:341
+msgid ""
+"Here you can specify if the user check is disabled. Then the predefined "
+"layouts are not displayed for any user of this page."
+msgstr ""
+
+#: divi-disable-premade-layouts.php:347
+msgid "Layouts Change User Role"
+msgstr ""
+
+#: divi-disable-premade-layouts.php:351
+msgid ""
+"Here you can define with which user role ( hierarchical, e.g. 'editor', "
+"'author' etc. ) or which capability ( 'current_user_can( '$cab' ) ) users "
+"can access the predefined layouts. Multiple roles or permissions can be "
+"entered, separated by commas. The default is set to 'administrator'."
+msgstr ""
+
+#: divi-disable-premade-layouts.php:440
+msgid "During the update attempt the following error occurred: "
+msgstr ""
+
+#: includes/update/Puc/v4p4/Plugin/UpdateChecker.php:395
+msgid "Check for updates"
+msgstr ""
+
+#: includes/update/Puc/v4p4/Plugin/UpdateChecker.php:432
+msgid "View details"
+msgstr ""
+
+#: includes/update/Puc/v4p4/Plugin/UpdateChecker.php:455
+#, php-format
+msgid "More information about %s"
+msgstr ""
+
+#: includes/update/Puc/v4p4/Plugin/UpdateChecker.php:548
+#, php-format
+msgctxt "the plugin title"
+msgid "The %s plugin is up to date."
+msgstr ""
+
+#: includes/update/Puc/v4p4/Plugin/UpdateChecker.php:550
+#, php-format
+msgctxt "the plugin title"
+msgid "A new version of the %s plugin is available."
+msgstr ""
+
+#: includes/update/Puc/v4p4/Plugin/UpdateChecker.php:552
+#, php-format
+msgctxt "the plugin title"
+msgid "Could not determine if updates are available for %s."
+msgstr ""
+
+#: includes/update/Puc/v4p4/Plugin/UpdateChecker.php:558
+#, php-format
+msgid "Unknown update checker status \"%s\""
+msgstr ""
+
+#: includes/update/Puc/v4p4/Vcs/PluginUpdateChecker.php:98
+msgid "There is no changelog available."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Divi - Disable Premade Layouts"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://indikator-design.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"A helper plugin to hide the new ready-made layouts of Elegant Themes for "
+"users."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Bruno Bouyajdad | Indikator Design"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://indikator-design.com"
+msgstr ""

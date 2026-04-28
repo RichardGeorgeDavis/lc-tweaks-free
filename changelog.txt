@@ -1,0 +1,280 @@
+Changelog
+=========
+
+Unreleased
+- Added free-edition packaging support with GitHub Releases updates, excluding pro licensing/updater code, the YITH Licence Activator, and bundled Modules features from public free builds.
+- Improved the Divi Accessibility migration failure notice so hosts that cannot auto-install plugins without filesystem credentials now get an explicit manual-download fallback for the pinned `2.1.1` package instead of a generic install failure.
+- Removed the standalone Divi Accessibility info card from the LC Tweaks Modules screen now that it is no longer a bundled module toggle.
+
+1.5.1
+- Removed the bundled Divi Accessibility module and refined the standalone migration so only sites that previously enabled it auto-install the pinned Divi Accessibility 2.1.1 plugin, while later removals show a recommendation instead of forcing reinstalls.
+- Added a WordPress tweak to disable admin new-user registration notification emails globally while keeping user-facing registration emails intact, and made it override the WooCommerce customer-registration admin email toggle when both are enabled.
+
+1.5.0
+- Fixed the excluded YITH helper loader so it only gates on supported active YITH premium plugins without disabling the licence-preservation path entirely.
+- Added lightweight request-scoped settings snapshot helpers to reduce repeated option-array lookups in admin rendering paths and reused them in key Divi/Woo/Maintenance panels.
+- Hardened YITH helper loading so exclusion helpers are only included when at least one supported YITH plugin is active.
+- Reduced duplicate inline asset output by deduping identical CSS/JS snippets and guarding per-context enqueue/output from running multiple times in a single request.
+- Optimized settings import/update flows by skipping no-op option writes in both admin import and WP-CLI import/preset operations.
+
+1.4.9.1
+- Added a Woo Tweaks > Emails toggle to replace trademark, registered, and copyright symbols in order email item names with email-friendly superscript markup, without changing product titles elsewhere on the site.
+- Added a Woo Tweaks > Checkout UX toggle to rename the visible WooCommerce city field label and placeholder to "Suburb" while keeping the underlying field key unchanged.
+
+1.4.9
+- Fixed 20i Stack Cache clearing in "Clear All Caches (Automated)" by falling back to the plugin's `purge-all-cache` admin-AJAX action when direct `WPStackCache` purge methods are unavailable.
+
+1.4.8
+- Added a Maintenance > Uploads `Replace Image Tool` toggle that adds a Media Library attachment action for swapping image files while keeping the original attachment ID and URL.
+- Added a Maintenance admin action to force fresh WordPress.org plugin/theme update checks on demand, with scope-aware availability based on the current user's update capabilities.
+- Hardened the manual force-update-check action so it now aligns with WordPress plugin/theme update capabilities instead of relying on general settings access alone.
+
+1.4.7.3
+- Fixed the Rank Math schema preview so shared reports now use the canonical inspected URL, diff summaries refresh immediately when ignore-key filters change, and the preview falls back cleanly when diff controls are unavailable.
+- Added a `Copy URL + Diff` action to the Rank Math schema preview so the inspected frontend URL and filtered diff summary can be shared together in one clipboard payload.
+- Added preset filter chips for common noisy keys in the Rank Math schema preview diff, keeping them synced with the custom ignore-key field.
+- Added a `Copy Diff Summary` action to the Rank Math schema preview so the filtered LC Tweaks-vs-Rank-Math change summary can be shared without copying the full JSON-LD output.
+- Added a summary-only key filter to the Rank Math schema preview diff so noisy top-level fields can be ignored without affecting the raw JSON-LD preview output.
+- Added an admin-only Rank Math schema preview diff that compares the final emitted JSON-LD against the Rank Math base graph for the same URL and summarizes which entities/fields LC Tweaks changed.
+- Added support for additional public schema contact points in Rank Math enrichment, including channel-specific `ContactPoint` entries for items like WhatsApp, extra public emails, and sales/licensing links, plus optional `llms.txt` contact-channel output.
+- Removed the duplicate LC Tweaks `Organization Description` field and now rely on Rank Math's Local SEO description as the source of truth for schema and optional `llms.txt` organization text.
+
+1.4.7.2
+- Hardened Rank Math organization matching further by treating the main `publisher` graph entity as an enrichment target on personal-brand sites, reducing reliance on a specific `@id` shape.
+- Removed the duplicate LC Tweaks `Additional SameAs URLs / Social Profiles` field and now rely on Rank Math's built-in Social Profiles (`sameAs`) settings instead, including for the optional `llms.txt` official-profile section.
+
+1.4.7.1
+- Fixed Rank Math schema enrichment on personal-brand sites where Rank Math emits a hybrid `Person` + `Organization` knowledge graph entity, so LC Tweaks additions like extra `sameAs` URLs and `areaServed` now merge into that main entity.
+
+1.4.7
+- Added a Rank Math schema enrichment tweak on the Maintenance page with Organization, LocalBusiness, Place, WebSite, WebPage, and Article graph merges, direct linking to Rank Math's own schema settings, and optional llms.txt enrichment from the same organization fields.
+- Added read-only Rank Math Local SEO and LLMS Txt summaries inside the Maintenance schema panel so users can see the current Rank Math values being used and know when a correction belongs in Rank Math rather than LC Tweaks.
+- Narrowed LocalBusiness detection so schema enrichment no longer treats every address-bearing non-Organization entity as a business subtype.
+- Changed Advanced JSON Merge to a read-only preview in the main flow, with a separate raw editor disclosure and save-time JSON validation so invalid payloads do not overwrite the stored value.
+- Made contactPoint enrichment match existing entries by contact type before appending a new support contact, and right-aligned the Rank Math summary labels in the Local SEO / LLMS info boxes.
+- Removed "North America" from the Areas Served placeholder examples.
+- Tightened Advanced JSON Merge validation to require a top-level JSON object, and deduped LC Tweaks-generated llms.txt sections when Rank Math extra content already uses the same headings.
+- Clarified that Additional SameAs URLs also covers extra social profile URLs, removed duplicate LLMS messaging from the top schema info box, and disabled the copy-label badge styling inside the Maintenance schema info panel so Rank Math summaries read like plain reference content.
+- Added a per-URL final schema preview tool in the Maintenance Rank Math panel so emitted frontend JSON-LD can be fetched, inspected, and copied without leaving LC Tweaks.
+
+1.4.6.3
+- Added Settings safeguards and recovery tools: preflight conflict scanning, automatic settings snapshots (latest 5), rollback restore controls, and diagnostics export enhancements (including Scope Rules detail).
+- Added Scope Rules frontend targeting and guardrails: URL/login/role targeting, normalization on save/import/restore, and warnings for empty targets, unknown keys, role/login conflicts, and include/exclude overlaps.
+- Added Scope Rules Tester utilities in Settings: allow/block simulation with reasons, option-key autocomplete from registered tweaks, and a "Use Current Browser Path" helper.
+- Added live Scope Rules form validation with inline warnings while typing for key/path/login/role mismatches.
+- Updated Scope Rules settings UX to hide advanced rule fields and tester until "Enable scope rules" is turned on.
+- Improved Settings page organization: masonry-style cards, Scope Rules moved to the first card, and layout refinements to reduce spacing waste.
+- Enhanced Option Finder UX: search/favorites/recent tooling, favorite icon spacing tweaks, Settings-tab favorites controls removal, and correct recent-change clearing when values are reverted before save.
+- Added Presets in Settings (Brochure, Woo Store, Troubleshooting) with explicit preset selection, one-click apply, snapshot backup support, preflight conflict checks, safer subform submit handling, and one-click restore to pre-preset settings.
+- Updated Divi compatibility matrix behavior (3/4/5) to advisory mode: mismatches now surface warnings/notices without forcibly disabling toggles or blocking runtime execution.
+- Added Builder-safe mode (Maintenance tab) to temporarily gate most LC Tweaks runtime hooks during Divi builder/editor requests and reduce editor-side conflicts; the toggle is now shown only when Divi is active.
+- Added Woo cart fragments/script policy control with selectable modes (default, non-Woo disable, global fragments disable, and non-Woo fragments+add-to-cart disable), including scope-rule awareness and overlap preflight warnings.
+- Added WooCommerce session cleanup scheduler tied to custom session-expiration presets, with automatic cron sync (enable/disable + recurrence updates) and a Woo Tweaks health notice showing next run, last run, deleted rows, table counts, and error state.
+- Added a WP-CLI suite (`wp lc-tweaks`) covering settings export/import, preset list/apply/restore, diagnostics export (JSON/TXT), and cache maintenance actions (inline/lazy/Woo sessions).
+- Added multisite policy mode with network defaults + per-site override controls, effective settings merging at runtime, diagnostics visibility for policy state, and lock enforcement for site-level import/snapshot/preset/manual writes when overrides are disabled.
+- Fixed multisite effective-settings cache scoping so values are cached per blog and invalidated on blog switches/policy updates.
+- Added activation-time IMPORTANT NOTE panels for Divi Woo Product Carousel and TM Divi Shop Extended in Modules, matching existing module warning behavior.
+
+1.4.6.2
+- Added LC Tweaks CSS/JS cache clear + rebuild to "Clear All Caches (Automated)" across the progress UI step, AJAX step execution, and server-side fallback/update automation runs.
+- Added a shared preflight conflict checker for mutually exclusive/dependent options and surfaced warnings after save.
+- Added a Settings-tab diagnostics export (JSON) with environment details, active LC Tweaks options, cache folder status, cron snapshots, and detected preflight conflicts.
+
+1.4.6.1
+- Fixed front-end admin-bar cache actions to prevent empty-link page reloads and run cache automation reliably.
+- Added front-context cache-automation script loading when the admin bar is visible so notices/progress appear outside wp-admin.
+- Added cache-busting query versions for generated inline asset files to prevent stale admin JS from persisting across updates.
+- Added a non-JS fallback for "Clear All Caches (Automated)" using an admin-post endpoint with completion notices.
+- Fixed cache folder content cleared.
+
+1.4.5
+- Refined dependent toggle-group shading: skipped rows that use `.info` helper panels and applied a lighter off-white group background for "Lazy Load Divi Sections", "Defer Below-Fold Divi Sections", and "Clear Divi static css cache + local storage".
+- Simplified cache-action UX: progress popup now auto-closes after 8 seconds (with manual Close still available), removed the "Run the full cache automation now?" confirmation, replaced frontend alert popups with non-blocking toasts, enabled the "Clear Divi Cache" admin-bar menu on frontend requests with a visible WP admin bar, and guarded cache-action JS against duplicate initialization.
+- Enhanced "Edit in Visual Builder" row actions: added an opt-in toggle for post/page rows, duplicate protection (for example when Divi Pixel adds the same link), moved the action to the first position, and updated helper/settings logic to support both Divi 4 and Divi 5 without Classic Editor requirements.
+- Added shared Divi Visual Builder context/URL helpers for cross-version detection and used them to make post-save/Visual-Builder-exit cache automation skip REST/JSON requests and to load Hide Divi Cloud CSS in both admin and frontend builder contexts.
+- Improved Divi accessibility behavior across Divi 4/5: hardened viewport handling so it is not overridden while Visual Builder is active, and updated bundled Divi Accessibility classname handling for Divi 5 modules.
+- Added a Woo Modules toggle for TM Divi Shop Extended, loading `functions/modules/tm-divi-shop-extended/loadcommerce.php` only when WooCommerce is active, plus a Divi 3 compatibility badge/tooltip.
+- Added an experimental Divi 4 compatibility pass for Custom Fullwidth Header Extended (dependency hardening, safer Visual Builder checks, popup trigger scoping, and updated Modules-tab badge text) and fixed the wave-effect regression by always registering module script handles and supporting both global `wavify` patterns.
+
+1.4.4
+- Added an automated "Clear All Caches" admin-bar action with ordered cache-clearing steps, progress feedback, and final completion status.
+- Added optional server cache clear steps for 20i Stack Cache and Bluehost when those cache providers are active.
+- Added optional cache clear steps for LiteSpeed, W3 Total Cache, Nginx Helper, SiteGround Optimizer, and WP Engine when available.
+- Added an opt-in "Auto clear caches after updates" setting that debounces core/plugin/theme update bursts into one server-side cache clear pass.
+- Limited "Clear All Caches (Automated)" to the LC Tweaks admin-bar menu only (no Divi Pixel menu injection).
+- Added hook-based Divi cache clearing after post saves and when exiting the Visual Builder, including one-time local storage clear for the current user.
+- Moved cache automation toggles under the main Divi cache helper toggle and added a dedicated switch for post-save/Visual-Builder-exit auto clear.
+- Enforced cache-toggle dependency so disabling the main Divi cache helper also turns off both related auto-clear toggles.
+- Added restore behavior for cache sub-toggles so previously enabled cache automations can return when the main Divi cache helper is re-enabled.
+- Updated cache automation progress popup to show only enabled/available cache steps instead of listing unavailable optional providers.
+- Fixed lazy-load cache warm behavior so cache files are generated after published post saves even without WP Rocket installed/enabled.
+- Hardened Woo product carousel builder AJAX handling with capability checks, payload validation, and bounded post counts.
+- Restricted the Fullwidth Header Extended module AJAX loader to authenticated users with capability + nonce checks (removed public nopriv route).
+- Fixed settings import/export notice handling by removing invalid nonce checks on query flags and sanitizing/validating notice indexes.
+- Hardened settings import parsing and customizer loops to avoid malformed-input notices and unsafe file assumptions.
+
+1.4.3
+- Fixed Divi scroll effects recalculation after lazy-loaded or deferred sections render.
+- Reduced scroll-effect refresh overhead by skipping empty motion sets and avoiding scrollbar toggles.
+- Fixed Divi Pixel content toggle switch bindings for lazy-loaded or deferred sections.
+- Kept deferred section backgrounds and pseudo-element overlays visible by deferring inner content only.
+
+1.4.2
+- Added a defer below-fold Divi sections option with an initial sections setting as an SEO-friendly alternative to lazy loading.
+- Forced Divi full module assets while deferring to avoid missing styles.
+
+1.4.1
+- Added a lazy-load cache clear button and WP Rocket purge hooks.
+- Added an admin bar lazy-load cache clear link when the Divi cache clear toggle is enabled.
+- Fixed lazy-load cache generation for typical Divi wrapper markup.
+- Improved lazy-load rendering by forcing full Divi assets and reinitialising modules after sections load.
+- Added Go Portfolio support in lazy-loaded sections (images, filters, lightbox, load-more).
+- Added lazy-load spinner colour and size controls.
+- Clarified spinner colour labels and added helper text for the colour fields.
+- Added lazy-load prefetch distance and load-all-on-interaction options.
+- Added an option to restrict lazy loading to the front page only.
+- Skipped lazy loading on archives, search results, and post indexes to prevent blank output.
+- Expanded Divi Pixel lazy-load support by reinitialising additional modules and refreshing animation behaviour after sections load.
+- Dispatched Divi Pixel content events after sections load to refresh modules that listen for dipi-* events.
+- Added a Divi Pixel admin bar hook to clear lazy-load cache when Divi Pixel’s Clear Divi Cache menu is enabled.
+- Added an SEO note for lazy-loaded sections.
+- Allowed empty helper markup between sections during lazy-load cache builds.
+- Ensured lazy load runs when content is rendered outside the main loop.
+- Rebuilt the lazy-load cache from filtered post content when initial extraction fails.
+- Warmed the lazy-load cache when WP Rocket preloads URLs.
+- Added an option to warm the lazy cache after WP Rocket purges when preload is disabled.
+- Ensured the lazy-load cache clears when WP Rocket “Purge this URL” runs.
+
+1.4.0
+- Added Divi section lazy loading toggle and settings under Divi, plus a per-post disable toggle.
+- Multisite: scope inline asset and lazy-load caches per site to avoid conflicts.
+
+1.3.2
+- Fixed settings import/export nonce handling.
+- Added nonce validation for the store admin toggle.
+- Added nonce validation for add-to-cart click tracking requests.
+- Sanitized Divi fullwidth header AJAX layout IDs before shortcode rendering.
+- Added import/export controls to the Settings screen.
+- Clarified legacy customizer export labeling in Settings.
+
+1.3.1
+- Normalized settings saves to unslash values and ignore non-LC settings keys.
+- Aligned settings save capability with menu access.
+- Fixed WP Page Transitions toggle handling when settings are stored serialized.
+
+1.3.0
+- Updated the bundled updater library to 2.12.1.
+
+1.2.9.2
+- Show customer order counts on the Orders list when the Users Order Counts Column tweak is enabled.
+
+1.2.9.1
+- Added maintenance toggle to disable WP Rocket Priority Elements optimizations.
+- Hide WP Rocket "Clear Priority Elements" admin bar items when Priority Elements are disabled.
+- Prevent WP Rocket beacon script from loading when Priority Elements are disabled.
+- Fixed Divi custom icon picker to apply selected images to newly added rows.
+- Adjusted spacing for Divi custom icon URL fields and buttons.
+- Fixed Divi custom icon picker to reliably target the clicked row.
+- Updated Divi custom icon media picker handling for consistent multi-row selection.
+- Improved custom icon replacement when icons are stored in data attributes.
+- Broadened custom icon matching for Divi 4/5 icon formats.
+
+1.2.9
+- Only load Hide Divi Cloud CSS in the admin.
+- Rebuild front-head inline cache after updates/activation when Fix Divi Flashing is enabled.
+- Added Divi custom icons option with icon URL management.
+- Grouped Google Sync column toggle with Google sync identifiers option.
+
+1.2.8.4
+- Added Woo admin column for Google Listings & Ads sync status with filtering/sorting.
+- Added Quick/Bulk Edit visibility controls and bulk actions for Google Listings & Ads sync status column.
+- When enabled, use SKU as GTIN for Google Listings & Ads if GTIN is empty.
+- When enabled, populate the product GTIN field from SKU if the field is empty on save.
+- When enabled, send SKU as MPN for Google Listings & Ads and mark identifiers missing when GTIN/brand are empty.
+- Converted "Resave All Products" to a manual run button.
+- Split GTIN-from-SKU controls into Search/Schema vs Google Listings & Ads sync.
+- Added a manual cleanup action to normalize or remove invalid stored GTIN values.
+
+1.2.8.3
+- Avoid duplicate YITH upgrade class loading when exclusions are enabled.
+
+1.2.8.2
+- Only load the active admin tab content to reduce LC Tweaks settings page overhead.
+- Preserve existing settings when saving a single tab and submit explicit off values for unchecked toggles.
+- Load YITH helper utilities only when at least one YITH Activator exclusion is enabled.
+- Disable YITH Activator exclusion toggles unless the activator is enabled.
+
+1.2.8.1
+- Fixed YITH Activator exclusions to avoid blocking update checks without identifiable slugs when exclusions are enabled.
+- Improved YITH Activator exclusion matching for update checks using broader request detection.
+- Expanded YITH Activator request parsing to catch update slugs in query/body payloads.
+- Ensured excluded YITH plugins register with the updater so update checks run.
+- Forced YITH update checks for excluded plugins during WordPress update runs.
+- Load YITH helper utilities only when the activator toggle is enabled.
+
+1.2.8
+- Added module toggles for Content Intense.
+- Added Divi tweak to stop map module excerpts from loading map scripts.
+- Added Divi tweak to hide Divi Cloud UI elements in the builder.
+
+1.2.7.2
+- Reordered Stop Divi Image Crop options to match gallery/portfolio/blog order.
+- Fixed PHP 8 deprecation warnings in bundled module render signatures (Fullwidth Header Extended, Fullwidth Popup, Fullwidth Text Extended, Product Carousel).
+- Moved Scheduling & Cron to the bottom of the Maintenance page.
+- Added admin shortcut links for Disable Persistent Carts and Filter Products by Sale Status.
+
+1.2.7.1
+- Fixed excluded YITH Membership licence entries clearing after page reloads.
+- Improved YITH Membership exclusion matching when requests use plugin folder slugs.
+- Fixed excluded YITH Membership licence matching for JSON activation requests.
+- Moved Hide Dashboard Welcome Panel to the Maintenance page.
+- Added maintenance toggle to disable WP Rocket above-the-fold optimization.
+- Added maintenance toggle for ExactDN image downsize scaling.
+- Added maintenance toggle for the All WP Settings admin page.
+
+1.2.7
+- Added Woo tweak dropdown for setting WooCommerce session expiration to keep the sessions table lean.
+- Added Woo tweak to disable persistent carts and clarify how to clear existing saved carts.
+
+1.2.6
+- Added uploads toggles for SVG and font files (TTF/OTF/WOFF/WOFF2).
+- Added uploads toggle for JSON (Lottie) files.
+- Unfiltered uploads now disable SVG/JSON/font upload toggles automatically.
+- Added Divi builder support for WOFF/WOFF2 uploads.
+- Added Divi tweaks for sticky footer, opening social links in new tabs, and hiding Projects.
+- Fixed inline asset collection flag to avoid constant redefinition warnings.
+- Fixed PHP 8.1+ deprecation notices in the Map Extended module shortcode callbacks.
+
+1.2.5
+- Added Woo tweaks: cancelled order email to customer, auto-send pending order email, email admin on Woo fatal errors, set GTIN from SKU.
+- Added Woo tweaks: logout redirect to home, capitalize product titles, hide downloads tab without downloads, order history meta box.
+- Added Woo tweaks: add-to-cart click counter, remove add-to-cart URL parameter, remove tax suffix labels.
+- Added Woo tweaks: hide products without featured image, remove payments menu, sticky product update button, filter products by sale status, simple products only.
+- Hardened option writes and cron cleanup; moved remaining admin/front inline assets to cached pipeline.
+
+1.2.4
+- Added Woo tweaks: refund request button, buy now button, sort order items, store admin view, email item meta tags.
+- Added Woo tweaks: guest checkout for existing customers, prevent duplicate orders, complete order button.
+- Added Woo tweaks: hide products without featured image, redirect empty category pagination, get order IDs by product, move Orders menu.
+- Added Woo tweaks UI improvements with toggle-linked info boxes and a sort mode dropdown.
+- Added Woo admin tweaks: sticky product update button, filter products by sale status, simple products only, remove payments menu.
+- Added Woo tweaks: hide downloads tab without downloads, order history meta box, add-to-cart click counter.
+- Added Woo tweaks: remove add-to-cart URL parameter, remove tax suffix labels.
+- Ensured Woo tweak JS is generated via the inline asset cache pipeline.
+
+1.2.3
+- Added WooCommerce toggles to disable product reviews and the Brands feature.
+- Updated the settings page slug to `lc_tweaks` while keeping the legacy `divi_lc_kit` URL working.
+- Refreshed license details (updated copyright year and removed unused third-party entries).
+
+1.2.2
+- Added Woo Admin Columns & Search items: Orders Search by SKU, Orders User Role Column, Users Order Counts Column, Products Stock Status Column, Products Last Edited Column & Meta.
+- Added Maintenance Updates items: Skip New Bundled Themes on Core Updates, Disable Core Auto Updates, Disable Plugin Auto Updates, Disable Theme Auto Updates.
+
+1.2.1
+- Expanded WooCommerce cleanup toggles to better control scripts/styles on non-Woo pages.
+- Added additional Divi tweaks for editor and UX fixes.
+- Added extra web performance toggles (search, RSS, Gutenberg, cache handling).
+
+1.2.0
+- Initial public release of LC Tweaks with Divi tweaks, Woo tweaks, modules, and settings UI.

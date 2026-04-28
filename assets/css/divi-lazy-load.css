@@ -1,0 +1,155 @@
+/* Lazy loading spinner for Divi section loading. */
+
+#dlck-lazy-loader {
+	background-color: var(--dlck-lazy-bg, #fff);
+	z-index: 999;
+	width: 100%;
+	position: relative;
+	min-height: var(--dlck-lazy-min-height, 200px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#dlck-lazy-loader:before {
+	content: "";
+	height: 100px;
+	width: 100%;
+	position: absolute;
+	top: -100px;
+	background: linear-gradient(360deg, var(--dlck-lazy-bg, #fff) 0%, rgba(var(--dlck-lazy-bg-rgb, 255, 255, 255), 0) 100%);
+}
+
+#dlck-lazy-loader-inner {
+	padding: 20px;
+	text-align: center;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller {
+	display: inline-block;
+	position: relative;
+	width: 64px;
+	height: 64px;
+	transform: scale(var(--dlck-lazy-scale, 1));
+	transform-origin: 32px 32px;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div {
+	animation: dlck-lazy-lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+	transform-origin: 32px 32px;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:after {
+	content: " ";
+	display: block;
+	position: absolute;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--dlck-lazy-color, #666);
+	margin: -3px 0 0 -3px;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(1) {
+	animation-delay: -0.036s;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(1):after {
+	top: 50px;
+	left: 50px;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(2) {
+	animation-delay: -0.072s;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(2):after {
+	top: 54px;
+	left: 45px;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(3) {
+	animation-delay: -0.108s;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(3):after {
+	top: 57px;
+	left: 39px;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(4) {
+	animation-delay: -0.144s;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(4):after {
+	top: 58px;
+	left: 32px;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(5) {
+	animation-delay: -0.18s;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(5):after {
+	top: 57px;
+	left: 25px;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(6) {
+	animation-delay: -0.216s;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(6):after {
+	top: 54px;
+	left: 19px;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(7) {
+	animation-delay: -0.252s;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(7):after {
+	top: 50px;
+	left: 14px;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(8) {
+	animation-delay: -0.288s;
+}
+
+#dlck-lazy-loader .dlck-lazy-lds-roller div:nth-child(8):after {
+	top: 45px;
+	left: 10px;
+}
+
+@keyframes dlck-lazy-lds-roller {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/* Defer below-fold Divi sections while preserving layout. */
+.dlck-defer-section {
+	content-visibility: visible;
+}
+
+.dlck-defer-section > .et_pb_row,
+.dlck-defer-section > .et_pb_module {
+	content-visibility: auto;
+	contain-intrinsic-size: 1px 800px;
+}
+
+@supports not (content-visibility: auto) {
+	.dlck-defer-section.is-deferred > .et_pb_row,
+	.dlck-defer-section.is-deferred > .et_pb_module {
+		visibility: hidden;
+	}
+
+	.dlck-defer-section.is-revealed > .et_pb_row,
+	.dlck-defer-section.is-revealed > .et_pb_module {
+		visibility: visible;
+	}
+}
