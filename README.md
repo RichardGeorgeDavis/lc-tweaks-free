@@ -4,6 +4,10 @@ LC Tweaks Free is a WordPress plugin for practical WordPress, Divi, and WooComme
 
 LC Tweaks Free is **not Divi-dependent**. It can run on a standard WordPress site without Divi. Divi-specific tools only appear and run when Divi is active, and WooCommerce-specific tools only appear and run when WooCommerce is active.
 
+## Why This Plugin
+
+After working on many sites that needed similar customizations over the years, I created LC Tweaks as a go-to toolkit for quickly applying common fixes, cleanup tasks, and quality-of-life improvements without rebuilding the same snippets for every project.
+
 ## Installation
 
 1. Download the latest `lc-tweaks-free-{version}.zip` from the GitHub Releases page.
