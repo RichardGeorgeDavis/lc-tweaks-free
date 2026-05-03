@@ -11,7 +11,7 @@ $dlck_setting = static function ( string $key, $default = '' ) use ( $dlck_setti
 
 if ( ! function_exists( 'dlck_rank_math_maintenance_not_set_label' ) ) {
 	function dlck_rank_math_maintenance_not_set_label(): string {
-		return __( 'Not set in Rank Math', 'divi-lc-kit' );
+		return __( 'Not set in Rank Math', 'lc-tweaks' );
 	}
 }
 
@@ -81,7 +81,7 @@ if ( ! function_exists( 'dlck_rank_math_maintenance_format_page' ) ) {
 		$url   = get_permalink( $page_id );
 
 		if ( $title === '' ) {
-			$title = sprintf( __( 'Page #%d', 'divi-lc-kit' ), $page_id );
+			$title = sprintf( __( 'Page #%d', 'lc-tweaks' ), $page_id );
 		}
 
 		return $url ? $title . ' (' . esc_url_raw( $url ) . ')' : $title;
@@ -103,7 +103,7 @@ if ( ! function_exists( 'dlck_rank_math_maintenance_format_json_preview' ) ) {
 	function dlck_rank_math_maintenance_format_json_preview( $value ): string {
 		$value = trim( (string) $value );
 		if ( $value === '' ) {
-			return __( 'No advanced JSON saved in LC Tweaks.', 'divi-lc-kit' );
+			return __( 'No advanced JSON saved in LC Tweaks.', 'lc-tweaks' );
 		}
 
 		$decoded = json_decode( $value, true );
@@ -175,11 +175,11 @@ $dlck_force_update_check_permissions         = function_exists( 'dlck_force_upda
 		'themes'  => current_user_can( 'update_themes' ),
 	);
 $dlck_can_force_update_check                 = ! empty( $dlck_force_update_check_permissions['plugins'] ) || ! empty( $dlck_force_update_check_permissions['themes'] );
-$dlck_force_update_scope_label               = __( 'plugins and themes', 'divi-lc-kit' );
+$dlck_force_update_scope_label               = __( 'plugins and themes', 'lc-tweaks' );
 if ( ! empty( $dlck_force_update_check_permissions['plugins'] ) && empty( $dlck_force_update_check_permissions['themes'] ) ) {
-	$dlck_force_update_scope_label = __( 'plugins', 'divi-lc-kit' );
+	$dlck_force_update_scope_label = __( 'plugins', 'lc-tweaks' );
 } elseif ( empty( $dlck_force_update_check_permissions['plugins'] ) && ! empty( $dlck_force_update_check_permissions['themes'] ) ) {
-	$dlck_force_update_scope_label = __( 'themes', 'divi-lc-kit' );
+	$dlck_force_update_scope_label = __( 'themes', 'lc-tweaks' );
 }
 $dlck_rank_math_modules                      = get_option( 'rank_math_modules', array() );
 $dlck_rank_math_titles_settings              = get_option( 'rank-math-options-titles', array() );
@@ -233,7 +233,7 @@ if ( class_exists( '\RankMath\Helper' ) ) {
 }
 
 $dlck_rank_math_current_graph_type_key   = ( isset( $dlck_rank_math_titles_settings['knowledgegraph_type'] ) && $dlck_rank_math_titles_settings['knowledgegraph_type'] === 'company' ) ? 'company' : 'person';
-$dlck_rank_math_current_graph_type       = $dlck_rank_math_current_graph_type_key === 'company' ? __( 'Organization', 'divi-lc-kit' ) : __( 'Person', 'divi-lc-kit' );
+$dlck_rank_math_current_graph_type       = $dlck_rank_math_current_graph_type_key === 'company' ? __( 'Organization', 'lc-tweaks' ) : __( 'Person', 'lc-tweaks' );
 $dlck_rank_math_current_org_name         = dlck_rank_math_maintenance_normalize_scalar( $dlck_rank_math_titles_settings['knowledgegraph_name'] ?? '' );
 $dlck_rank_math_current_website_name     = dlck_rank_math_maintenance_normalize_scalar( $dlck_rank_math_titles_settings['website_name'] ?? '' );
 $dlck_rank_math_current_website_alt_name = dlck_rank_math_maintenance_normalize_scalar( $dlck_rank_math_titles_settings['website_alternate_name'] ?? '' );
@@ -397,109 +397,109 @@ $dlck_rank_math_current_llms_taxonomies = array_values( array_unique( $dlck_rank
 $dlck_rank_math_schema_advanced_json_preview = dlck_rank_math_maintenance_format_json_preview( $dlck_rank_math_schema_advanced_json_val );
 $dlck_rank_math_local_summary_rows           = array(
 	array(
-		'label' => __( 'Person or Company', 'divi-lc-kit' ),
+		'label' => __( 'Person or Company', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_graph_type,
 	),
 	array(
-		'label' => __( 'Website Name', 'divi-lc-kit' ),
+		'label' => __( 'Website Name', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_website_name !== '' ? $dlck_rank_math_current_website_name : dlck_rank_math_maintenance_not_set_label(),
 	),
 	array(
-		'label' => __( 'Website Alternate Name', 'divi-lc-kit' ),
+		'label' => __( 'Website Alternate Name', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_website_alt_name !== '' ? $dlck_rank_math_current_website_alt_name : dlck_rank_math_maintenance_not_set_label(),
 	),
 	array(
-		'label' => __( 'Person/Organization Name', 'divi-lc-kit' ),
+		'label' => __( 'Person/Organization Name', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_org_name !== '' ? $dlck_rank_math_current_org_name : dlck_rank_math_maintenance_not_set_label(),
 	),
 	array(
-		'label' => __( 'Description', 'divi-lc-kit' ),
+		'label' => __( 'Description', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_description !== '' ? $dlck_rank_math_current_description : dlck_rank_math_maintenance_not_set_label(),
 	),
 	array(
-		'label' => __( 'URL', 'divi-lc-kit' ),
+		'label' => __( 'URL', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_url !== '' ? $dlck_rank_math_current_url : dlck_rank_math_maintenance_not_set_label(),
 	),
 	array(
-		'label' => __( 'Email', 'divi-lc-kit' ),
+		'label' => __( 'Email', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_email !== '' ? $dlck_rank_math_current_email : dlck_rank_math_maintenance_not_set_label(),
 	),
 	array(
-		'label' => __( 'Current Logo', 'divi-lc-kit' ),
+		'label' => __( 'Current Logo', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_logo !== '' ? $dlck_rank_math_current_logo : dlck_rank_math_maintenance_not_set_label(),
 	),
 	array(
-		'label' => __( 'Phone / Contact Numbers', 'divi-lc-kit' ),
+		'label' => __( 'Phone / Contact Numbers', 'lc-tweaks' ),
 		'value' => dlck_rank_math_maintenance_format_list( $dlck_rank_math_current_contact_numbers ),
 	),
 	array(
-		'label' => __( 'Address', 'divi-lc-kit' ),
+		'label' => __( 'Address', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_address,
 	),
 	array(
-		'label' => __( 'Business Type', 'divi-lc-kit' ),
+		'label' => __( 'Business Type', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_business_type !== '' ? $dlck_rank_math_current_business_type : dlck_rank_math_maintenance_not_set_label(),
 	),
 	array(
-		'label' => __( 'Geo Coordinates', 'divi-lc-kit' ),
+		'label' => __( 'Geo Coordinates', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_geo !== '' ? $dlck_rank_math_current_geo : dlck_rank_math_maintenance_not_set_label(),
 	),
 	array(
-		'label' => __( 'Opening Hours', 'divi-lc-kit' ),
+		'label' => __( 'Opening Hours', 'lc-tweaks' ),
 		'value' => dlck_rank_math_maintenance_format_list( $dlck_rank_math_current_opening_hours ),
 	),
 	array(
-		'label' => __( 'Price Range', 'divi-lc-kit' ),
+		'label' => __( 'Price Range', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_price_range !== '' ? $dlck_rank_math_current_price_range : dlck_rank_math_maintenance_not_set_label(),
 	),
 	array(
-		'label' => __( 'Additional Organization Info', 'divi-lc-kit' ),
+		'label' => __( 'Additional Organization Info', 'lc-tweaks' ),
 		'value' => dlck_rank_math_maintenance_format_list( $dlck_rank_math_current_additional_info ),
 	),
 	array(
-		'label' => __( 'Social Profiles (sameAs)', 'divi-lc-kit' ),
+		'label' => __( 'Social Profiles (sameAs)', 'lc-tweaks' ),
 		'value' => dlck_rank_math_maintenance_format_list( $dlck_rank_math_current_social_profiles ),
 	),
 	array(
-		'label' => __( 'About Page', 'divi-lc-kit' ),
+		'label' => __( 'About Page', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_about_page,
 	),
 	array(
-		'label' => __( 'Contact Page', 'divi-lc-kit' ),
+		'label' => __( 'Contact Page', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_contact_page,
 	),
 );
 $dlck_rank_math_llms_summary_rows            = array(
 	array(
-		'label' => __( 'Module Enabled', 'divi-lc-kit' ),
-		'value' => $dlck_rank_math_llms_enabled ? __( 'Yes', 'divi-lc-kit' ) : __( 'No', 'divi-lc-kit' ),
+		'label' => __( 'Module Enabled', 'lc-tweaks' ),
+		'value' => $dlck_rank_math_llms_enabled ? __( 'Yes', 'lc-tweaks' ) : __( 'No', 'lc-tweaks' ),
 	),
 	array(
-		'label' => __( 'Header Name', 'divi-lc-kit' ),
+		'label' => __( 'Header Name', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_org_name !== '' ? $dlck_rank_math_current_org_name : dlck_rank_math_maintenance_not_set_label(),
 	),
 	array(
-		'label' => __( 'Header Description', 'divi-lc-kit' ),
+		'label' => __( 'Header Description', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_description !== '' ? $dlck_rank_math_current_description : dlck_rank_math_maintenance_not_set_label(),
 	),
 	array(
-		'label' => __( 'Sitemap Section', 'divi-lc-kit' ),
-		'value' => $dlck_rank_math_sitemap_enabled ? __( 'Included when /llms.txt is generated', 'divi-lc-kit' ) : __( 'Not included because the Rank Math Sitemap module is disabled', 'divi-lc-kit' ),
+		'label' => __( 'Sitemap Section', 'lc-tweaks' ),
+		'value' => $dlck_rank_math_sitemap_enabled ? __( 'Included when /llms.txt is generated', 'lc-tweaks' ) : __( 'Not included because the Rank Math Sitemap module is disabled', 'lc-tweaks' ),
 	),
 	array(
-		'label' => __( 'Selected Post Types', 'divi-lc-kit' ),
+		'label' => __( 'Selected Post Types', 'lc-tweaks' ),
 		'value' => dlck_rank_math_maintenance_format_list( $dlck_rank_math_current_llms_post_types ),
 	),
 	array(
-		'label' => __( 'Selected Taxonomies', 'divi-lc-kit' ),
+		'label' => __( 'Selected Taxonomies', 'lc-tweaks' ),
 		'value' => dlck_rank_math_maintenance_format_list( $dlck_rank_math_current_llms_taxonomies ),
 	),
 	array(
-		'label' => __( 'Posts / Terms Limit', 'divi-lc-kit' ),
+		'label' => __( 'Posts / Terms Limit', 'lc-tweaks' ),
 		'value' => (string) $dlck_rank_math_current_llms_limit,
 	),
 	array(
-		'label' => __( 'Additional Content Preview', 'divi-lc-kit' ),
+		'label' => __( 'Additional Content Preview', 'lc-tweaks' ),
 		'value' => $dlck_rank_math_current_llms_extra,
 	),
 );
@@ -510,25 +510,25 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 	<div class="toolbox" style="padding:0 0 30px;">
 		<div class="info" style="background:transparent;">
-			<h4><?php echo esc_html_e( 'What is the maintenance area?', 'divi-lc-kit' ); ?></h4>
-			<p><?php echo esc_html_e( 'Recovery and safety toggles to fix cron, caching, and integration issues.', 'divi-lc-kit' ); ?></p>
-			<p><?php echo esc_html_e( 'Use sparingly—these change core behaviours to keep a site stable during troubleshooting.', 'divi-lc-kit' ); ?></p>
+			<h4><?php echo esc_html_e( 'What is the maintenance area?', 'lc-tweaks' ); ?></h4>
+			<p><?php echo esc_html_e( 'Recovery and safety toggles to fix cron, caching, and integration issues.', 'lc-tweaks' ); ?></p>
+			<p><?php echo esc_html_e( 'Use sparingly—these change core behaviours to keep a site stable during troubleshooting.', 'lc-tweaks' ); ?></p>
 		</div>
 	</div>
 
-		<h2 class="tool-section"><?php echo esc_html_e( 'Updates', 'divi-lc-kit' ); ?></h2>
+		<h2 class="tool-section"><?php echo esc_html_e( 'Updates', 'lc-tweaks' ); ?></h2>
 		<div class="tool-wrap">
 
 			<div class="lc-kit trigger">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Force Plugin & Theme Update Check', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Force Plugin & Theme Update Check', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
 						<p>
 							<?php
 							echo esc_html(
 								sprintf(
 									/* translators: %s: plugins/themes scope label */
-									__( 'Run a fresh WordPress.org %s update check immediately instead of waiting for the normal cache window.', 'divi-lc-kit' ),
+									__( 'Run a fresh WordPress.org %s update check immediately instead of waiting for the normal cache window.', 'lc-tweaks' ),
 									$dlck_force_update_scope_label
 								)
 							);
@@ -539,10 +539,10 @@ $dlck_rank_math_llms_summary_rows            = array(
 				<div class="box-content minibox">
 					<?php if ( $dlck_can_force_update_check ) : ?>
 						<a class="dlck-settings-button" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=dlck_force_update_check' ), 'dlck_force_update_check' ) ); ?>">
-							<?php echo esc_html_e( 'Run Check Now', 'divi-lc-kit' ); ?>
+							<?php echo esc_html_e( 'Run Check Now', 'lc-tweaks' ); ?>
 						</a>
 					<?php else : ?>
-						<button type="button" class="dlck-settings-button" disabled><?php echo esc_html_e( 'Not Available', 'divi-lc-kit' ); ?></button>
+						<button type="button" class="dlck-settings-button" disabled><?php echo esc_html_e( 'Not Available', 'lc-tweaks' ); ?></button>
 					<?php endif; ?>
 				</div>
 			</div>
@@ -557,17 +557,17 @@ $dlck_rank_math_llms_summary_rows            = array(
 								echo esc_html(
 									sprintf(
 										/* translators: %s: plugins/themes scope label */
-										__( 'Useful when you have just released or installed an update and want WordPress to refresh %s availability immediately.', 'divi-lc-kit' ),
+										__( 'Useful when you have just released or installed an update and want WordPress to refresh %s availability immediately.', 'lc-tweaks' ),
 										$dlck_force_update_scope_label
 									)
 								);
 								?>
 							</p>
-							<p><?php echo esc_html_e( 'This refreshes core plugin/theme checks only. Some commercial or custom updaters may keep their own caches.', 'divi-lc-kit' ); ?></p>
+							<p><?php echo esc_html_e( 'This refreshes core plugin/theme checks only. Some commercial or custom updaters may keep their own caches.', 'lc-tweaks' ); ?></p>
 							<?php if ( ! $dlck_can_force_update_check ) : ?>
-								<p><?php echo esc_html_e( 'This action is only available to users who can update plugins and/or themes on this site.', 'divi-lc-kit' ); ?></p>
+								<p><?php echo esc_html_e( 'This action is only available to users who can update plugins and/or themes on this site.', 'lc-tweaks' ); ?></p>
 							<?php endif; ?>
-							<p><a class="button" href="<?php echo esc_url( $dlck_updates_page_url ); ?>"><?php echo esc_html_e( 'Open Updates Page', 'divi-lc-kit' ); ?></a></p>
+							<p><a class="button" href="<?php echo esc_url( $dlck_updates_page_url ); ?>"><?php echo esc_html_e( 'Open Updates Page', 'lc-tweaks' ); ?></a></p>
 						</div>
 					</div>
 				</div>
@@ -575,9 +575,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><span class="new">top</span><?php echo esc_html_e('Skip New Bundled Themes on Core Updates','divi-lc-kit'); ?></h3>
+					<h3><span class="new">top</span><?php echo esc_html_e('Skip New Bundled Themes on Core Updates','lc-tweaks'); ?></h3>
 					<div class="box-descr">
-					<p><?php echo esc_html_e( 'Define CORE_UPGRADE_SKIP_NEW_BUNDLED to avoid installing new default themes.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Define CORE_UPGRADE_SKIP_NEW_BUNDLED to avoid installing new default themes.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -589,9 +589,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><span class="new">top</span><?php echo esc_html_e('Disable Core Auto Updates','divi-lc-kit'); ?></h3>
+				<h3><span class="new">top</span><?php echo esc_html_e('Disable Core Auto Updates','lc-tweaks'); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Define WP_AUTO_UPDATE_CORE to false to stop WordPress core auto-updates.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Define WP_AUTO_UPDATE_CORE to false to stop WordPress core auto-updates.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -603,9 +603,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><span class="new">top</span><?php echo esc_html_e('Disable Plugin Auto Updates','divi-lc-kit'); ?></h3>
+				<h3><span class="new">top</span><?php echo esc_html_e('Disable Plugin Auto Updates','lc-tweaks'); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Prevent WordPress from automatically updating plugins.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Prevent WordPress from automatically updating plugins.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -617,9 +617,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><span class="new">top</span><?php echo esc_html_e('Disable Theme Auto Updates','divi-lc-kit'); ?></h3>
+				<h3><span class="new">top</span><?php echo esc_html_e('Disable Theme Auto Updates','lc-tweaks'); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Prevent WordPress from automatically updating themes.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Prevent WordPress from automatically updating themes.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -631,15 +631,15 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e( 'Admin', 'divi-lc-kit' ); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e( 'Admin', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 
 		<?php if ( $dlck_divi_theme_active ) : ?>
 			<div class="lc-kit trigger">
 				<div class="box-title">
-					<h3><span class="new">new</span><?php echo esc_html_e( 'Builder-safe mode', 'divi-lc-kit' ); ?></h3>
+					<h3><span class="new">new</span><?php echo esc_html_e( 'Builder-safe mode', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Temporarily disable most LC Tweaks runtime hooks while Divi Visual Builder/editor requests are active.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Temporarily disable most LC Tweaks runtime hooks while Divi Visual Builder/editor requests are active.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -654,8 +654,8 @@ $dlck_rank_math_llms_summary_rows            = array(
 					</div>
 					<div class="box-content">
 						<div class="info">
-							<p><?php echo esc_html_e( 'Use this when the Divi builder becomes unstable after enabling multiple tweaks.', 'divi-lc-kit' ); ?></p>
-							<p><?php echo esc_html_e( 'Normal frontend behavior remains unchanged; this only gates builder/editor request contexts.', 'divi-lc-kit' ); ?></p>
+							<p><?php echo esc_html_e( 'Use this when the Divi builder becomes unstable after enabling multiple tweaks.', 'lc-tweaks' ); ?></p>
+							<p><?php echo esc_html_e( 'Normal frontend behavior remains unchanged; this only gates builder/editor request contexts.', 'lc-tweaks' ); ?></p>
 						</div>
 					</div>
 				</div>
@@ -664,9 +664,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><span class="new">top</span><?php echo esc_html_e('Hide Dashboard Welcome Panel','divi-lc-kit'); ?></h3>
+					<h3><span class="new">top</span><?php echo esc_html_e('Hide Dashboard Welcome Panel','lc-tweaks'); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Remove the default Welcome panel from the WordPress dashboard.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Remove the default Welcome panel from the WordPress dashboard.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 				<div class="box-content minibox">
@@ -678,9 +678,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 			<div class="lc-kit trigger">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'All WP Settings', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'All WP Settings', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'WordPress’s raw “all options” settings (the full wp_options list) for debugging.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'WordPress’s raw “all options” settings (the full wp_options list) for debugging.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -696,10 +696,10 @@ $dlck_rank_math_llms_summary_rows            = array(
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<h4><?php echo esc_html_e('IMPORTANT NOTE:', 'divi-lc-kit'); ?></h4>
-						<p><?php echo esc_html_e( 'This page lets you view/edit any option value directly.', 'divi-lc-kit' ); ?></p>
-						<p><?php echo esc_html_e( 'Useful for debugging.', 'divi-lc-kit' ); ?></p>
-						<p><?php echo esc_html_e( 'It’s also dangerous: changing the wrong option can break the site (URLs, active plugins, serialized arrays, etc.).', 'divi-lc-kit' ); ?></p>
+						<h4><?php echo esc_html_e('IMPORTANT NOTE:', 'lc-tweaks'); ?></h4>
+						<p><?php echo esc_html_e( 'This page lets you view/edit any option value directly.', 'lc-tweaks' ); ?></p>
+						<p><?php echo esc_html_e( 'Useful for debugging.', 'lc-tweaks' ); ?></p>
+						<p><?php echo esc_html_e( 'It’s also dangerous: changing the wrong option can break the site (URLs, active plugins, serialized arrays, etc.).', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -707,14 +707,14 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e( 'SEO & Schema', 'divi-lc-kit' ); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e( 'SEO & Schema', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><span class="new">new</span><?php echo esc_html_e( 'Enrich Rank Math Schema Graph', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new">new</span><?php echo esc_html_e( 'Enrich Rank Math Schema Graph', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Merge additional Organization, LocalBusiness, WebSite, WebPage, and Place fields into Rank Math JSON-LD for richer SEO and LLM context.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Merge additional Organization, LocalBusiness, WebSite, WebPage, and Place fields into Rank Math JSON-LD for richer SEO and LLM context.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -731,34 +731,34 @@ $dlck_rank_math_llms_summary_rows            = array(
 				<div class="box-title"></div>
 				<div class="box-content dlck-rank-math-schema-panel">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Requires Rank Math. LC Tweaks extends Rank Math’s existing graph instead of outputting a second competing schema block.', 'divi-lc-kit' ); ?></p>
-						<p><?php echo esc_html_e( 'Use the settings link for Rank Math’s own Local SEO Description, Social Profiles, and Additional Organization Info fields like founding date, employee count, website alternate name, and business identifiers. Leave LC Tweaks fields blank to keep Rank Math defaults.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Requires Rank Math. LC Tweaks extends Rank Math’s existing graph instead of outputting a second competing schema block.', 'lc-tweaks' ); ?></p>
+						<p><?php echo esc_html_e( 'Use the settings link for Rank Math’s own Local SEO Description, Social Profiles, and Additional Organization Info fields like founding date, employee count, website alternate name, and business identifiers. Leave LC Tweaks fields blank to keep Rank Math defaults.', 'lc-tweaks' ); ?></p>
 						<?php if ( ! $dlck_rank_math_active ) : ?>
-							<p><?php echo esc_html_e( 'Rank Math is not active on this site. These values can still be saved here, but they will not affect frontend schema until Rank Math is active again.', 'divi-lc-kit' ); ?></p>
+							<p><?php echo esc_html_e( 'Rank Math is not active on this site. These values can still be saved here, but they will not affect frontend schema until Rank Math is active again.', 'lc-tweaks' ); ?></p>
 						<?php endif; ?>
 					</div>
 
 					<div class="info" style="margin-top:15px;">
-						<h4><?php echo esc_html_e( 'Current Rank Math Local SEO', 'divi-lc-kit' ); ?></h4>
-						<p><?php echo esc_html_e( 'These values are read-only here and come directly from Rank Math. If anything below is wrong, update it in Rank Math. Use the LC Tweaks fields further down only for additional enrichment.', 'divi-lc-kit' ); ?></p>
-						<p><?php echo wp_kses_post( sprintf( __( '<strong>Open Rank Math:</strong> <a href="%1$s" target="_blank">Local SEO / Titles settings</a>', 'divi-lc-kit' ), esc_url( $dlck_rank_math_schema_settings_url ) ) ); ?></p>
+						<h4><?php echo esc_html_e( 'Current Rank Math Local SEO', 'lc-tweaks' ); ?></h4>
+						<p><?php echo esc_html_e( 'These values are read-only here and come directly from Rank Math. If anything below is wrong, update it in Rank Math. Use the LC Tweaks fields further down only for additional enrichment.', 'lc-tweaks' ); ?></p>
+						<p><?php echo wp_kses_post( sprintf( __( '<strong>Open Rank Math:</strong> <a href="%1$s" target="_blank">Local SEO / Titles settings</a>', 'lc-tweaks' ), esc_url( $dlck_rank_math_schema_settings_url ) ) ); ?></p>
 						<?php dlck_rank_math_maintenance_render_summary_rows( $dlck_rank_math_local_summary_rows ); ?>
 					</div>
 
 					<div class="info" style="margin-top:15px;">
-						<h4><?php echo esc_html_e( 'Current Rank Math LLMS Txt', 'divi-lc-kit' ); ?></h4>
-						<p><?php echo esc_html_e( 'These values are read-only here and come directly from Rank Math. Manage the module, post types, taxonomies, limits, and extra content in Rank Math.', 'divi-lc-kit' ); ?></p>
-						<p><?php echo wp_kses_post( sprintf( __( '<strong>Open Rank Math:</strong> <a href="%1$s" target="_blank">LLMS Txt settings</a> | <a href="%2$s" target="_blank">%3$s</a>', 'divi-lc-kit' ), esc_url( $dlck_rank_math_llms_settings_url ), esc_url( $dlck_rank_math_llms_url ), esc_html( $dlck_rank_math_llms_url ) ) ); ?></p>
+						<h4><?php echo esc_html_e( 'Current Rank Math LLMS Txt', 'lc-tweaks' ); ?></h4>
+						<p><?php echo esc_html_e( 'These values are read-only here and come directly from Rank Math. Manage the module, post types, taxonomies, limits, and extra content in Rank Math.', 'lc-tweaks' ); ?></p>
+						<p><?php echo wp_kses_post( sprintf( __( '<strong>Open Rank Math:</strong> <a href="%1$s" target="_blank">LLMS Txt settings</a> | <a href="%2$s" target="_blank">%3$s</a>', 'lc-tweaks' ), esc_url( $dlck_rank_math_llms_settings_url ), esc_url( $dlck_rank_math_llms_url ), esc_html( $dlck_rank_math_llms_url ) ) ); ?></p>
 						<?php dlck_rank_math_maintenance_render_summary_rows( $dlck_rank_math_llms_summary_rows ); ?>
 					</div>
 
 						<div class="info" style="margin-top:15px;">
-							<h4><?php echo esc_html_e( 'Preview Final Schema', 'divi-lc-kit' ); ?></h4>
-							<p><?php echo esc_html_e( 'Fetch a frontend URL on this site and inspect the final emitted JSON-LD after Rank Math and LC Tweaks have both run. Use a relative path or a same-origin full URL.', 'divi-lc-kit' ); ?></p>
+							<h4><?php echo esc_html_e( 'Preview Final Schema', 'lc-tweaks' ); ?></h4>
+							<p><?php echo esc_html_e( 'Fetch a frontend URL on this site and inspect the final emitted JSON-LD after Rank Math and LC Tweaks have both run. Use a relative path or a same-origin full URL.', 'lc-tweaks' ); ?></p>
 							<div class="dlck-rank-math-preview-controls">
 								<input type="text" id="dlck_rank_math_schema_preview_url" value="<?php echo esc_attr( home_url( '/' ) ); ?>" style="width:100%;" placeholder="https://example.com/" />
 								<input type="text" id="dlck_rank_math_schema_preview_ignore_keys" value="" style="width:100%;" placeholder="Ignore summary keys: description, image, contactPoint" />
-								<div class="dlck-rank-math-preview-filter-chips" aria-label="<?php echo esc_attr__( 'Common diff filter keys', 'divi-lc-kit' ); ?>">
+								<div class="dlck-rank-math-preview-filter-chips" aria-label="<?php echo esc_attr__( 'Common diff filter keys', 'lc-tweaks' ); ?>">
 									<button type="button" class="button dlck-rank-math-filter-chip" data-key="description">description</button>
 									<button type="button" class="button dlck-rank-math-filter-chip" data-key="image">image</button>
 									<button type="button" class="button dlck-rank-math-filter-chip" data-key="contactPoint">contactPoint</button>
@@ -767,44 +767,44 @@ $dlck_rank_math_llms_summary_rows            = array(
 									<button type="button" class="button dlck-rank-math-filter-chip" data-key="dateModified">dateModified</button>
 								</div>
 								<div class="dlck-rank-math-preview-actions">
-									<button type="button" class="dlck-settings-button" id="dlck_rank_math_schema_preview_run"><?php echo esc_html_e( 'Preview Final JSON-LD', 'divi-lc-kit' ); ?></button>
-									<button type="button" class="button" id="dlck_rank_math_schema_preview_copy_diff" style="display:none;"><?php echo esc_html_e( 'Copy Diff Summary', 'divi-lc-kit' ); ?></button>
-									<button type="button" class="button" id="dlck_rank_math_schema_preview_copy_report" style="display:none;"><?php echo esc_html_e( 'Copy URL + Diff', 'divi-lc-kit' ); ?></button>
-									<button type="button" class="button" id="dlck_rank_math_schema_preview_copy" style="display:none;"><?php echo esc_html_e( 'Copy Output', 'divi-lc-kit' ); ?></button>
+									<button type="button" class="dlck-settings-button" id="dlck_rank_math_schema_preview_run"><?php echo esc_html_e( 'Preview Final JSON-LD', 'lc-tweaks' ); ?></button>
+									<button type="button" class="button" id="dlck_rank_math_schema_preview_copy_diff" style="display:none;"><?php echo esc_html_e( 'Copy Diff Summary', 'lc-tweaks' ); ?></button>
+									<button type="button" class="button" id="dlck_rank_math_schema_preview_copy_report" style="display:none;"><?php echo esc_html_e( 'Copy URL + Diff', 'lc-tweaks' ); ?></button>
+									<button type="button" class="button" id="dlck_rank_math_schema_preview_copy" style="display:none;"><?php echo esc_html_e( 'Copy Output', 'lc-tweaks' ); ?></button>
 								</div>
-								<p class="description"><?php echo esc_html_e( 'Optional: ignore comma-separated top-level keys in the diff summary only. The raw JSON-LD output below is never filtered.', 'divi-lc-kit' ); ?></p>
+								<p class="description"><?php echo esc_html_e( 'Optional: ignore comma-separated top-level keys in the diff summary only. The raw JSON-LD output below is never filtered.', 'lc-tweaks' ); ?></p>
 								<p id="dlck_rank_math_schema_preview_status" class="description dlck-rank-math-preview-status"></p>
 								<pre id="dlck_rank_math_schema_preview_diff" class="dlck-rank-math-json-preview dlck-rank-math-preview-diff" style="display:none;"></pre>
 								<pre id="dlck_rank_math_schema_preview_output" class="dlck-rank-math-json-preview dlck-rank-math-preview-output" style="display:none;"></pre>
 							</div>
 					</div>
 
-					<p><strong><?php echo esc_html_e( 'Knows About Topics', 'divi-lc-kit' ); ?></strong></p>
+					<p><strong><?php echo esc_html_e( 'Knows About Topics', 'lc-tweaks' ); ?></strong></p>
 					<textarea name="dlck_rank_math_schema_knows_about" rows="4" cols="60" style="width:100%;" placeholder="Industry Expertise&#10;Customer Support&#10;Product Development&#10;Operations"><?php echo esc_textarea( $dlck_rank_math_schema_knows_about_val ); ?></textarea>
 
-					<p><strong><?php echo esc_html_e( 'Areas Served', 'divi-lc-kit' ); ?></strong></p>
+					<p><strong><?php echo esc_html_e( 'Areas Served', 'lc-tweaks' ); ?></strong></p>
 					<textarea name="dlck_rank_math_schema_area_served" rows="4" cols="60" style="width:100%;" placeholder="South Africa&#10;United States&#10;Europe&#10;Global"><?php echo esc_textarea( $dlck_rank_math_schema_area_served_val ); ?></textarea>
 
-					<p><strong><?php echo esc_html_e( 'Founders / CEO', 'divi-lc-kit' ); ?></strong></p>
+					<p><strong><?php echo esc_html_e( 'Founders / CEO', 'lc-tweaks' ); ?></strong></p>
 					<textarea name="dlck_rank_math_schema_founders" rows="3" cols="60" style="width:100%;" placeholder="Jane Founder | Founder&#10;John Doe | CEO"><?php echo esc_textarea( $dlck_rank_math_schema_founders_val ); ?></textarea>
 
-					<p><strong><?php echo esc_html_e( 'Employees / Team', 'divi-lc-kit' ); ?></strong></p>
+					<p><strong><?php echo esc_html_e( 'Employees / Team', 'lc-tweaks' ); ?></strong></p>
 					<textarea name="dlck_rank_math_schema_employees" rows="5" cols="60" style="width:100%;" placeholder="Jane Doe | Senior Designer&#10;John Smith | Lead Developer"><?php echo esc_textarea( $dlck_rank_math_schema_employees_val ); ?></textarea>
 
-					<p><strong><?php echo esc_html_e( 'Contact Languages', 'divi-lc-kit' ); ?></strong></p>
+					<p><strong><?php echo esc_html_e( 'Contact Languages', 'lc-tweaks' ); ?></strong></p>
 					<textarea name="dlck_rank_math_schema_contact_languages" rows="4" cols="60" style="width:100%;" placeholder="en-ZA&#10;en-GB&#10;en-US"><?php echo esc_textarea( $dlck_rank_math_schema_contact_languages_val ); ?></textarea>
-					<p class="description"><?php echo esc_html_e( 'Applies to the default support/contact point built from Rank Math\'s Contact Page. Use the field below for channel-specific contact methods.', 'divi-lc-kit' ); ?></p>
+					<p class="description"><?php echo esc_html_e( 'Applies to the default support/contact point built from Rank Math\'s Contact Page. Use the field below for channel-specific contact methods.', 'lc-tweaks' ); ?></p>
 
-					<p><strong><?php echo esc_html_e( 'Additional Contact Points', 'divi-lc-kit' ); ?></strong></p>
+					<p><strong><?php echo esc_html_e( 'Additional Contact Points', 'lc-tweaks' ); ?></strong></p>
 					<textarea name="dlck_rank_math_schema_contact_points" rows="5" cols="60" style="width:100%;" placeholder="Customer Support | support@example.com | +27 11 555 1234 | https://example.com/contact/ | en-ZA,en-GB,en-US&#10;WhatsApp Support |  | +27 82 123 4567 | https://wa.me/27821234567 | en-ZA&#10;Licensing | licensing@example.com |  | https://example.com/licensing/ | en-US"><?php echo esc_textarea( $dlck_rank_math_schema_contact_points_val ); ?></textarea>
-					<p class="description"><?php echo esc_html_e( 'Public-facing only. One per line in this format: Contact Type | Email | Telephone | URL | Languages. Use the URL column for WhatsApp, booking, sales, or support links. Use a distinct Contact Type per channel if you want separate schema entries.', 'divi-lc-kit' ); ?></p>
+					<p class="description"><?php echo esc_html_e( 'Public-facing only. One per line in this format: Contact Type | Email | Telephone | URL | Languages. Use the URL column for WhatsApp, booking, sales, or support links. Use a distinct Contact Type per channel if you want separate schema entries.', 'lc-tweaks' ); ?></p>
 
-					<p><strong><?php echo esc_html_e( 'Advanced JSON Merge', 'divi-lc-kit' ); ?></strong></p>
+					<p><strong><?php echo esc_html_e( 'Advanced JSON Merge', 'lc-tweaks' ); ?></strong></p>
 					<pre class="dlck-rank-math-json-preview"><?php echo esc_html( $dlck_rank_math_schema_advanced_json_preview ); ?></pre>
-					<p class="description"><?php echo esc_html_e( 'Read-only preview of the currently saved advanced merge JSON.', 'divi-lc-kit' ); ?></p>
+					<p class="description"><?php echo esc_html_e( 'Read-only preview of the currently saved advanced merge JSON.', 'lc-tweaks' ); ?></p>
 						<details class="dlck-rank-math-advanced-editor">
-							<summary><?php echo esc_html_e( 'Edit Saved Advanced JSON', 'divi-lc-kit' ); ?></summary>
-							<p class="description"><?php echo esc_html_e( 'This raw editor is intentionally separate from the main schema fields. Use a top-level JSON object keyed by entity type. Invalid JSON, or top-level arrays, will be rejected on save and the previously saved value will be kept.', 'divi-lc-kit' ); ?></p>
+							<summary><?php echo esc_html_e( 'Edit Saved Advanced JSON', 'lc-tweaks' ); ?></summary>
+							<p class="description"><?php echo esc_html_e( 'This raw editor is intentionally separate from the main schema fields. Use a top-level JSON object keyed by entity type. Invalid JSON, or top-level arrays, will be rejected on save and the previously saved value will be kept.', 'lc-tweaks' ); ?></p>
 							<textarea name="dlck_rank_math_schema_advanced_json" rows="14" cols="60" style="width:100%;" placeholder="{&#10;  &quot;organization&quot;: {&#10;    &quot;location&quot;: [&#10;      {&#10;        &quot;@type&quot;: &quot;Place&quot;,&#10;        &quot;name&quot;: &quot;Cape Town Office&quot;&#10;      }&#10;    ]&#10;  },&#10;  &quot;localbusiness&quot;: {&#10;    &quot;areaServed&quot;: [&quot;South Africa&quot;, &quot;Europe&quot;]&#10;  },&#10;  &quot;place&quot;: {&#10;    &quot;publicAccess&quot;: true&#10;  },&#10;  &quot;webpage&quot;: {&#10;    &quot;speakable&quot;: {&#10;      &quot;@type&quot;: &quot;SpeakableSpecification&quot;&#10;    }&#10;  }&#10;}"><?php echo esc_textarea( $dlck_rank_math_schema_advanced_json_val ); ?></textarea>
 						</details>
 				</div>
@@ -813,14 +813,14 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e( 'Uploads', 'divi-lc-kit' ); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e( 'Uploads', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Allow Unfiltered Uploads', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Allow Unfiltered Uploads', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Permit admins to upload any file type via capability instead of wp-config.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Permit admins to upload any file type via capability instead of wp-config.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -835,7 +835,7 @@ $dlck_rank_math_llms_summary_rows            = array(
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'This bypasses WordPress file restrictions for admins. It already allows SVG, JSON, and font uploads, so those toggles are disabled when this is on.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'This bypasses WordPress file restrictions for admins. It already allows SVG, JSON, and font uploads, so those toggles are disabled when this is on.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -843,9 +843,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Allow SVG File Type Uploads', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Allow SVG File Type Uploads', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Add SVG support in the WordPress Media Library.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Add SVG support in the WordPress Media Library.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -857,9 +857,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Allow JSON File Uploads (Lottie)', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Allow JSON File Uploads (Lottie)', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Add JSON support in the WordPress Media Library for Lottie animations.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Add JSON support in the WordPress Media Library for Lottie animations.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -871,9 +871,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Allow All Font Files Uploads', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Allow All Font Files Uploads', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Add TTF, OTF, WOFF, and WOFF2 support in WordPress.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Add TTF, OTF, WOFF, and WOFF2 support in WordPress.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -885,9 +885,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 			<div class="lc-kit trigger">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Replace Image Tool', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Replace Image Tool', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Adds a Replace Image button to image Attachment Details so you can swap the file while keeping the same attachment ID and URL.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Adds a Replace Image button to image Attachment Details so you can swap the file while keeping the same attachment ID and URL.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -902,10 +902,10 @@ $dlck_rank_math_llms_summary_rows            = array(
 					</div>
 					<div class="box-content">
 						<div class="info">
-							<p><?php echo esc_html_e( 'After enabling, open an image in the Media Library and use the new Replace Image button in Attachment Details.', 'divi-lc-kit' ); ?></p>
-							<p><?php echo esc_html_e( 'Disable browser and plugin caching while testing; old thumbnails can appear cached even when the replacement succeeded.', 'divi-lc-kit' ); ?></p>
-							<p><?php echo esc_html_e( 'Only image attachments are supported. The replacement image is copied over the existing file and new sizes are regenerated for the original attachment.', 'divi-lc-kit' ); ?></p>
-							<p><a class="button" href="<?php echo esc_url( admin_url( 'upload.php' ) ); ?>"><?php echo esc_html_e( 'Open Media Library', 'divi-lc-kit' ); ?></a></p>
+							<p><?php echo esc_html_e( 'After enabling, open an image in the Media Library and use the new Replace Image button in Attachment Details.', 'lc-tweaks' ); ?></p>
+							<p><?php echo esc_html_e( 'Disable browser and plugin caching while testing; old thumbnails can appear cached even when the replacement succeeded.', 'lc-tweaks' ); ?></p>
+							<p><?php echo esc_html_e( 'Only image attachments are supported. The replacement image is copied over the existing file and new sizes are regenerated for the original attachment.', 'lc-tweaks' ); ?></p>
+							<p><a class="button" href="<?php echo esc_url( admin_url( 'upload.php' ) ); ?>"><?php echo esc_html_e( 'Open Media Library', 'lc-tweaks' ); ?></a></p>
 						</div>
 					</div>
 				</div>
@@ -913,14 +913,14 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 		</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e( 'Caching & Integrations', 'divi-lc-kit' ); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e( 'Caching & Integrations', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'WP Rocket - Force Page Caching', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'WP Rocket - Force Page Caching', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Use when other plugins/themes set DONOTCACHEPAGE but you still want caching.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Use when other plugins/themes set DONOTCACHEPAGE but you still want caching.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -932,9 +932,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'WP Rocket - Cache WP REST API', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'WP Rocket - Cache WP REST API', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Cache REST API responses with WP Rocket for better performance.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Cache REST API responses with WP Rocket for better performance.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -946,9 +946,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'WP Rocket - Disable Above The Fold Optimization', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'WP Rocket - Disable Above The Fold Optimization', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Treats “above-the-fold optimisation” as off, even if it’s enabled in the UI.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Treats “above-the-fold optimisation” as off, even if it’s enabled in the UI.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -960,9 +960,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'WP Rocket - Disable Priority Elements', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'WP Rocket - Disable Priority Elements', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Disable Priority Elements optimizations (lazy render, critical images, and preconnect).', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Disable Priority Elements optimizations (lazy render, critical images, and preconnect).', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -974,9 +974,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Disable SSL cURL Error 60 in \"WP All Import\"', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Disable SSL cURL Error 60 in \"WP All Import\"', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Disable peer verification to temporarily resolve error 60.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Disable peer verification to temporarily resolve error 60.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -988,9 +988,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'ExactDN - Image Downsize Scale', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'ExactDN - Image Downsize Scale', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Prefer scaling (keeps the whole image, maintains aspect ratio) instead of cropping.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Prefer scaling (keeps the whole image, maintains aspect ratio) instead of cropping.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1005,8 +1005,8 @@ $dlck_rank_math_llms_summary_rows            = array(
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Fewer “unexpected crops” on thumbnails/featured images generated via theme/page-builder code that passes hard dimensions.', 'divi-lc-kit' ); ?></p>
-						<p><?php echo esc_html_e( 'You may see images not matching the exact box ratio (unless the layout enforces cropping via CSS).', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Fewer “unexpected crops” on thumbnails/featured images generated via theme/page-builder code that passes hard dimensions.', 'lc-tweaks' ); ?></p>
+						<p><?php echo esc_html_e( 'You may see images not matching the exact box ratio (unless the layout enforces cropping via CSS).', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1014,14 +1014,14 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e( 'Scheduling & Cron', 'divi-lc-kit' ); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e( 'Scheduling & Cron', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Kill Jetpack Cron', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Kill Jetpack Cron', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Clear existing Jetpack cron events and block new ones from being scheduled.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Clear existing Jetpack cron events and block new ones from being scheduled.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1033,9 +1033,9 @@ $dlck_rank_math_llms_summary_rows            = array(
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Speed Up Scheduled Actions', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Speed Up Scheduled Actions', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Increase Action Scheduler throughput and trim retention to reduce overhead.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Increase Action Scheduler throughput and trim retention to reduce overhead.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">

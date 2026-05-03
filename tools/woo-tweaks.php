@@ -22,7 +22,7 @@
 		$dlck_woo_session_cleanup_health = function_exists( 'dlck_get_woo_session_cleanup_health_snapshot' ) ? dlck_get_woo_session_cleanup_health_snapshot() : array();
 		$dlck_woo_session_cleanup_enabled = ! empty( $dlck_woo_session_cleanup_health['enabled'] );
 		$dlck_woo_session_cleanup_recurrence = isset( $dlck_woo_session_cleanup_health['recurrence'] ) ? (string) $dlck_woo_session_cleanup_health['recurrence'] : 'daily';
-		$dlck_woo_session_cleanup_recurrence_label = $dlck_woo_session_cleanup_recurrence === 'twicedaily' ? __( 'Twice daily', 'divi-lc-kit' ) : __( 'Daily', 'divi-lc-kit' );
+		$dlck_woo_session_cleanup_recurrence_label = $dlck_woo_session_cleanup_recurrence === 'twicedaily' ? __( 'Twice daily', 'lc-tweaks' ) : __( 'Daily', 'lc-tweaks' );
 		$dlck_woo_session_cleanup_next_run = isset( $dlck_woo_session_cleanup_health['next_run'] ) ? (int) $dlck_woo_session_cleanup_health['next_run'] : 0;
 		$dlck_woo_session_cleanup_last_run = isset( $dlck_woo_session_cleanup_health['last_run'] ) ? (int) $dlck_woo_session_cleanup_health['last_run'] : 0;
 		$dlck_woo_session_cleanup_status = isset( $dlck_woo_session_cleanup_health['status'] ) ? sanitize_key( (string) $dlck_woo_session_cleanup_health['status'] ) : 'unknown';
@@ -96,30 +96,30 @@
 
 		<div class="toolbox" style="padding:0 0 30px;">
 			<div class="info" style="background:transparent;">
-				<h4><?php echo esc_html_e( 'What are the Woo tweaks?', 'divi-lc-kit' ); ?></h4>
-				<p><?php echo esc_html_e( 'Performance and UX controls tailored for WooCommerce storefronts.', 'divi-lc-kit' ); ?></p>
-				<p><?php echo esc_html_e( 'Use these to streamline scripts/styles and adjust store behaviour without custom code.', 'divi-lc-kit' ); ?></p>
+				<h4><?php echo esc_html_e( 'What are the Woo tweaks?', 'lc-tweaks' ); ?></h4>
+				<p><?php echo esc_html_e( 'Performance and UX controls tailored for WooCommerce storefronts.', 'lc-tweaks' ); ?></p>
+				<p><?php echo esc_html_e( 'Use these to streamline scripts/styles and adjust store behaviour without custom code.', 'lc-tweaks' ); ?></p>
 			</div>
 		</div>
 
-		<h2 class="tool-section"><?php echo esc_html_e( 'Performance & Cleanup', 'divi-lc-kit' ); ?></h2>
+		<h2 class="tool-section"><?php echo esc_html_e( 'Performance & Cleanup', 'lc-tweaks' ); ?></h2>
     <div class="tool-wrap">
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e('Resave All Products', 'divi-lc-kit'); ?></h3>
+					<h3><?php echo esc_html_e('Resave All Products', 'lc-tweaks'); ?></h3>
 					<div class="box-descr">
 						<p>
-							<?php echo esc_html_e( 'Force each product to resave. Updates 50 per admin page load until complete.', 'divi-lc-kit' ); ?>
+							<?php echo esc_html_e( 'Force each product to resave. Updates 50 per admin page load until complete.', 'lc-tweaks' ); ?>
 						</p>
 					</div>
 			</div>
 			<div class="box-content minibox">
 				<?php if ( $dlck_woo_resave_all_products_val === '1' ) : ?>
-					<button type="button" class="dlck-settings-button" disabled><?php echo esc_html_e( 'Running...', 'divi-lc-kit' ); ?></button>
+					<button type="button" class="dlck-settings-button" disabled><?php echo esc_html_e( 'Running...', 'lc-tweaks' ); ?></button>
 				<?php else : ?>
 					<a class="dlck-settings-button" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=dlck_woo_resave_all_products' ), 'dlck_woo_resave_all_products' ) ); ?>">
-						<?php echo esc_html_e( 'Run Resave', 'divi-lc-kit' ); ?>
+						<?php echo esc_html_e( 'Run Resave', 'lc-tweaks' ); ?>
 					</a>
 				<?php endif; ?>
 			</div>
@@ -127,29 +127,29 @@
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Clean and Optimize the WooCommerce Sessions Table', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Clean and Optimize the WooCommerce Sessions Table', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Shorten WooCommerce session expiration to keep the sessions table lean.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Shorten WooCommerce session expiration to keep the sessions table lean.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content">
 					<select name="dlck_woo_session_expiration">
-						<option value="" <?php selected( $dlck_woo_session_expiration_val, '' ); ?>><?php echo esc_html_e( 'WooCommerce default', 'divi-lc-kit' ); ?></option>
-						<option value="86400" <?php selected( $dlck_woo_session_expiration_val, '86400' ); ?>><?php echo esc_html_e( '24 hours', 'divi-lc-kit' ); ?></option>
-						<option value="172800" <?php selected( $dlck_woo_session_expiration_val, '172800' ); ?>><?php echo esc_html_e( '48 hours', 'divi-lc-kit' ); ?></option>
-						<option value="604800" <?php selected( $dlck_woo_session_expiration_val, '604800' ); ?>><?php echo esc_html_e( '1 week', 'divi-lc-kit' ); ?></option>
-						<option value="1209600" <?php selected( $dlck_woo_session_expiration_val, '1209600' ); ?>><?php echo esc_html_e( '2 weeks', 'divi-lc-kit' ); ?></option>
-						<option value="1814400" <?php selected( $dlck_woo_session_expiration_val, '1814400' ); ?>><?php echo esc_html_e( '3 weeks', 'divi-lc-kit' ); ?></option>
-						<option value="2592000" <?php selected( $dlck_woo_session_expiration_val, '2592000' ); ?>><?php echo esc_html_e( '1 month', 'divi-lc-kit' ); ?></option>
+						<option value="" <?php selected( $dlck_woo_session_expiration_val, '' ); ?>><?php echo esc_html_e( 'WooCommerce default', 'lc-tweaks' ); ?></option>
+						<option value="86400" <?php selected( $dlck_woo_session_expiration_val, '86400' ); ?>><?php echo esc_html_e( '24 hours', 'lc-tweaks' ); ?></option>
+						<option value="172800" <?php selected( $dlck_woo_session_expiration_val, '172800' ); ?>><?php echo esc_html_e( '48 hours', 'lc-tweaks' ); ?></option>
+						<option value="604800" <?php selected( $dlck_woo_session_expiration_val, '604800' ); ?>><?php echo esc_html_e( '1 week', 'lc-tweaks' ); ?></option>
+						<option value="1209600" <?php selected( $dlck_woo_session_expiration_val, '1209600' ); ?>><?php echo esc_html_e( '2 weeks', 'lc-tweaks' ); ?></option>
+						<option value="1814400" <?php selected( $dlck_woo_session_expiration_val, '1814400' ); ?>><?php echo esc_html_e( '3 weeks', 'lc-tweaks' ); ?></option>
+						<option value="2592000" <?php selected( $dlck_woo_session_expiration_val, '2592000' ); ?>><?php echo esc_html_e( '1 month', 'lc-tweaks' ); ?></option>
 					</select>
 					<div class="info">
-						<h4><?php echo esc_html_e( 'Session Cleanup Health', 'divi-lc-kit' ); ?></h4>
+						<h4><?php echo esc_html_e( 'Session Cleanup Health', 'lc-tweaks' ); ?></h4>
 						<?php if ( $dlck_woo_session_cleanup_enabled ) : ?>
 							<p>
 								<?php
 								printf(
 									/* translators: %s: recurrence label */
-									esc_html__( 'Scheduler enabled (%s).', 'divi-lc-kit' ),
+									esc_html__( 'Scheduler enabled (%s).', 'lc-tweaks' ),
 									esc_html( $dlck_woo_session_cleanup_recurrence_label )
 								);
 								?>
@@ -159,16 +159,16 @@
 									<?php
 									printf(
 										/* translators: %s: next scheduled run datetime */
-										esc_html__( 'Next cleanup run: %s', 'divi-lc-kit' ),
+										esc_html__( 'Next cleanup run: %s', 'lc-tweaks' ),
 										esc_html( wp_date( 'Y-m-d H:i:s', $dlck_woo_session_cleanup_next_run ) )
 									);
 									?>
 								</p>
 							<?php else : ?>
-								<p><?php echo esc_html_e( 'Next cleanup run: waiting for scheduler registration.', 'divi-lc-kit' ); ?></p>
+								<p><?php echo esc_html_e( 'Next cleanup run: waiting for scheduler registration.', 'lc-tweaks' ); ?></p>
 							<?php endif; ?>
 						<?php else : ?>
-							<p><?php echo esc_html_e( 'Scheduler disabled. Choose a custom session expiration and save settings to enable automatic cleanup.', 'divi-lc-kit' ); ?></p>
+							<p><?php echo esc_html_e( 'Scheduler disabled. Choose a custom session expiration and save settings to enable automatic cleanup.', 'lc-tweaks' ); ?></p>
 						<?php endif; ?>
 
 						<?php if ( $dlck_woo_session_cleanup_last_run > 0 ) : ?>
@@ -176,14 +176,14 @@
 								<?php
 								printf(
 									/* translators: 1: last run datetime, 2: deleted row count */
-									esc_html__( 'Last run: %1$s (deleted %2$d expired sessions)', 'divi-lc-kit' ),
+									esc_html__( 'Last run: %1$s (deleted %2$d expired sessions)', 'lc-tweaks' ),
 									esc_html( wp_date( 'Y-m-d H:i:s', $dlck_woo_session_cleanup_last_run ) ),
 									(int) $dlck_woo_session_cleanup_deleted_count
 								);
 								?>
 							</p>
 						<?php else : ?>
-							<p><?php echo esc_html_e( 'Last run: not available yet.', 'divi-lc-kit' ); ?></p>
+							<p><?php echo esc_html_e( 'Last run: not available yet.', 'lc-tweaks' ); ?></p>
 						<?php endif; ?>
 
 						<?php if ( $dlck_woo_session_cleanup_row_count !== null ) : ?>
@@ -191,7 +191,7 @@
 								<?php
 								printf(
 									/* translators: %d: total table rows */
-									esc_html__( 'Current session rows: %d', 'divi-lc-kit' ),
+									esc_html__( 'Current session rows: %d', 'lc-tweaks' ),
 									(int) $dlck_woo_session_cleanup_row_count
 								);
 								?>
@@ -203,7 +203,7 @@
 								<?php
 								printf(
 									/* translators: %d: expired row count */
-									esc_html__( 'Expired sessions still present: %d', 'divi-lc-kit' ),
+									esc_html__( 'Expired sessions still present: %d', 'lc-tweaks' ),
 									(int) $dlck_woo_session_cleanup_expired_count
 								);
 								?>
@@ -215,7 +215,7 @@
 						<?php endif; ?>
 
 						<?php if ( $dlck_woo_session_cleanup_status === 'error' ) : ?>
-							<p><strong><?php echo esc_html_e( 'Last cleanup reported an error. Review WooCommerce status/tools and database access.', 'divi-lc-kit' ); ?></strong></p>
+							<p><strong><?php echo esc_html_e( 'Last cleanup reported an error. Review WooCommerce status/tools and database access.', 'lc-tweaks' ); ?></strong></p>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -223,9 +223,9 @@
 
 			<div class="lc-kit trigger">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Disable Persistent Carts', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Disable Persistent Carts', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Stop WooCommerce from saving carts persistently for logged-in customers.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Stop WooCommerce from saving carts persistently for logged-in customers.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			<div class="box-content minibox">
@@ -241,7 +241,7 @@
 						</div>
 					<div class="box-content">
 						<div class="info">
-							<h4><?php echo esc_html_e('IMPORTANT NOTE:', 'divi-lc-kit'); ?></h4>
+							<h4><?php echo esc_html_e('IMPORTANT NOTE:', 'lc-tweaks'); ?></h4>
 							<p>This only prevents future carts from being saved persistently. Manually Clear Existing Persistent Carts: To clear these Navigate to <strong>WooCommerce > Status > Tools</strong> in your WordPress admin panel and use the <strong>Clear customer sessions</strong> option. Be aware that this will clear all active and saved carts, including those currently in progress.</p>
 						</div>
 					</div>
@@ -250,28 +250,28 @@
 
 				<div class="lc-kit">
 					<div class="box-title">
-						<h3><?php echo esc_html_e( 'Woo Cart Script Policy', 'divi-lc-kit' ); ?></h3>
+						<h3><?php echo esc_html_e( 'Woo Cart Script Policy', 'lc-tweaks' ); ?></h3>
 						<div class="box-descr">
-							<p><?php echo esc_html_e( 'Control how WooCommerce cart fragments and add-to-cart scripts load for performance tuning.', 'divi-lc-kit' ); ?></p>
+							<p><?php echo esc_html_e( 'Control how WooCommerce cart fragments and add-to-cart scripts load for performance tuning.', 'lc-tweaks' ); ?></p>
 						</div>
 					</div>
 					<div class="box-content">
 						<select name="dlck_woo_cart_script_policy">
-							<option value="default" <?php selected( $dlck_woo_cart_script_policy_val, 'default' ); ?>><?php echo esc_html_e( 'WooCommerce default', 'divi-lc-kit' ); ?></option>
-							<option value="disable_non_woo" <?php selected( $dlck_woo_cart_script_policy_val, 'disable_non_woo' ); ?>><?php echo esc_html_e( 'Disable cart fragments on non-Woo pages', 'divi-lc-kit' ); ?></option>
-							<option value="disable_everywhere" <?php selected( $dlck_woo_cart_script_policy_val, 'disable_everywhere' ); ?>><?php echo esc_html_e( 'Disable cart fragments everywhere', 'divi-lc-kit' ); ?></option>
-							<option value="disable_non_woo_plus_add_to_cart" <?php selected( $dlck_woo_cart_script_policy_val, 'disable_non_woo_plus_add_to_cart' ); ?>><?php echo esc_html_e( 'Disable cart fragments + add-to-cart on non-Woo pages', 'divi-lc-kit' ); ?></option>
+							<option value="default" <?php selected( $dlck_woo_cart_script_policy_val, 'default' ); ?>><?php echo esc_html_e( 'WooCommerce default', 'lc-tweaks' ); ?></option>
+							<option value="disable_non_woo" <?php selected( $dlck_woo_cart_script_policy_val, 'disable_non_woo' ); ?>><?php echo esc_html_e( 'Disable cart fragments on non-Woo pages', 'lc-tweaks' ); ?></option>
+							<option value="disable_everywhere" <?php selected( $dlck_woo_cart_script_policy_val, 'disable_everywhere' ); ?>><?php echo esc_html_e( 'Disable cart fragments everywhere', 'lc-tweaks' ); ?></option>
+							<option value="disable_non_woo_plus_add_to_cart" <?php selected( $dlck_woo_cart_script_policy_val, 'disable_non_woo_plus_add_to_cart' ); ?>><?php echo esc_html_e( 'Disable cart fragments + add-to-cart on non-Woo pages', 'lc-tweaks' ); ?></option>
 						</select>
-						<p class="info"><?php echo esc_html_e( 'If mini-cart or AJAX add-to-cart behavior breaks, switch back to WooCommerce default.', 'divi-lc-kit' ); ?></p>
+						<p class="info"><?php echo esc_html_e( 'If mini-cart or AJAX add-to-cart behavior breaks, switch back to WooCommerce default.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 
 				<div class="lc-kit">
         <div class="box-title">
-          <h3><?php echo esc_html_e('Disable WooCommerce Admin', 'divi-lc-kit'); ?></h3>
+          <h3><?php echo esc_html_e('Disable WooCommerce Admin', 'lc-tweaks'); ?></h3>
           <div class="box-descr">
             <p>
-              <?php echo esc_html_e("Disables the new WooCommerce Admin package in WooCommerce.", "divi-lc-kit"); ?>
+              <?php echo esc_html_e("Disables the new WooCommerce Admin package in WooCommerce.", "lc-tweaks"); ?>
             </p>
           </div>
         </div>
@@ -284,10 +284,10 @@
 
 			<div class="lc-kit">
         <div class="box-title">
-          <h3><?php echo esc_html_e('Stop Woocommerce Files from Loading Safely', 'divi-lc-kit'); ?></h3>
+          <h3><?php echo esc_html_e('Stop Woocommerce Files from Loading Safely', 'lc-tweaks'); ?></h3>
           <div class="box-descr">
             <p>
-              <?php echo esc_html_e("Safely Remove Woocommerce script and css files from unnecessary pages.", "divi-lc-kit"); ?>
+              <?php echo esc_html_e("Safely Remove Woocommerce script and css files from unnecessary pages.", "lc-tweaks"); ?>
             </p>
           </div>
         </div>
@@ -300,10 +300,10 @@
 
 	  <div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Stop All Woocommerce Files from Loading', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Stop All Woocommerce Files from Loading', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("Remove all Woocommerce script and css files from unnecessary pages.", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("Remove all Woocommerce script and css files from unnecessary pages.", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -320,9 +320,9 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<h4><?php echo esc_html_e('NOTE:', 'divi-lc-kit'); ?></h4>
+						<h4><?php echo esc_html_e('NOTE:', 'lc-tweaks'); ?></h4>
 						<p>
-							<?php echo esc_html_e("Enabling this option will remove the default styling and scripts from all non Woocommerce. ie featured section on home page", 'divi-lc-kit'); ?>
+							<?php echo esc_html_e("Enabling this option will remove the default styling and scripts from all non Woocommerce. ie featured section on home page", 'lc-tweaks'); ?>
 							</u>:</p>
 						<p>
 							<strong>USE WITH CAUTION</strong> - This dequeues scripts (js) and removes styleing (css).</p>
@@ -333,10 +333,10 @@
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Stop WooCommerce Gutenberg Blocks from loading', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Stop WooCommerce Gutenberg Blocks from loading', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-              <?php echo esc_html_e("Remove Woocommerce Blocks script and css files from unnecessary pages.", "divi-lc-kit"); ?>
+              <?php echo esc_html_e("Remove Woocommerce Blocks script and css files from unnecessary pages.", "lc-tweaks"); ?>
             </p>
           </div>
         </div>
@@ -349,9 +349,9 @@
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'WP Rocket: Exclude Side Cart (Xootix)', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'WP Rocket: Exclude Side Cart (Xootix)', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Prevent WP Rocket LazyRender from optimizing the Side Cart for WooCommerce markup to keep the drawer working.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Prevent WP Rocket LazyRender from optimizing the Side Cart for WooCommerce markup to keep the drawer working.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -363,9 +363,9 @@
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Disable Reviews', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Disable Reviews', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Remove the Reviews tab from single product pages.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Remove the Reviews tab from single product pages.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -377,9 +377,9 @@
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><span class="new">new</span><?php echo esc_html_e( 'Disable Brands Feature', 'divi-lc-kit' ); ?></h3>
+					<h3><span class="new">new</span><?php echo esc_html_e( 'Disable Brands Feature', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Turn off the WooCommerce Brands feature flag and remove its styles.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Turn off the WooCommerce Brands feature flag and remove its styles.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -391,14 +391,14 @@
 
     </div>
 
-		<h2 class="tool-section"><?php echo esc_html_e( 'Admin Columns & Search', 'divi-lc-kit' ); ?></h2>
+		<h2 class="tool-section"><?php echo esc_html_e( 'Admin Columns & Search', 'lc-tweaks' ); ?></h2>
 		<div class="tool-wrap">
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Orders: Search by SKU', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Orders: Search by SKU', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Allow the Orders screen search to match products by SKU.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Allow the Orders screen search to match products by SKU.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -410,9 +410,9 @@
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Orders: User Role Column', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Orders: User Role Column', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Show and sort by the customer role on the Orders list.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Show and sort by the customer role on the Orders list.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -424,9 +424,9 @@
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Users: Order Counts Column', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Users: Order Counts Column', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Add order counts per status to the Users table.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Add order counts per status to the Users table.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -438,9 +438,9 @@
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Products: Stock Status Column', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Products: Stock Status Column', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Show a quick stock status column in the Products list.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Show a quick stock status column in the Products list.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -452,9 +452,9 @@
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Products: Last Edited Column & Meta', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Products: Last Edited Column & Meta', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Track and display who last edited products (and when).', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Track and display who last edited products (and when).', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -467,15 +467,15 @@
 		</div>
 
 
-    <h2 class="tool-section"><?php echo esc_html_e( 'Catalog Layout & Display', 'divi-lc-kit' ); ?></h2>
+    <h2 class="tool-section"><?php echo esc_html_e( 'Catalog Layout & Display', 'lc-tweaks' ); ?></h2>
     <div class="tool-wrap">
 
 			<div class="lc-kit">
         <div class="box-title">
-          <h3><?php echo esc_html_e('Shop Single Column On Mobile', 'divi-lc-kit'); ?></h3>
+          <h3><?php echo esc_html_e('Shop Single Column On Mobile', 'lc-tweaks'); ?></h3>
           <div class="box-descr">
             <p>
-              <?php echo esc_html_e("Display WooCommerce Products in Single Column on Mobile Devices.", "divi-lc-kit"); ?>
+              <?php echo esc_html_e("Display WooCommerce Products in Single Column on Mobile Devices.", "lc-tweaks"); ?>
             </p>
           </div>
         </div>
@@ -488,10 +488,10 @@
 
 			<div class="lc-kit">
         <div class="box-title">
-          <h3><?php echo esc_html_e('Display Add to Cart Button on Archives', 'divi-lc-kit'); ?></h3>
+          <h3><?php echo esc_html_e('Display Add to Cart Button on Archives', 'lc-tweaks'); ?></h3>
           <div class="box-descr">
             <p>
-              <?php echo esc_html_e("Add An “Add To Cart” Button To A WooCommerce Shop Module.", "divi-lc-kit"); ?>
+              <?php echo esc_html_e("Add An “Add To Cart” Button To A WooCommerce Shop Module.", "lc-tweaks"); ?>
             </p>
           </div>
         </div>
@@ -504,10 +504,10 @@
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e('Shop Masonry Layout', 'divi-lc-kit'); ?></h3>
+					<h3><?php echo esc_html_e('Shop Masonry Layout', 'lc-tweaks'); ?></h3>
 					<div class="box-descr">
 						<p>
-							<?php echo esc_html_e("Display products of WooCommerce with a masonry look.", "divi-lc-kit"); ?>
+							<?php echo esc_html_e("Display products of WooCommerce with a masonry look.", "lc-tweaks"); ?>
 						</p>
 					</div>
 				</div>
@@ -520,10 +520,10 @@
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e('Hide Price & Add to Cart for Logged Out Users', 'divi-lc-kit'); ?></h3>
+					<h3><?php echo esc_html_e('Hide Price & Add to Cart for Logged Out Users', 'lc-tweaks'); ?></h3>
 					<div class="box-descr">
 						<p>
-              <?php echo esc_html_e("You may want to force users to login in order to see prices and add products to cart.", "divi-lc-kit"); ?>
+              <?php echo esc_html_e("You may want to force users to login in order to see prices and add products to cart.", "lc-tweaks"); ?>
             </p>
           </div>
         </div>
@@ -536,9 +536,9 @@
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Add a Line Break in WooCommerce Product Titles', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Add a Line Break in WooCommerce Product Titles', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Replace "|" in product titles with a line break on the front end.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Replace "|" in product titles with a line break on the front end.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -550,9 +550,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><span class="new">new</span><?php echo esc_html_e( 'Capitalize Product Titles', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new">new</span><?php echo esc_html_e( 'Capitalize Product Titles', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Automatically format product titles in title case on the front end.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Automatically format product titles in title case on the front end.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -567,7 +567,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Only affects product titles on the front end; admin titles remain unchanged.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Only affects product titles on the front end; admin titles remain unchanged.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -575,9 +575,9 @@
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Change Out of Stock Button to "Read More"', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Change Out of Stock Button to "Read More"', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-						<p><?php echo esc_html_e( 'Replace the add-to-cart button with "Read More" when products are out of stock.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Replace the add-to-cart button with "Read More" when products are out of stock.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -589,10 +589,10 @@
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e('Product Category > Body CSS Class on Single Product', 'divi-lc-kit'); ?></h3>
+					<h3><?php echo esc_html_e('Product Category > Body CSS Class on Single Product', 'lc-tweaks'); ?></h3>
 					<div class="box-descr">
 						<p>
-						<?php echo esc_html_e("Apply CSS on the single product page based on the product category.", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("Apply CSS on the single product page based on the product category.", "lc-tweaks"); ?>
 					</p>
 					</div>
 				</div>
@@ -605,9 +605,9 @@
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Hide legacy Custom Fields metabox on products', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Hide legacy Custom Fields metabox on products', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e('Removes the old Custom Fields meta box from WooCommerce products to declutter the edit screen.', 'divi-lc-kit'); ?></p>
+					<p><?php echo esc_html_e('Removes the old Custom Fields meta box from WooCommerce products to declutter the edit screen.', 'lc-tweaks'); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -619,9 +619,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><span class="new">new</span><?php echo esc_html_e( 'Hide Products Without Featured Image', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new">new</span><?php echo esc_html_e( 'Hide Products Without Featured Image', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Exclude products missing a featured image from shop, category, and archive listings.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Exclude products missing a featured image from shop, category, and archive listings.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -636,7 +636,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Keeps listings looking polished by hiding products without thumbnails across shop and archive views.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Keeps listings looking polished by hiding products without thumbnails across shop and archive views.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -644,9 +644,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><span class="new">new</span><?php echo esc_html_e( 'Redirect Empty Category Pagination', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new">new</span><?php echo esc_html_e( 'Redirect Empty Category Pagination', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Redirect 404s on paginated WooCommerce category pages back to the category archive.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Redirect 404s on paginated WooCommerce category pages back to the category archive.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -661,7 +661,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'When a paginated category page is empty and returns a 404, redirect visitors back to the main category archive to avoid confusion.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'When a paginated category page is empty and returns a 404, redirect visitors back to the main category archive to avoid confusion.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -669,14 +669,14 @@
 
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e( 'Checkout UX', 'divi-lc-kit' ); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e( 'Checkout UX', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Restrict Store to Logged-in Users', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Restrict Store to Logged-in Users', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Redirect guests away from shop/product/cart/checkout/account pages.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Redirect guests away from shop/product/cart/checkout/account pages.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -688,9 +688,9 @@
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Disable Checkout Field Autocomplete', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Disable Checkout Field Autocomplete', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Turn off browser autocomplete on WooCommerce checkout fields.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Turn off browser autocomplete on WooCommerce checkout fields.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -702,9 +702,9 @@
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Empty Checkout Defaults', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Empty Checkout Defaults', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Force WooCommerce checkout fields to start blank (no default or cached values).', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Force WooCommerce checkout fields to start blank (no default or cached values).', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -716,9 +716,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Change City Label to Suburb', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Change City Label to Suburb', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Rename the visible WooCommerce city field label and placeholder to "Suburb".', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Rename the visible WooCommerce city field label and placeholder to "Suburb".', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -733,7 +733,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'This only changes the visible label and placeholder on WooCommerce checkout and address forms. The underlying field key remains "city".', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'This only changes the visible label and placeholder on WooCommerce checkout and address forms. The underlying field key remains "city".', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -741,10 +741,10 @@
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Move Labels Inside Inputs on WooCommerce Checkout', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Move Labels Inside Inputs on WooCommerce Checkout', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-					<?php echo esc_html_e("Move labels inside checkout fields.", "divi-lc-kit"); ?>
+					<?php echo esc_html_e("Move labels inside checkout fields.", "lc-tweaks"); ?>
 				</p>
 				</div>
 			</div>
@@ -757,9 +757,9 @@
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><span class="new">new</span><?php echo esc_html_e( 'Hide Woo Menu Item for Non-Administrators', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new">new</span><?php echo esc_html_e( 'Hide Woo Menu Item for Non-Administrators', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Remove the WooCommerce menu item for all users except administrators.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Remove the WooCommerce menu item for all users except administrators.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 		<div class="box-content minibox">
@@ -771,9 +771,9 @@
 
 	<div class="lc-kit trigger">
 		<div class="box-title">
-			<h3><?php echo esc_html_e( 'Allow Guest Checkout for Existing Customers', 'divi-lc-kit' ); ?></h3>
+			<h3><?php echo esc_html_e( 'Allow Guest Checkout for Existing Customers', 'lc-tweaks' ); ?></h3>
 			<div class="box-descr">
-				<p><?php echo esc_html_e( 'Let returning customers place orders without logging in by matching their billing email.', 'divi-lc-kit' ); ?></p>
+				<p><?php echo esc_html_e( 'Let returning customers place orders without logging in by matching their billing email.', 'lc-tweaks' ); ?></p>
 			</div>
 		</div>
 		<div class="box-content minibox">
@@ -788,7 +788,7 @@
 			</div>
 			<div class="box-content">
 				<div class="info">
-					<p><?php echo esc_html_e( 'If guest checkout is disabled, this lets returning customers use their billing email to complete checkout without logging in. WooCommerce will attach the order to their account.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'If guest checkout is disabled, this lets returning customers use their billing email to complete checkout without logging in. WooCommerce will attach the order to their account.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 		</div>
@@ -796,9 +796,9 @@
 
 	<div class="lc-kit trigger">
 		<div class="box-title">
-			<h3><?php echo esc_html_e( 'Remove add-to-cart URL Parameter', 'divi-lc-kit' ); ?></h3>
+			<h3><?php echo esc_html_e( 'Remove add-to-cart URL Parameter', 'lc-tweaks' ); ?></h3>
 			<div class="box-descr">
-				<p><?php echo esc_html_e( 'Strip add-to-cart=ID after a successful add to cart to prevent duplicate adds on refresh.', 'divi-lc-kit' ); ?></p>
+				<p><?php echo esc_html_e( 'Strip add-to-cart=ID after a successful add to cart to prevent duplicate adds on refresh.', 'lc-tweaks' ); ?></p>
 			</div>
 		</div>
 		<div class="box-content minibox">
@@ -813,7 +813,7 @@
 			</div>
 			<div class="box-content">
 				<div class="info">
-					<p><?php echo esc_html_e( 'Useful if redirect-to-cart is disabled and you want to avoid re-adding items when the page is reloaded.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Useful if redirect-to-cart is disabled and you want to avoid re-adding items when the page is reloaded.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 		</div>
@@ -821,9 +821,9 @@
 
 	<div class="lc-kit trigger">
 		<div class="box-title">
-			<h3><?php echo esc_html_e( 'Remove Tax Suffix Labels', 'divi-lc-kit' ); ?></h3>
+			<h3><?php echo esc_html_e( 'Remove Tax Suffix Labels', 'lc-tweaks' ); ?></h3>
 			<div class="box-descr">
-				<p><?php echo esc_html_e( 'Hide the “incl. tax” and “ex. tax” labels on cart, checkout, and totals.', 'divi-lc-kit' ); ?></p>
+				<p><?php echo esc_html_e( 'Hide the “incl. tax” and “ex. tax” labels on cart, checkout, and totals.', 'lc-tweaks' ); ?></p>
 			</div>
 		</div>
 		<div class="box-content minibox">
@@ -838,7 +838,7 @@
 			</div>
 			<div class="box-content">
 				<div class="info">
-					<p><?php echo esc_html_e( 'Best for stores entering prices inclusive of tax to keep totals cleaner.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Best for stores entering prices inclusive of tax to keep totals cleaner.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 		</div>
@@ -846,9 +846,9 @@
 
 	<div class="lc-kit trigger">
 		<div class="box-title">
-			<h3><?php echo esc_html_e( 'Prevent Duplicate Orders', 'divi-lc-kit' ); ?></h3>
+			<h3><?php echo esc_html_e( 'Prevent Duplicate Orders', 'lc-tweaks' ); ?></h3>
 			<div class="box-descr">
-				<p><?php echo esc_html_e( 'Block duplicate paid orders placed within a short time window.', 'divi-lc-kit' ); ?></p>
+				<p><?php echo esc_html_e( 'Block duplicate paid orders placed within a short time window.', 'lc-tweaks' ); ?></p>
 			</div>
 		</div>
 		<div class="box-content minibox">
@@ -863,7 +863,7 @@
 			</div>
 			<div class="box-content">
 				<div class="info">
-					<p><?php echo esc_html_e( 'Helps avoid double-charges by stopping identical paid orders created in the last couple of minutes.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Helps avoid double-charges by stopping identical paid orders created in the last couple of minutes.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 		</div>
@@ -871,14 +871,14 @@
 
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e( 'Single Product', 'divi-lc-kit' ); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e( 'Single Product', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Buy Now Button', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Buy Now Button', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Add a Buy Now button that sends customers directly to checkout for the selected quantity/variation.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Add a Buy Now button that sends customers directly to checkout for the selected quantity/variation.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -893,7 +893,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Adds a single-click path to checkout from the product page, skipping the cart for simple products and single variations.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Adds a single-click path to checkout from the product page, skipping the cart for simple products and single variations.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -901,9 +901,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Add to Cart Click Counter', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Add to Cart Click Counter', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Track add-to-cart clicks and show conversion stats in the product admin.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Track add-to-cart clicks and show conversion stats in the product admin.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -918,7 +918,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Adds an AJAX counter on add-to-cart clicks and a Product admin meta box with conversion stats.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Adds an AJAX counter on add-to-cart clicks and a Product admin meta box with conversion stats.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -926,14 +926,14 @@
 
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e( 'My Account', 'divi-lc-kit' ); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e( 'My Account', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'My Account: Refund Request Button', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'My Account: Refund Request Button', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Add a refund request action on My Account orders (within 60 days, with pending state).', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Add a refund request action on My Account orders (within 60 days, with pending state).', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -948,7 +948,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Adds a refund request button in My Account that logs a customer note, stores the request meta, and emails the admin.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Adds a refund request button in My Account that logs a customer note, stores the request meta, and emails the admin.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -956,9 +956,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><span class="new">new</span><?php echo esc_html_e( 'Hide Downloads Tab Without Downloads', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new">new</span><?php echo esc_html_e( 'Hide Downloads Tab Without Downloads', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Hide the Downloads menu item when a customer has no downloadable products.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Hide the Downloads menu item when a customer has no downloadable products.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -973,7 +973,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Keeps the My Account menu tidy by only showing Downloads when there are files available.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Keeps the My Account menu tidy by only showing Downloads when there are files available.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -981,9 +981,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><span class="new">new</span><?php echo esc_html_e( 'Custom Logout Redirect', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new">new</span><?php echo esc_html_e( 'Custom Logout Redirect', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Send customers to the homepage after logging out.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Send customers to the homepage after logging out.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -998,7 +998,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Use this if you want logouts to land on the site homepage instead of My Account.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Use this if you want logouts to land on the site homepage instead of My Account.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1006,14 +1006,14 @@
 
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e( 'Orders & Admin', 'divi-lc-kit' ); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e( 'Orders & Admin', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Get Order IDs by Product', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Get Order IDs by Product', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Register a helper function to fetch paid order IDs containing a product.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Register a helper function to fetch paid order IDs containing a product.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1028,7 +1028,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Provides a HPOS-safe helper to fetch paid orders by product ID without direct database queries.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Provides a HPOS-safe helper to fetch paid orders by product ID without direct database queries.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1036,9 +1036,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Move Orders Menu Item', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Move Orders Menu Item', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Move WooCommerce Orders to its own top-level menu.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Move WooCommerce Orders to its own top-level menu.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1053,7 +1053,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Moves Orders to its own top-level menu so frequent order checks are one click away.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Moves Orders to its own top-level menu so frequent order checks are one click away.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1061,9 +1061,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Complete Order Button', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Complete Order Button', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Add a one-click Complete Order button on the order edit screen.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Add a one-click Complete Order button on the order edit screen.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1078,7 +1078,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Adds a Complete Order action next to Update for faster manual fulfillment.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Adds a Complete Order action next to Update for faster manual fulfillment.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1086,9 +1086,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Order History Meta Box', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Order History Meta Box', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Show a customer order history panel on the order edit screen.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Show a customer order history panel on the order edit screen.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1103,7 +1103,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Lists a customer’s last 10 orders right inside the order editor for quick reference.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Lists a customer’s last 10 orders right inside the order editor for quick reference.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1111,9 +1111,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><span class="new">new</span><?php echo esc_html_e( 'Sticky Product Update Button', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new">new</span><?php echo esc_html_e( 'Sticky Product Update Button', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Keep the Update button visible while editing long product pages.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Keep the Update button visible while editing long product pages.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1128,7 +1128,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Makes the Publish/Update button stick to the viewport so you do not have to scroll back up to save.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Makes the Publish/Update button stick to the viewport so you do not have to scroll back up to save.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1136,9 +1136,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Filter Products by Sale Status', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Filter Products by Sale Status', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Add an admin filter to show products that are on sale or not on sale.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Add an admin filter to show products that are on sale or not on sale.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1154,7 +1154,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Adds a dropdown to the Products list so you can quickly filter sale vs. regular-priced items.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Adds a dropdown to the Products list so you can quickly filter sale vs. regular-priced items.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1162,9 +1162,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Allow Only Simple Products', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Allow Only Simple Products', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Remove variable, grouped, and external product types from the editor.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Remove variable, grouped, and external product types from the editor.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1179,7 +1179,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Keeps product management focused by restricting the product type selector to Simple only.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Keeps product management focused by restricting the product type selector to Simple only.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1187,9 +1187,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><span class="new">new</span><?php echo esc_html_e( 'Remove Payments Menu', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new">new</span><?php echo esc_html_e( 'Remove Payments Menu', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Remove the Payments menu entries from the admin sidebar.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Remove the Payments menu entries from the admin sidebar.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1204,7 +1204,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Hides WooCommerce Payments-related admin menu items to keep the sidebar clean.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Hides WooCommerce Payments-related admin menu items to keep the sidebar clean.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1212,9 +1212,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><span class="new divi4">top</span><?php echo esc_html_e( 'Store Admin View', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new divi4">top</span><?php echo esc_html_e( 'Store Admin View', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Add a toolbar toggle to switch into a WooCommerce-only admin menu view.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Add a toolbar toggle to switch into a WooCommerce-only admin menu view.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1229,7 +1229,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Cuts the admin menu down to WooCommerce-only items to reduce distractions when many plugins add menu entries.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Cuts the admin menu down to WooCommerce-only items to reduce distractions when many plugins add menu entries.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1237,9 +1237,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Sort Order Items', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Sort Order Items', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Sort order items across order views and emails using the selected rule.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Sort order items across order views and emails using the selected rule.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1254,25 +1254,25 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Reorders items consistently (name, SKU, total, quantity) instead of cart order, useful for admin reviews, invoices, and packing slips.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Reorders items consistently (name, SKU, total, quantity) instead of cart order, useful for admin reviews, invoices, and packing slips.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
 			<div class="lc-kit first nopad">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Sort Mode', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Sort Mode', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Choose how to sort the order items.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Choose how to sort the order items.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content">
 					<select name="dlck_woo_order_items_sort_option">
-						<option value="name_az" <?php selected( $dlck_woo_order_items_sort_option_val, 'name_az' ); ?>><?php echo esc_html_e( 'Product Name (A–Z)', 'divi-lc-kit' ); ?></option>
-						<option value="quantity_desc" <?php selected( $dlck_woo_order_items_sort_option_val, 'quantity_desc' ); ?>><?php echo esc_html_e( 'Quantity (High → Low)', 'divi-lc-kit' ); ?></option>
-						<option value="total_desc" <?php selected( $dlck_woo_order_items_sort_option_val, 'total_desc' ); ?>><?php echo esc_html_e( 'Line Total (High → Low)', 'divi-lc-kit' ); ?></option>
-						<option value="sku_az" <?php selected( $dlck_woo_order_items_sort_option_val, 'sku_az' ); ?>><?php echo esc_html_e( 'SKU (A–Z)', 'divi-lc-kit' ); ?></option>
-						<option value="category_az" <?php selected( $dlck_woo_order_items_sort_option_val, 'category_az' ); ?>><?php echo esc_html_e( 'Category (A–Z)', 'divi-lc-kit' ); ?></option>
-						<option value="product_id_asc" <?php selected( $dlck_woo_order_items_sort_option_val, 'product_id_asc' ); ?>><?php echo esc_html_e( 'Product ID (Low → High)', 'divi-lc-kit' ); ?></option>
+						<option value="name_az" <?php selected( $dlck_woo_order_items_sort_option_val, 'name_az' ); ?>><?php echo esc_html_e( 'Product Name (A–Z)', 'lc-tweaks' ); ?></option>
+						<option value="quantity_desc" <?php selected( $dlck_woo_order_items_sort_option_val, 'quantity_desc' ); ?>><?php echo esc_html_e( 'Quantity (High → Low)', 'lc-tweaks' ); ?></option>
+						<option value="total_desc" <?php selected( $dlck_woo_order_items_sort_option_val, 'total_desc' ); ?>><?php echo esc_html_e( 'Line Total (High → Low)', 'lc-tweaks' ); ?></option>
+						<option value="sku_az" <?php selected( $dlck_woo_order_items_sort_option_val, 'sku_az' ); ?>><?php echo esc_html_e( 'SKU (A–Z)', 'lc-tweaks' ); ?></option>
+						<option value="category_az" <?php selected( $dlck_woo_order_items_sort_option_val, 'category_az' ); ?>><?php echo esc_html_e( 'Category (A–Z)', 'lc-tweaks' ); ?></option>
+						<option value="product_id_asc" <?php selected( $dlck_woo_order_items_sort_option_val, 'product_id_asc' ); ?>><?php echo esc_html_e( 'Product ID (Low → High)', 'lc-tweaks' ); ?></option>
 					</select>
 				</div>
 			</div>
@@ -1280,14 +1280,14 @@
 
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e( 'Emails', 'divi-lc-kit' ); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e( 'Emails', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Email Item Meta Tags', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Email Item Meta Tags', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Rewrite item meta markup and add tag styling for WooCommerce order emails.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Rewrite item meta markup and add tag styling for WooCommerce order emails.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1302,7 +1302,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Applies a cleaner, modern tag layout in order emails so item meta is easier to scan and less cluttered.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Applies a cleaner, modern tag layout in order emails so item meta is easier to scan and less cluttered.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1310,9 +1310,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Fix Email Product Name Symbols', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Fix Email Product Name Symbols', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Render trademark, registered, and copyright symbols more reliably in WooCommerce order emails.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Render trademark, registered, and copyright symbols more reliably in WooCommerce order emails.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1327,7 +1327,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Applies only to WooCommerce order email item names. Product titles on the website, cart and checkout, and admin product titles stay unchanged.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Applies only to WooCommerce order email item names. Product titles on the website, cart and checkout, and admin product titles stay unchanged.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1335,9 +1335,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Cancelled Order Email to Customer', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Cancelled Order Email to Customer', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Send the cancelled order notification to the customer as well.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Send the cancelled order notification to the customer as well.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1352,7 +1352,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Adds the billing email address to cancelled order recipients so customers are notified too.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Adds the billing email address to cancelled order recipients so customers are notified too.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1360,9 +1360,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Auto-send Pending Order Email', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Auto-send Pending Order Email', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Automatically send the customer invoice email for pending orders.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Automatically send the customer invoice email for pending orders.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1377,7 +1377,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Triggers the customer invoice email when a manual order is created with pending status.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Triggers the customer invoice email when a manual order is created with pending status.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1385,9 +1385,9 @@
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Email Admin on Woo Fatal Errors', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Email Admin on Woo Fatal Errors', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Email the site admin when WooCommerce logs a fatal error.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Email the site admin when WooCommerce logs a fatal error.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1402,7 +1402,7 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Sends an email when WooCommerce logs a fatal error so you can respond faster.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Sends an email when WooCommerce logs a fatal error so you can respond faster.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -1410,14 +1410,14 @@
 
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e( 'Notifications & Access', 'divi-lc-kit' ); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e( 'Notifications & Access', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><span class="new">new</span><?php echo esc_html_e( 'Notify Admin When a New Customer Account Is Created', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new">new</span><?php echo esc_html_e( 'Notify Admin When a New Customer Account Is Created', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Send an admin email when a customer registers through WooCommerce.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Send an admin email when a customer registers through WooCommerce.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1425,21 +1425,21 @@
 					<input name="dlck_notify_admin_when_a_new_customer_account_is_created" type="checkbox" value="1" <?php checked( '1', $dlck_notify_admin_when_a_new_customer_account_is_created_val ); ?> />
 				</div>
 				<?php if ( $dlck_disable_admin_new_user_notification_emails_val === '1' ) : ?>
-					<p class="info"><?php echo esc_html_e( 'The global "Disable Admin New User Notification Emails" setting is enabled, so this WooCommerce-specific admin email is overridden and will be switched off on save.', 'divi-lc-kit' ); ?></p>
+					<p class="info"><?php echo esc_html_e( 'The global "Disable Admin New User Notification Emails" setting is enabled, so this WooCommerce-specific admin email is overridden and will be switched off on save.', 'lc-tweaks' ); ?></p>
 				<?php endif; ?>
 			</div>
 		</div>
 
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e( 'Product Identifiers', 'divi-lc-kit' ); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e( 'Product Identifiers', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Set Product GTIN from SKU (Search/Schema)', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Set Product GTIN from SKU (Search/Schema)', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Populate GTIN from SKU for structured data and the product GTIN field (when empty).', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Populate GTIN from SKU for structured data and the product GTIN field (when empty).', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1454,10 +1454,10 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Uses the SKU as GTIN for schema and fills the GTIN field on save when it is empty. Only applies when the SKU normalizes to a valid GTIN length.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Uses the SKU as GTIN for schema and fills the GTIN field on save when it is empty. Only applies when the SKU normalizes to a valid GTIN length.', 'lc-tweaks' ); ?></p>
 						<p>
 							<a class="button" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=dlck_gtin_cleanup_invalid' ), 'dlck_gtin_cleanup_invalid' ) ); ?>">
-								<?php echo esc_html_e( 'Clean Invalid GTINs', 'divi-lc-kit' ); ?>
+								<?php echo esc_html_e( 'Clean Invalid GTINs', 'lc-tweaks' ); ?>
 							</a>
 						</p>
 					</div>
@@ -1468,22 +1468,22 @@
 		<?php if ( dlck_is_gla_active() ) : ?>
 			<div class="lc-kit trigger">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Set Google Sync Identifiers from SKU', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Set Google Sync Identifiers from SKU', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Send SKU-based identifiers to Google Listings & Ads when GTIN is missing.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Send SKU-based identifiers to Google Listings & Ads when GTIN is missing.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
 					<div class="checkbox">
 						<label>
 							<input name="dlck_woo_set_gtin_from_sku_gla" type="checkbox" value="1" <?php checked( '1', $dlck_woo_set_gtin_from_sku_gla_val ); ?> />
-							<?php echo esc_html_e( 'Sync identifiers', 'divi-lc-kit' ); ?>
+							<?php echo esc_html_e( 'Sync identifiers', 'lc-tweaks' ); ?>
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
 							<input name="dlck_woo_gla_mc_sync_column" type="checkbox" value="1" <?php checked( '1', $dlck_woo_gla_mc_sync_column_val ); ?> />
-							<?php echo esc_html_e( 'Enable Products: Google Sync Column', 'divi-lc-kit' ); ?>
+							<?php echo esc_html_e( 'Enable Products: Google Sync Column', 'lc-tweaks' ); ?>
 						</label>
 					</div>
 				</div>
@@ -1494,7 +1494,7 @@
 					</div>
 					<div class="box-content">
 						<div class="info">
-							<p><?php echo esc_html_e( 'Uses numeric SKUs as GTIN, sends SKU as MPN when GTIN is missing, and marks identifiers as missing when both GTIN and brand are empty.', 'divi-lc-kit' ); ?></p>
+							<p><?php echo esc_html_e( 'Uses numeric SKUs as GTIN, sends SKU as MPN when GTIN is missing, and marks identifiers as missing when both GTIN and brand are empty.', 'lc-tweaks' ); ?></p>
 						</div>
 					</div>
 				</div>

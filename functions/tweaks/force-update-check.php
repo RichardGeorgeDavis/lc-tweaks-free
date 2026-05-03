@@ -57,7 +57,7 @@ function dlck_force_update_check_scope( array $permissions ): string {
 function dlck_force_update_check_action(): void {
 	$permissions = dlck_force_update_check_permissions();
 	if ( ! dlck_can_force_update_check() ) {
-		wp_die( esc_html__( 'Sorry, you are not allowed to do that.', 'divi-lc-kit' ) );
+		wp_die( esc_html__( 'Sorry, you are not allowed to do that.', 'lc-tweaks' ) );
 	}
 
 	check_admin_referer( 'dlck_force_update_check' );
@@ -137,17 +137,17 @@ function dlck_force_update_check_notice(): void {
 
 	if ( $status === 'locked' ) {
 		echo '<div class="notice notice-warning is-dismissible"><p>'
-			. esc_html__( 'A force update check is already running. Please try again in a moment.', 'divi-lc-kit' )
+			. esc_html__( 'A force update check is already running. Please try again in a moment.', 'lc-tweaks' )
 			. '</p></div>';
 		return;
 	}
 
 	if ( $status === 'done' ) {
-		$message = __( 'Plugin and theme update checks have been refreshed. Third-party updaters may still apply their own caches.', 'divi-lc-kit' );
+		$message = __( 'Plugin and theme update checks have been refreshed. Third-party updaters may still apply their own caches.', 'lc-tweaks' );
 		if ( $scope === 'plugins' ) {
-			$message = __( 'Plugin update checks have been refreshed. Third-party updaters may still apply their own caches.', 'divi-lc-kit' );
+			$message = __( 'Plugin update checks have been refreshed. Third-party updaters may still apply their own caches.', 'lc-tweaks' );
 		} elseif ( $scope === 'themes' ) {
-			$message = __( 'Theme update checks have been refreshed. Third-party updaters may still apply their own caches.', 'divi-lc-kit' );
+			$message = __( 'Theme update checks have been refreshed. Third-party updaters may still apply their own caches.', 'lc-tweaks' );
 		}
 
 		echo '<div class="notice notice-success is-dismissible"><p>'

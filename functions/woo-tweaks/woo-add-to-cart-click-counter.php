@@ -64,7 +64,7 @@ function dlck_add_cart_clicked() {
 function dlck_product_meta_box_add_cart_clicks() {
 	add_meta_box(
 		'dlck_add_cart_stats',
-		__( 'Add to Cart Stats', 'divi-lc-kit' ),
+		__( 'Add to Cart Stats', 'lc-tweaks' ),
 		'dlck_display_add_cart_stats',
 		'product',
 		'advanced',
@@ -90,14 +90,14 @@ function dlck_display_add_cart_stats() {
 	$units_sold = (int) $product->get_total_sales();
 	$times_added_to_cart = (int) get_post_meta( $post->ID, 'add_cart_clicks', true );
 	if ( ! $times_added_to_cart ) {
-		echo '<p>' . esc_html__( 'No data available', 'divi-lc-kit' ) . '</p>';
+		echo '<p>' . esc_html__( 'No data available', 'lc-tweaks' ) . '</p>';
 		return;
 	}
 
 	$conversion = 100 * $units_sold / $times_added_to_cart;
-	echo '<p>' . esc_html__( 'Times added to cart:', 'divi-lc-kit' ) . ' ' . esc_html( $times_added_to_cart ) . '</p>';
-	echo '<p>' . esc_html__( 'Sales:', 'divi-lc-kit' ) . ' ' . esc_html( $units_sold ) . '</p>';
-	echo '<p>' . esc_html__( 'Conversion rate:', 'divi-lc-kit' ) . ' ' . esc_html( number_format( $conversion, 2 ) ) . '%</p>';
+	echo '<p>' . esc_html__( 'Times added to cart:', 'lc-tweaks' ) . ' ' . esc_html( $times_added_to_cart ) . '</p>';
+	echo '<p>' . esc_html__( 'Sales:', 'lc-tweaks' ) . ' ' . esc_html( $units_sold ) . '</p>';
+	echo '<p>' . esc_html__( 'Conversion rate:', 'lc-tweaks' ) . ' ' . esc_html( number_format( $conversion, 2 ) ) . '%</p>';
 }
 
 ?>

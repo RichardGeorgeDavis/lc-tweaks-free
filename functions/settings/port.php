@@ -172,12 +172,12 @@ function dlck_get_settings_snapshots(): array {
 function dlck_snapshot_reason_label( string $reason ): string {
 	switch ( $reason ) {
 		case 'pre_restore_backup':
-			return __( 'Backup before restore', 'divi-lc-kit' );
+			return __( 'Backup before restore', 'lc-tweaks' );
 		case 'preset_apply':
-			return __( 'Preset apply', 'divi-lc-kit' );
+			return __( 'Preset apply', 'lc-tweaks' );
 		case 'manual_save':
 		default:
-			return __( 'Manual save', 'divi-lc-kit' );
+			return __( 'Manual save', 'lc-tweaks' );
 	}
 }
 

@@ -115,7 +115,7 @@ if ( ! class_exists( 'DLCK_Free_GitHub_Updater' ) ) {
 				'trunk'         => $release['package'],
 				'last_updated'  => $release['published_at'],
 				'sections'      => array(
-					'description' => '<p>' . esc_html__( 'Free edition of LC Tweaks.', 'divi-lc-kit' ) . '</p>',
+					'description' => '<p>' . esc_html__( 'Free edition of LC Tweaks.', 'lc-tweaks' ) . '</p>',
 					'changelog'   => $this->format_release_notes( $release ),
 				),
 			);
@@ -268,7 +268,7 @@ if ( ! class_exists( 'DLCK_Free_GitHub_Updater' ) ) {
 				return sprintf(
 					'<p><a href="%s">%s</a></p>',
 					esc_url( $release['url'] ),
-					esc_html__( 'View release notes on GitHub.', 'divi-lc-kit' )
+					esc_html__( 'View release notes on GitHub.', 'lc-tweaks' )
 				);
 			}
 

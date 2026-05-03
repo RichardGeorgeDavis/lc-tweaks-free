@@ -14,8 +14,8 @@ add_filter( 'woocommerce_default_address_fields', 'dlck_change_city_label_to_sub
  */
 function dlck_change_city_label_to_suburb( $fields ) {
 	if ( isset( $fields['city'] ) ) {
-		$fields['city']['label']       = __( 'Suburb', 'divi-lc-kit' );
-		$fields['city']['placeholder'] = __( 'Suburb', 'divi-lc-kit' );
+		$fields['city']['label']       = __( 'Suburb', 'lc-tweaks' );
+		$fields['city']['placeholder'] = __( 'Suburb', 'lc-tweaks' );
 	}
 
 	return $fields;

@@ -25,7 +25,7 @@ function dlck_lc_kit_set_option( string $key, string $value ): void {
  */
 function dlck_woo_resave_all_products_start(): void {
 	if ( ! current_user_can( 'manage_woocommerce' ) ) {
-		wp_die( esc_html__( 'Sorry, you are not allowed to do that.', 'divi-lc-kit' ) );
+		wp_die( esc_html__( 'Sorry, you are not allowed to do that.', 'lc-tweaks' ) );
 	}
 	check_admin_referer( 'dlck_woo_resave_all_products' );
 

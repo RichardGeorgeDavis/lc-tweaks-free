@@ -20,9 +20,9 @@ function dlck_filter_products_by_sale_status() {
 	$selected = isset( $_GET['sale_status'] ) ? sanitize_text_field( wp_unslash( $_GET['sale_status'] ) ) : '';
 	?>
 	<select name="sale_status">
-		<option value=""><?php echo esc_html__( 'Filter by sale status', 'divi-lc-kit' ); ?></option>
-		<option value="on_sale" <?php selected( $selected, 'on_sale' ); ?>><?php echo esc_html__( 'On Sale', 'divi-lc-kit' ); ?></option>
-		<option value="not_on_sale" <?php selected( $selected, 'not_on_sale' ); ?>><?php echo esc_html__( 'Not on Sale', 'divi-lc-kit' ); ?></option>
+		<option value=""><?php echo esc_html__( 'Filter by sale status', 'lc-tweaks' ); ?></option>
+		<option value="on_sale" <?php selected( $selected, 'on_sale' ); ?>><?php echo esc_html__( 'On Sale', 'lc-tweaks' ); ?></option>
+		<option value="not_on_sale" <?php selected( $selected, 'not_on_sale' ); ?>><?php echo esc_html__( 'Not on Sale', 'lc-tweaks' ); ?></option>
 	</select>
 	<?php
 }

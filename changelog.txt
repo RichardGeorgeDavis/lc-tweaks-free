@@ -2,6 +2,10 @@ Changelog
 =========
 
 Unreleased
+
+1.6.0
+- Changed the plugin text domain from `divi-lc-kit` to `lc-tweaks` for WordPress.org compatibility.
+- Added a WooCommerce toggle to block cart-style query actions combined with common ad click tracking parameters.
 - Added free-edition packaging support with GitHub Releases updates, excluding pro licensing/updater code, the YITH Licence Activator, and bundled Modules features from public free builds.
 - Improved the Divi Accessibility migration failure notice so hosts that cannot auto-install plugins without filesystem credentials now get an explicit manual-download fallback for the pinned `2.1.1` package instead of a generic install failure.
 - Removed the standalone Divi Accessibility info card from the LC Tweaks Modules screen now that it is no longer a bundled module toggle.

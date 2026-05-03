@@ -337,7 +337,7 @@ function dlck_divi_accessibility_migration_reconcile_success(): bool {
 	dlck_divi_accessibility_migration_update_status(
 		dlck_divi_accessibility_migration_build_status(
 			'success',
-			__( 'Divi Accessibility is installed and active as a standalone plugin.', 'divi-lc-kit' ),
+			__( 'Divi Accessibility is installed and active as a standalone plugin.', 'lc-tweaks' ),
 			array(
 				'version'        => $version,
 				'required'       => $required,
@@ -356,7 +356,7 @@ function dlck_divi_accessibility_migration_mark_not_required(): void {
 	dlck_divi_accessibility_migration_update_status(
 		dlck_divi_accessibility_migration_build_status(
 			'not_required',
-			__( 'Divi Accessibility is available as a separate plugin and is not required for this site.', 'divi-lc-kit' )
+			__( 'Divi Accessibility is available as a separate plugin and is not required for this site.', 'lc-tweaks' )
 		)
 	);
 }
@@ -371,8 +371,8 @@ function dlck_divi_accessibility_migration_mark_not_required(): void {
  */
 function dlck_divi_accessibility_migration_mark_recommended( string $code, bool $required, bool $installed_once, string $version = '' ): void {
 	$message = $code === 'inactive'
-		? __( 'Divi Accessibility was previously migrated for this site, but the standalone plugin is currently inactive. Activate it again if you still need that functionality.', 'divi-lc-kit' )
-		: __( 'Divi Accessibility was previously migrated for this site, but the standalone plugin is no longer installed. Install it again if you still need that functionality.', 'divi-lc-kit' );
+		? __( 'Divi Accessibility was previously migrated for this site, but the standalone plugin is currently inactive. Activate it again if you still need that functionality.', 'lc-tweaks' )
+		: __( 'Divi Accessibility was previously migrated for this site, but the standalone plugin is no longer installed. Install it again if you still need that functionality.', 'lc-tweaks' );
 
 	dlck_divi_accessibility_migration_update_status(
 		dlck_divi_accessibility_migration_build_status(
@@ -436,8 +436,8 @@ function dlck_divi_accessibility_migration_maybe_run( string $reason = 'passive'
 			dlck_divi_accessibility_migration_fail(
 				'insufficient_permissions',
 				$needs_install
-					? __( 'Divi Accessibility could not be installed automatically because the current user cannot install and activate plugins.', 'divi-lc-kit' )
-					: __( 'Divi Accessibility could not be activated automatically because the current user cannot activate plugins.', 'divi-lc-kit' )
+					? __( 'Divi Accessibility could not be installed automatically because the current user cannot install and activate plugins.', 'lc-tweaks' )
+					: __( 'Divi Accessibility could not be activated automatically because the current user cannot activate plugins.', 'lc-tweaks' )
 			);
 		}
 		return;
@@ -466,7 +466,7 @@ function dlck_divi_accessibility_migration_install_and_activate( bool $required 
 					'filesystem_credentials_required',
 					sprintf(
 						/* translators: %s: target Divi Accessibility version. */
-						__( 'This host requires manual plugin installation access, so LC Tweaks could not install Divi Accessibility automatically. Download and install Divi Accessibility %s, then activate it.', 'divi-lc-kit' ),
+						__( 'This host requires manual plugin installation access, so LC Tweaks could not install Divi Accessibility automatically. Download and install Divi Accessibility %s, then activate it.', 'lc-tweaks' ),
 						DLCK_DIVI_ACCESSIBILITY_MIGRATION_TARGET
 					)
 				);
@@ -494,14 +494,14 @@ function dlck_divi_accessibility_migration_install_and_activate( bool $required 
 					return;
 				}
 
-				dlck_divi_accessibility_migration_fail( 'install_failed', __( 'WordPress could not install the standalone Divi Accessibility package.', 'divi-lc-kit' ) );
+				dlck_divi_accessibility_migration_fail( 'install_failed', __( 'WordPress could not install the standalone Divi Accessibility package.', 'lc-tweaks' ) );
 				return;
 			}
 
 			wp_clean_plugins_cache( true );
 			$plugin = dlck_divi_accessibility_migration_get_installed_plugin();
 			if ( ! is_array( $plugin ) ) {
-				dlck_divi_accessibility_migration_fail( 'plugin_missing_after_install', __( 'The package installed, but WordPress did not find divi-accessibility/divi-accessibility.php afterward.', 'divi-lc-kit' ) );
+				dlck_divi_accessibility_migration_fail( 'plugin_missing_after_install', __( 'The package installed, but WordPress did not find divi-accessibility/divi-accessibility.php afterward.', 'lc-tweaks' ) );
 				return;
 			}
 		}
@@ -518,7 +518,7 @@ function dlck_divi_accessibility_migration_install_and_activate( bool $required 
 		dlck_divi_accessibility_migration_update_status(
 			dlck_divi_accessibility_migration_build_status(
 				'success',
-				__( 'Divi Accessibility was installed and activated as a standalone plugin.', 'divi-lc-kit' ),
+				__( 'Divi Accessibility was installed and activated as a standalone plugin.', 'lc-tweaks' ),
 				array(
 					'version'        => isset( $plugin['Version'] ) ? (string) $plugin['Version'] : DLCK_DIVI_ACCESSIBILITY_MIGRATION_TARGET,
 					'required'       => $required,
@@ -562,8 +562,8 @@ function dlck_divi_accessibility_migration_retry_action(): void {
 		wp_die(
 			esc_html(
 				$needs_install
-					? __( 'Sorry, you are not allowed to install and activate plugins.', 'divi-lc-kit' )
-					: __( 'Sorry, you are not allowed to activate plugins.', 'divi-lc-kit' )
+					? __( 'Sorry, you are not allowed to install and activate plugins.', 'lc-tweaks' )
+					: __( 'Sorry, you are not allowed to activate plugins.', 'lc-tweaks' )
 			)
 		);
 	}
@@ -620,7 +620,7 @@ function dlck_divi_accessibility_migration_notice(): void {
 	$retry_requested = isset( $_GET['dlck_divi_accessibility_migration_retry'] );
 	if ( $status['status'] === 'success' && $retry_requested ) {
 		echo '<div class="notice notice-success is-dismissible"><p>'
-			. esc_html( $status['message'] ?? __( 'Divi Accessibility is installed and active as a standalone plugin.', 'divi-lc-kit' ) )
+			. esc_html( $status['message'] ?? __( 'Divi Accessibility is installed and active as a standalone plugin.', 'lc-tweaks' ) )
 			. '</p></div>';
 		return;
 	}
@@ -642,10 +642,10 @@ function dlck_divi_accessibility_migration_notice(): void {
 	if ( $status['status'] === 'failed' ) {
 		$message = $status['message'] !== ''
 			? (string) $status['message']
-			: __( 'Divi Accessibility could not be installed automatically.', 'divi-lc-kit' );
+			: __( 'Divi Accessibility could not be installed automatically.', 'lc-tweaks' );
 		$link_label = $needs_install
-			? __( 'Retry Divi Accessibility installation.', 'divi-lc-kit' )
-			: __( 'Retry Divi Accessibility activation.', 'divi-lc-kit' );
+			? __( 'Retry Divi Accessibility installation.', 'lc-tweaks' )
+			: __( 'Retry Divi Accessibility activation.', 'lc-tweaks' );
 		$manual_link = '';
 		if ( $needs_install ) {
 			$manual_link = sprintf(
@@ -654,7 +654,7 @@ function dlck_divi_accessibility_migration_notice(): void {
 				esc_html(
 					sprintf(
 						/* translators: %s: target Divi Accessibility version. */
-						__( 'Download Divi Accessibility %s.', 'divi-lc-kit' ),
+						__( 'Download Divi Accessibility %s.', 'lc-tweaks' ),
 						DLCK_DIVI_ACCESSIBILITY_MIGRATION_TARGET
 					)
 				)
@@ -681,8 +681,8 @@ function dlck_divi_accessibility_migration_notice(): void {
 	}
 
 	$link_label = $status['code'] === 'inactive'
-		? __( 'Activate Divi Accessibility.', 'divi-lc-kit' )
-		: __( 'Install Divi Accessibility.', 'divi-lc-kit' );
+		? __( 'Activate Divi Accessibility.', 'lc-tweaks' )
+		: __( 'Install Divi Accessibility.', 'lc-tweaks' );
 
 	printf(
 		'<div class="notice notice-warning is-dismissible"><p>%1$s <a href="%2$s">%3$s</a></p></div>',

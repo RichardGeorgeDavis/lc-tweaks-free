@@ -96,7 +96,7 @@ add_action( 'save_post_product', 'dlck_mc_sync_update_flag', 20 );
  * Add admin column.
  */
 function dlck_add_gla_mc_sync_column( array $cols ): array {
-	$cols['lc_mc_sync'] = esc_html__( 'Google Sync', 'divi-lc-kit' );
+	$cols['lc_mc_sync'] = esc_html__( 'Google Sync', 'lc-tweaks' );
 	return $cols;
 }
 add_filter( 'manage_edit-product_columns', 'dlck_add_gla_mc_sync_column', 20 );
@@ -128,7 +128,7 @@ function dlck_render_gla_mc_sync_column( string $column, int $post_id ): void {
 		$mc = ! empty( $status['mc_status'] )
 			? ' <span class="lc-mc-sub">(' . esc_html( $status['mc_status'] ) . ')</span>'
 			: '';
-		echo '<span class="lc-mc-synced">' . esc_html__( 'Synced', 'divi-lc-kit' ) . '</span>' . $mc;
+		echo '<span class="lc-mc-synced">' . esc_html__( 'Synced', 'lc-tweaks' ) . '</span>' . $mc;
 		echo '<span class="lc-mc-raw">' . esc_html( $raw_status ?: '-' ) . '</span>';
 		echo '<span class="lc-gla-vis" data-vis="' . esc_attr( $visibility ) . '" style="display:none"></span>';
 		return;
@@ -137,20 +137,20 @@ function dlck_render_gla_mc_sync_column( string $column, int $post_id ): void {
 	if ( $sync_status === 'has-errors' || $flag === '0' ) {
 		$err = dlck_gla_first_error( $status['errors'] ?? null );
 		$err_html = $err ? '<span class="lc-mc-sub">' . esc_html( $err ) . '</span>' : '';
-		echo '<span class="lc-mc-not-synced">' . esc_html__( 'Has errors', 'divi-lc-kit' ) . '</span>' . $err_html;
+		echo '<span class="lc-mc-not-synced">' . esc_html__( 'Has errors', 'lc-tweaks' ) . '</span>' . $err_html;
 		echo '<span class="lc-mc-raw">' . esc_html( $raw_status ?: '-' ) . '</span>';
 		echo '<span class="lc-gla-vis" data-vis="' . esc_attr( $visibility ) . '" style="display:none"></span>';
 		return;
 	}
 
 	if ( in_array( $sync_status, array( 'pending', 'processing', 'scheduled', 'in-progress', 'in_progress', 'queue' ), true ) || $flag === '2' ) {
-		echo '<span class="lc-mc-pending">' . esc_html__( 'Pending', 'divi-lc-kit' ) . '</span>';
+		echo '<span class="lc-mc-pending">' . esc_html__( 'Pending', 'lc-tweaks' ) . '</span>';
 		echo '<span class="lc-mc-raw">' . esc_html( $raw_status ?: '-' ) . '</span>';
 		echo '<span class="lc-gla-vis" data-vis="' . esc_attr( $visibility ) . '" style="display:none"></span>';
 		return;
 	}
 
-	echo '<span class="lc-mc-unknown">' . esc_html__( 'Unknown', 'divi-lc-kit' ) . '</span>';
+	echo '<span class="lc-mc-unknown">' . esc_html__( 'Unknown', 'lc-tweaks' ) . '</span>';
 	echo '<span class="lc-mc-raw">' . esc_html( $raw_status ?: '-' ) . '</span>';
 	echo '<span class="lc-gla-vis" data-vis="' . esc_attr( $visibility ) . '" style="display:none"></span>';
 }
@@ -226,13 +226,13 @@ function dlck_gla_mc_sync_filter_dropdown(): void {
 
 	$current = isset( $_GET['lc_mc_sync_filter'] ) ? sanitize_text_field( wp_unslash( $_GET['lc_mc_sync_filter'] ) ) : '';
 
-	echo '<label for="lc_mc_sync_filter" class="screen-reader-text">' . esc_html__( 'Google Sync', 'divi-lc-kit' ) . '</label>';
+	echo '<label for="lc_mc_sync_filter" class="screen-reader-text">' . esc_html__( 'Google Sync', 'lc-tweaks' ) . '</label>';
 	echo '<select name="lc_mc_sync_filter" id="lc_mc_sync_filter" style="margin-left:8px;">';
-	echo '<option value="">' . esc_html__( 'Google Sync: All', 'divi-lc-kit' ) . '</option>';
-	echo '<option value="1" ' . selected( $current, '1', false ) . '>' . esc_html__( 'Synced', 'divi-lc-kit' ) . '</option>';
-	echo '<option value="2" ' . selected( $current, '2', false ) . '>' . esc_html__( 'Pending', 'divi-lc-kit' ) . '</option>';
-	echo '<option value="0" ' . selected( $current, '0', false ) . '>' . esc_html__( 'Has errors', 'divi-lc-kit' ) . '</option>';
-	echo '<option value="u" ' . selected( $current, 'u', false ) . '>' . esc_html__( 'Unknown', 'divi-lc-kit' ) . '</option>';
+	echo '<option value="">' . esc_html__( 'Google Sync: All', 'lc-tweaks' ) . '</option>';
+	echo '<option value="1" ' . selected( $current, '1', false ) . '>' . esc_html__( 'Synced', 'lc-tweaks' ) . '</option>';
+	echo '<option value="2" ' . selected( $current, '2', false ) . '>' . esc_html__( 'Pending', 'lc-tweaks' ) . '</option>';
+	echo '<option value="0" ' . selected( $current, '0', false ) . '>' . esc_html__( 'Has errors', 'lc-tweaks' ) . '</option>';
+	echo '<option value="u" ' . selected( $current, 'u', false ) . '>' . esc_html__( 'Unknown', 'lc-tweaks' ) . '</option>';
 	echo '</select>';
 }
 add_action( 'restrict_manage_posts', 'dlck_gla_mc_sync_filter_dropdown', 9999 );
@@ -249,11 +249,11 @@ function dlck_gla_mc_sync_quick_edit_field( string $column_name, string $post_ty
 
 	echo '<fieldset class="inline-edit-col-right"><div class="inline-edit-col">';
 	echo '<label class="alignleft">';
-	echo '<span class="title">' . esc_html__( 'Google Visibility', 'divi-lc-kit' ) . '</span>';
+	echo '<span class="title">' . esc_html__( 'Google Visibility', 'lc-tweaks' ) . '</span>';
 	echo '<select name="lc_gla_visibility" class="lc-gla-visibility">';
-	echo '<option value="">' . esc_html__( 'No change', 'divi-lc-kit' ) . '</option>';
-	echo '<option value="sync-and-show">' . esc_html__( 'Sync and show', 'divi-lc-kit' ) . '</option>';
-	echo '<option value="do-not-sync">' . esc_html__( 'Do not sync', 'divi-lc-kit' ) . '</option>';
+	echo '<option value="">' . esc_html__( 'No change', 'lc-tweaks' ) . '</option>';
+	echo '<option value="sync-and-show">' . esc_html__( 'Sync and show', 'lc-tweaks' ) . '</option>';
+	echo '<option value="do-not-sync">' . esc_html__( 'Do not sync', 'lc-tweaks' ) . '</option>';
 	echo '</select>';
 	echo '</label>';
 	echo '</div></fieldset>';
@@ -272,11 +272,11 @@ function dlck_gla_mc_sync_bulk_edit_field( string $column_name, string $post_typ
 
 	echo '<fieldset class="inline-edit-col-right"><div class="inline-edit-col">';
 	echo '<label class="alignleft">';
-	echo '<span class="title">' . esc_html__( 'Google Visibility', 'divi-lc-kit' ) . '</span>';
+	echo '<span class="title">' . esc_html__( 'Google Visibility', 'lc-tweaks' ) . '</span>';
 	echo '<select name="lc_gla_visibility_bulk">';
-	echo '<option value="">' . esc_html__( 'No change', 'divi-lc-kit' ) . '</option>';
-	echo '<option value="sync-and-show">' . esc_html__( 'Sync and show', 'divi-lc-kit' ) . '</option>';
-	echo '<option value="do-not-sync">' . esc_html__( 'Do not sync', 'divi-lc-kit' ) . '</option>';
+	echo '<option value="">' . esc_html__( 'No change', 'lc-tweaks' ) . '</option>';
+	echo '<option value="sync-and-show">' . esc_html__( 'Sync and show', 'lc-tweaks' ) . '</option>';
+	echo '<option value="do-not-sync">' . esc_html__( 'Do not sync', 'lc-tweaks' ) . '</option>';
 	echo '</select>';
 	echo '</label>';
 	echo '</div></fieldset>';
@@ -373,9 +373,9 @@ add_action( 'wp_ajax_inline-save', 'dlck_gla_mc_sync_inline_save', 5 );
  * Bulk actions: add actions.
  */
 function dlck_gla_mc_sync_bulk_actions( array $actions ): array {
-	$actions['dlck_gla_sync_and_show'] = esc_html__( 'Google: Sync and show', 'divi-lc-kit' );
-	$actions['dlck_gla_do_not_sync'] = esc_html__( 'Google: Do not sync', 'divi-lc-kit' );
-	$actions['dlck_gla_retry_sync'] = esc_html__( 'Google: Retry sync', 'divi-lc-kit' );
+	$actions['dlck_gla_sync_and_show'] = esc_html__( 'Google: Sync and show', 'lc-tweaks' );
+	$actions['dlck_gla_do_not_sync'] = esc_html__( 'Google: Do not sync', 'lc-tweaks' );
+	$actions['dlck_gla_retry_sync'] = esc_html__( 'Google: Retry sync', 'lc-tweaks' );
 	return $actions;
 }
 add_filter( 'bulk_actions-edit-product', 'dlck_gla_mc_sync_bulk_actions' );

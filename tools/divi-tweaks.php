@@ -91,20 +91,20 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 	<div class="toolbox" style="padding:0 0 30px;">
 		<div class="info" style="background:transparent;">
-			<h4><?php esc_html_e( 'What are the Divi tweaks?', 'divi-lc-kit' ); ?></h4>
-			<p><?php echo esc_html_e( 'Targeted fixes and enhancements for Divi sites to smooth UX and tame defaults.', 'divi-lc-kit' ); ?></p>
-			<p><?php echo esc_html_e( 'Enable only what you need to avoid conflicts with theme updates or custom work.', 'divi-lc-kit' ); ?></p>
+			<h4><?php esc_html_e( 'What are the Divi tweaks?', 'lc-tweaks' ); ?></h4>
+			<p><?php echo esc_html_e( 'Targeted fixes and enhancements for Divi sites to smooth UX and tame defaults.', 'lc-tweaks' ); ?></p>
+			<p><?php echo esc_html_e( 'Enable only what you need to avoid conflicts with theme updates or custom work.', 'lc-tweaks' ); ?></p>
 		</div>
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e('Performance', 'divi-lc-kit'); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e('Performance', 'lc-tweaks'); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><span class="new">new</span><?php echo esc_html_e( 'Lazy Load Divi Sections', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new">new</span><?php echo esc_html_e( 'Lazy Load Divi Sections', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Split Divi content into section chunks and load them as visitors scroll.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Split Divi content into section chunks and load them as visitors scroll.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -121,20 +121,20 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 					</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Applies to logged-out visitors and only to the main content body. Theme Builder headers/footers are not affected.', 'divi-lc-kit' ); ?></p>
-						<p><?php echo esc_html_e( 'Disable for content that is not built entirely from Divi sections at the top level.', 'divi-lc-kit' ); ?></p>
-						<p><?php echo esc_html_e( 'Works with WP Rocket and is excluded from Delay JavaScript automatically.', 'divi-lc-kit' ); ?></p>
-						<p><?php echo esc_html_e( 'SEO: lazy-loaded sections are injected after initial HTML, so critical content should be in the first sections or excluded.', 'divi-lc-kit' ); ?></p>
-						<p><?php echo esc_html_e( 'Cache files are stored in wp-content/cache/lc-tweaks-lazy, are warmed after published content updates, and are also cleared when content updates or WP Rocket purges cache.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Applies to logged-out visitors and only to the main content body. Theme Builder headers/footers are not affected.', 'lc-tweaks' ); ?></p>
+						<p><?php echo esc_html_e( 'Disable for content that is not built entirely from Divi sections at the top level.', 'lc-tweaks' ); ?></p>
+						<p><?php echo esc_html_e( 'Works with WP Rocket and is excluded from Delay JavaScript automatically.', 'lc-tweaks' ); ?></p>
+						<p><?php echo esc_html_e( 'SEO: lazy-loaded sections are injected after initial HTML, so critical content should be in the first sections or excluded.', 'lc-tweaks' ); ?></p>
+						<p><?php echo esc_html_e( 'Cache files are stored in wp-content/cache/lc-tweaks-lazy, are warmed after published content updates, and are also cleared when content updates or WP Rocket purges cache.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Initial sections to load', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Initial sections to load', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'How many sections to render on first load before lazy loading begins.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'How many sections to render on first load before lazy loading begins.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -144,9 +144,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Sections per subsequent request', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Sections per subsequent request', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'How many sections to load each time the visitor scrolls to the end.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'How many sections to load each time the visitor scrolls to the end.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -156,9 +156,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Prefetch distance (px)', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Prefetch distance (px)', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Start loading the next sections before they enter the viewport. Larger values can feel faster but use more bandwidth.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Start loading the next sections before they enter the viewport. Larger values can feel faster but use more bandwidth.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -168,9 +168,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Load all sections after first interaction', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Load all sections after first interaction', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'After the first user interaction (scroll, click, keypress), load all remaining sections in the background.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'After the first user interaction (scroll, click, keypress), load all remaining sections in the background.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -183,9 +183,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Load all sections when the page is idle', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Load all sections when the page is idle', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'When the browser is idle, load all remaining sections in the background. This may start a few seconds after the page renders.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'When the browser is idle, load all remaining sections in the background. This may start a few seconds after the page renders.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -198,9 +198,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Only apply on the homepage', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Only apply on the homepage', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Restrict lazy loading to the front page only.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Restrict lazy loading to the front page only.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -213,9 +213,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Exclude URLs', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Exclude URLs', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'One path per line (e.g. /checkout or /portfolio/*). Uses * wildcards.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'One path per line (e.g. /checkout or /portfolio/*). Uses * wildcards.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -225,29 +225,29 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Lazy Load Spinner Styling', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Lazy Load Spinner Styling', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Customize the loading spinner appearance while sections load.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Customize the loading spinner appearance while sections load.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content">
 					<p>
 						<label>
-							<span class="screen-reader-text"><?php echo esc_html_e( 'Spinner dot color', 'divi-lc-kit' ); ?></span>
+							<span class="screen-reader-text"><?php echo esc_html_e( 'Spinner dot color', 'lc-tweaks' ); ?></span>
 							<input type="text" class="dlck-color-field" name="dlck_divi_lazy_loader_color" value="<?php echo esc_attr( $dlck_divi_lazy_loader_color ); ?>" />
 						</label>
-						<p class="description"><?php echo esc_html_e( 'Spinner dot color', 'divi-lc-kit' ); ?></p>
+						<p class="description"><?php echo esc_html_e( 'Spinner dot color', 'lc-tweaks' ); ?></p>
 					</p>
 					<p>
 						<label>
-							<span class="screen-reader-text"><?php echo esc_html_e( 'Loader background color', 'divi-lc-kit' ); ?></span>
+							<span class="screen-reader-text"><?php echo esc_html_e( 'Loader background color', 'lc-tweaks' ); ?></span>
 							<input type="text" class="dlck-color-field" name="dlck_divi_lazy_loader_bg_color" value="<?php echo esc_attr( $dlck_divi_lazy_loader_bg_color ); ?>" />
 						</label>
-						<p class="description"><?php echo esc_html_e( 'Loader background color', 'divi-lc-kit' ); ?></p>
+						<p class="description"><?php echo esc_html_e( 'Loader background color', 'lc-tweaks' ); ?></p>
 					</p>
 					<p>
 						<label>
-							<?php echo esc_html_e( 'Spinner size (px)', 'divi-lc-kit' ); ?>
+							<?php echo esc_html_e( 'Spinner size (px)', 'lc-tweaks' ); ?>
 							<input type="number" min="24" max="160" step="1" name="dlck_divi_lazy_loader_size" value="<?php echo esc_attr( $dlck_divi_lazy_loader_size ); ?>" />
 						</label>
 					</p>
@@ -256,9 +256,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Preload Lazy Cache on WP Rocket Purge', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Preload Lazy Cache on WP Rocket Purge', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'When WP Rocket preload is disabled, warm lazy cache for the homepage and purged posts after cache clears.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'When WP Rocket preload is disabled, warm lazy cache for the homepage and purged posts after cache clears.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -271,14 +271,14 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Clear Lazy Load Cache', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Clear Lazy Load Cache', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'Remove cached section chunks for all posts. They will regenerate on the next page load.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Remove cached section chunks for all posts. They will regenerate on the next page load.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
 					<button type="button" class="dlck-settings-button" id="dlck-clear-lazy-cache">
-						<?php esc_html_e( 'Clear Lazy Load Cache', 'divi-lc-kit' ); ?>
+						<?php esc_html_e( 'Clear Lazy Load Cache', 'lc-tweaks' ); ?>
 					</button>
 					<div id="dlck-clear-lazy-cache-result" class="dlck-clear-cache-result" style="display:none;"></div>
 				</div>
@@ -287,9 +287,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><span class="new">new</span><?php echo esc_html_e( 'Defer Below-Fold Divi Sections', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new">new</span><?php echo esc_html_e( 'Defer Below-Fold Divi Sections', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Keep full HTML for SEO but let browsers defer rendering below the initial sections. Ignored when Lazy Load Divi Sections is enabled.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Keep full HTML for SEO but let browsers defer rendering below the initial sections. Ignored when Lazy Load Divi Sections is enabled.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -306,16 +306,16 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 					</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Defer keeps content in the HTML (good for SEO) while letting the browser skip rendering below-the-fold sections until they are needed.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'Defer keeps content in the HTML (good for SEO) while letting the browser skip rendering below-the-fold sections until they are needed.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Initial sections to render', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Initial sections to render', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
-						<p><?php echo esc_html_e( 'How many sections to render immediately before deferring the rest.', 'divi-lc-kit' ); ?></p>
+						<p><?php echo esc_html_e( 'How many sections to render immediately before deferring the rest.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 				<div class="box-content minibox">
@@ -325,15 +325,15 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 		</div>
 	</div>
 
-		<h2 class="tool-section"><?php echo esc_html_e('Helpers', 'divi-lc-kit'); ?></h2>
+		<h2 class="tool-section"><?php echo esc_html_e('Helpers', 'lc-tweaks'); ?></h2>
 		<div class="tool-wrap">
 
 				<div class="lc-kit">
 					<div class="box-title">
-						<h3><?php echo esc_html_e( 'Edit in Visual Builder (post/page list link)', 'divi-lc-kit' ); ?></h3>
+						<h3><?php echo esc_html_e( 'Edit in Visual Builder (post/page list link)', 'lc-tweaks' ); ?></h3>
 						<div class="box-descr">
-							<p><?php echo esc_html_e( 'Add an "Edit in Visual Builder" link to post and page row actions when the Divi Builder is used.', 'divi-lc-kit' ); ?></p>
-							<p><?php echo esc_html_e( 'Compatible with Divi 4 and Divi 5.', 'divi-lc-kit' ); ?></p>
+							<p><?php echo esc_html_e( 'Add an "Edit in Visual Builder" link to post and page row actions when the Divi Builder is used.', 'lc-tweaks' ); ?></p>
+							<p><?php echo esc_html_e( 'Compatible with Divi 4 and Divi 5.', 'lc-tweaks' ); ?></p>
 						</div>
 					</div>
 					<div class="box-content minibox">
@@ -346,10 +346,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 			<div class="lc-kit trigger">
 				<div class="box-title">
-					<h3><span class="new">new</span><?php echo esc_html_e( 'Clear Divi static css cache + local storage', 'divi-lc-kit' ); ?></h3>
+					<h3><span class="new">new</span><?php echo esc_html_e( 'Clear Divi static css cache + local storage', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e( 'Add a clear Divi static css cache + local storage button to the wordpress admin bar.', 'divi-lc-kit' ); ?>
+						<?php echo esc_html_e( 'Add a clear Divi static css cache + local storage button to the wordpress admin bar.', 'lc-tweaks' ); ?>
 					</p>
 				</div>
 			</div>
@@ -364,10 +364,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 			<div class="dlck-hide dlck-cache-helper-subtoggles">
 				<div class="lc-kit">
 					<div class="box-title">
-						<h3><?php echo esc_html_e( 'Auto clear caches after updates', 'divi-lc-kit' ); ?></h3>
+						<h3><?php echo esc_html_e( 'Auto clear caches after updates', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
 						<p>
-							<?php echo esc_html_e( 'After WordPress core, plugin, or theme updates complete, queue a single automated cache clear pass. Multiple update events are batched into one run.', 'divi-lc-kit' ); ?>
+							<?php echo esc_html_e( 'After WordPress core, plugin, or theme updates complete, queue a single automated cache clear pass. Multiple update events are batched into one run.', 'lc-tweaks' ); ?>
 						</p>
 					</div>
 				</div>
@@ -381,10 +381,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><?php echo esc_html_e( 'Enable after post save + after exiting Visual Builder', 'divi-lc-kit' ); ?></h3>
+					<h3><?php echo esc_html_e( 'Enable after post save + after exiting Visual Builder', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
 						<p>
-							<?php echo esc_html_e( 'After saving a post or exiting the Visual Builder, clear Divi static CSS file generation and clear local storage for the current user on the next page load.', 'divi-lc-kit' ); ?>
+							<?php echo esc_html_e( 'After saving a post or exiting the Visual Builder, clear Divi static CSS file generation and clear local storage for the current user on the next page load.', 'lc-tweaks' ); ?>
 						</p>
 					</div>
 				</div>
@@ -399,9 +399,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Add WOFF and WOFF2 Uploads in the Divi Builder', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Add WOFF and WOFF2 Uploads in the Divi Builder', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Enable WOFF/WOFF2 font formats in the Divi Builder upload dialog.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Enable WOFF/WOFF2 font formats in the Divi Builder upload dialog.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -414,9 +414,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Add Custom Icons', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Add Custom Icons', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo wp_kses_post( __( 'Add custom icons for use in modules [recommended size 96x96px]. To use svg ensure the <strong>Allow Unfiltered Uploads</strong> or <strong>Allow SVG File Type Uploads</strong> is enabled on the Maintenance page.', 'divi-lc-kit' ) ); ?></p>
+					<p><?php echo wp_kses_post( __( 'Add custom icons for use in modules [recommended size 96x96px]. To use svg ensure the <strong>Allow Unfiltered Uploads</strong> or <strong>Allow SVG File Type Uploads</strong> is enabled on the Maintenance page.', 'lc-tweaks' ) ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -433,7 +433,7 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 				</div>
 				<div class="box-content">
 					<div class="info dlck-custom-icons">
-						<div class="dlck-custom-icons-list" data-input-name="dlck_divi_custom_icon_urls" data-next-index="<?php echo esc_attr( $dlck_divi_custom_icon_next_index ); ?>" data-placeholder="<?php esc_attr_e( 'Image URL', 'divi-lc-kit' ); ?>" data-choose-label="<?php esc_attr_e( 'Choose Image', 'divi-lc-kit' ); ?>" data-remove-label="<?php esc_attr_e( 'Remove', 'divi-lc-kit' ); ?>">
+						<div class="dlck-custom-icons-list" data-input-name="dlck_divi_custom_icon_urls" data-next-index="<?php echo esc_attr( $dlck_divi_custom_icon_next_index ); ?>" data-placeholder="<?php esc_attr_e( 'Image URL', 'lc-tweaks' ); ?>" data-choose-label="<?php esc_attr_e( 'Choose Image', 'lc-tweaks' ); ?>" data-remove-label="<?php esc_attr_e( 'Remove', 'lc-tweaks' ); ?>">
 							<?php
 							if ( ! empty( $dlck_divi_custom_icon_urls ) ) {
 								ksort( $dlck_divi_custom_icon_urls );
@@ -443,16 +443,16 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 									}
 									?>
 									<p class="dlck-custom-icon-row">
-										<input type="url" class="background_image" size="36" maxlength="1024" placeholder="<?php esc_attr_e( 'Image URL', 'divi-lc-kit' ); ?>" name="dlck_divi_custom_icon_urls[<?php echo esc_attr( $index ); ?>]" value="<?php echo esc_url( $icon_url ); ?>" />
-										<button type="button" class="button upload_image_button"><?php esc_html_e( 'Choose Image', 'divi-lc-kit' ); ?></button>
-										<button type="button" class="button dlck-remove-custom-icon"><?php esc_html_e( 'Remove', 'divi-lc-kit' ); ?></button>
+										<input type="url" class="background_image" size="36" maxlength="1024" placeholder="<?php esc_attr_e( 'Image URL', 'lc-tweaks' ); ?>" name="dlck_divi_custom_icon_urls[<?php echo esc_attr( $index ); ?>]" value="<?php echo esc_url( $icon_url ); ?>" />
+										<button type="button" class="button upload_image_button"><?php esc_html_e( 'Choose Image', 'lc-tweaks' ); ?></button>
+										<button type="button" class="button dlck-remove-custom-icon"><?php esc_html_e( 'Remove', 'lc-tweaks' ); ?></button>
 									</p>
 									<?php
 								}
 							}
 							?>
 						</div>
-						<button type="button" class="button dlck-add-custom-icon"><?php esc_html_e( 'Add Icon', 'divi-lc-kit' ); ?></button>
+						<button type="button" class="button dlck-add-custom-icon"><?php esc_html_e( 'Add Icon', 'lc-tweaks' ); ?></button>
 					</div>
 				</div>
 			</div>
@@ -460,9 +460,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Hide Projects', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Hide Projects', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Hide the Divi Projects post type and portfolio modules.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Hide the Divi Projects post type and portfolio modules.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -475,9 +475,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e( 'Stop Map Module Excerpts Loading', 'divi-lc-kit' ); ?></h3>
+				<h3><?php echo esc_html_e( 'Stop Map Module Excerpts Loading', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Stop Divi map module excerpts from unnecessarily loading map scripts.', 'divi-lc-kit' ); ?></p>
+					<p><?php echo esc_html_e( 'Stop Divi map module excerpts from unnecessarily loading map scripts.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -490,10 +490,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><span class="new">top</span><?php echo esc_html_e('Hide The Elegant Themes Upsells In The Divi Dashboard', 'divi-lc-kit'); ?></h3>
+				<h3><span class="new">top</span><?php echo esc_html_e('Hide The Elegant Themes Upsells In The Divi Dashboard', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("A helper to hide the new ready-made layouts of Divi for users. Once activated Divi premade layouts are only accessible for administrators without any further changes. ", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("A helper to hide the new ready-made layouts of Divi for users. Once activated Divi premade layouts are only accessible for administrators without any further changes. ", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -507,10 +507,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><span class="new">top</span><?php echo esc_html_e('Disable Divi AI', 'divi-lc-kit'); ?></h3>
+				<h3><span class="new">top</span><?php echo esc_html_e('Disable Divi AI', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("A helper to Disable Divi AI by default in the Divi Role Editor.", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("A helper to Disable Divi AI by default in the Divi Role Editor.", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -524,10 +524,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><span class="new">top</span><?php echo esc_html_e( 'Hide Divi Cloud', 'divi-lc-kit' ); ?></h3>
+				<h3><span class="new">top</span><?php echo esc_html_e( 'Hide Divi Cloud', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e( 'If you do not want to use Divi Cloud and would prefer to remove it from Divi Builder.', 'divi-lc-kit' ); ?>
+						<?php echo esc_html_e( 'If you do not want to use Divi Cloud and would prefer to remove it from Divi Builder.', 'lc-tweaks' ); ?>
 					</p>
 				</div>
 			</div>
@@ -541,10 +541,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><span class="new">top</span><?php echo esc_html_e('Disable Divi Premade Layouts', 'divi-lc-kit'); ?></h3>
+				<h3><span class="new">top</span><?php echo esc_html_e('Disable Divi Premade Layouts', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("A helper to hide the new ready-made layouts of Divi for users. Once activated Divi premade layouts are only accessible for administrators without any further changes. ", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("A helper to hide the new ready-made layouts of Divi for users. Once activated Divi premade layouts are only accessible for administrators without any further changes. ", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -562,9 +562,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<h4><?php echo esc_html_e('How to disable the premade layouts:', 'divi-lc-kit'); ?></h4>
+						<h4><?php echo esc_html_e('How to disable the premade layouts:', 'lc-tweaks'); ?></h4>
 						<p>
-							<?php echo esc_html_e("Navigate to Divi → Divi Theme Options", 'divi-lc-kit'); ?>
+							<?php echo esc_html_e("Navigate to Divi → Divi Theme Options", 'lc-tweaks'); ?>
 							</u>:</p>
 						<p>Enable "Layouts Disable User Check" and Change the user role "Layouts Change User Role"
 							<br>
@@ -572,12 +572,12 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 							permissions (e. g. activate_plugins, delete_others_pages…) separated by a comma, for users
 							who are allowed to continue using the Divi Premade layouts.</p>
 						<br />
-						<?php echo esc_html_e('Default ', 'divi-lc-kit'); ?>
-						<strong><?php echo esc_html_e('administrator', 'divi-lc-kit'); ?></strong>
+						<?php echo esc_html_e('Default ', 'lc-tweaks'); ?>
+						<strong><?php echo esc_html_e('administrator', 'lc-tweaks'); ?></strong>
 						<br />
 						<br />
-						<?php echo esc_html_e('Completely disable ', 'divi-lc-kit'); ?>
-						<strong><?php echo esc_html_e('current_user_can ()', 'divi-lc-kit'); ?></strong>
+						<?php echo esc_html_e('Completely disable ', 'lc-tweaks'); ?>
+						<strong><?php echo esc_html_e('current_user_can ()', 'lc-tweaks'); ?></strong>
 						<br />
 					</div>
 				</div>
@@ -587,10 +587,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Divi Library View', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Divi Library View', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("Allow viewing Divi library layouts on the front end, set featured images and display them in the admin screen.", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("Allow viewing Divi library layouts on the front end, set featured images and display them in the admin screen.", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -604,9 +604,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php esc_html_e('Show Custom Maintenance, Coming Soon Or Notice', 'divi-lc-kit'); ?></h3>
+				<h3><?php esc_html_e('Show Custom Maintenance, Coming Soon Or Notice', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
-					<p><?php esc_html_e('This layout will be displayed globally for logged out users', "divi-lc-kit"); ?>
+					<p><?php esc_html_e('This layout will be displayed globally for logged out users', "lc-tweaks"); ?>
 					</p>
 				</div>
 
@@ -631,7 +631,7 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 						</select>
 						<?php
 					} else {
-						printf( '<p class="info">%s</p>', esc_html__( 'Sorry, your Divi Library is empty. Create and save some layouts first...', 'divi-lc-kit' ) );
+						printf( '<p class="info">%s</p>', esc_html__( 'Sorry, your Divi Library is empty. Create and save some layouts first...', 'lc-tweaks' ) );
 					}
 				?>
 			</div>
@@ -639,15 +639,15 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e('Divi Modifers', 'divi-lc-kit'); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e('Divi Modifers', 'lc-tweaks'); ?></h2>
 	<div class="tool-wrap">
 
 	<div class="lc-kit">
 			<div class="box-title">
-				<h3><span class="new">top</span><?php echo esc_html_e('Hide Divi Image Tooltip', 'divi-lc-kit'); ?></h3>
+				<h3><span class="new">top</span><?php echo esc_html_e('Hide Divi Image Tooltip', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("Hide the Divi image title tooltip that appears on hover", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("Hide the Divi image title tooltip that appears on hover", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -661,10 +661,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><span class="new">new</span><?php echo esc_html_e('Fix Divi user-scalable=”no” problem', 'divi-lc-kit'); ?></h3>
+				<h3><span class="new">new</span><?php echo esc_html_e('Fix Divi user-scalable=”no” problem', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("Replace Divi’s default viewport tag with one that’s more accessibility-friendly", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("Replace Divi’s default viewport tag with one that’s more accessibility-friendly", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -682,10 +682,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<h4><?php echo esc_html_e('How to access the Divi Responsive Helper settings:', 'divi-lc-kit'); ?>
+						<h4><?php echo esc_html_e('How to access the Divi Responsive Helper settings:', 'lc-tweaks'); ?>
 						</h4>
 						<p>
-							<?php echo esc_html_e("Navigate to Divi → Divi Theme Options → Divi Responsive Helper", 'divi-lc-kit'); ?>
+							<?php echo esc_html_e("Navigate to Divi → Divi Theme Options → Divi Responsive Helper", 'lc-tweaks'); ?>
 							</u>:</p>
 						<p>Turn on the options required.</p>
 					</div>
@@ -696,10 +696,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Make Phone Number Click To Call', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Make Phone Number Click To Call', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("For use in the default Divi menu. When users click on your number in the menu, it'll automatically dial the number for them.", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("For use in the default Divi menu. When users click on your number in the menu, it'll automatically dial the number for them.", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -713,10 +713,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Copy to sender via Contact Form', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Copy to sender via Contact Form', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("Send a copy of the form submission to the sender with the Contact Form module.", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("Send a copy of the form submission to the sender with the Contact Form module.", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -730,10 +730,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Full-Width Divi Footer', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Full-Width Divi Footer', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("Set up the Divi default footer to full-width, the same style as the header.", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("Set up the Divi default footer to full-width, the same style as the header.", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -747,9 +747,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Sticky Footer (Divi)', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Sticky Footer (Divi)', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e('Pin the footer to the bottom when the page content is shorter than the viewport.', 'divi-lc-kit'); ?></p>
+					<p><?php echo esc_html_e('Pin the footer to the bottom when the page content is shorter than the viewport.', 'lc-tweaks'); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -762,9 +762,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Open Social Links in a New Tab', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Open Social Links in a New Tab', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e('Force Divi social icon links to open in a new browser tab.', 'divi-lc-kit'); ?></p>
+					<p><?php echo esc_html_e('Force Divi social icon links to open in a new browser tab.', 'lc-tweaks'); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -777,10 +777,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Fix Divi Anchor Links', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Fix Divi Anchor Links', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("Fixing the anchor link scrolling in the Divi Theme options.", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("Fixing the anchor link scrolling in the Divi Theme options.", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -794,10 +794,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Make Divi Accordions Closed by Default', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Make Divi Accordions Closed by Default', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("Make accordions start fully closed by default.", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("Make accordions start fully closed by default.", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -811,10 +811,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Move the sidebar to the top on mobile', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Move the sidebar to the top on mobile', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("Moves the sidebar above the content on mobile.", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("Moves the sidebar above the content on mobile.", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -828,12 +828,12 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 	</div>
 
-	<h2 class="tool-section"><?php esc_html_e('Images', 'divi-lc-kit'); ?></h2>
+	<h2 class="tool-section"><?php esc_html_e('Images', 'lc-tweaks'); ?></h2>
 	<div class="tool-wrap">
 	<div class="lc-kit">
 		<div class="box-title fullw">
-			<h3><?php esc_html_e('Disable image sizes not required', 'divi-lc-kit'); ?></h3>
-			<div class="box-descr"><p><?php esc_html_e('Disable image creation For Divi custom sizes.', 'divi-lc-kit'); ?></p></div>			
+			<h3><?php esc_html_e('Disable image sizes not required', 'lc-tweaks'); ?></h3>
+			<div class="box-descr"><p><?php esc_html_e('Disable image creation For Divi custom sizes.', 'lc-tweaks'); ?></p></div>			
 		</div>
 	</div>
 
@@ -846,8 +846,8 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 			</div>
 			<div class="box-title">
 				<div class="box-descr">
-				<h5><?php esc_html_e('Disable Divi Gallery Images', 'divi-lc-kit'); ?></h5>
-					<p><?php esc_html_e("Remove et-pb-gallery-module-image-portrait image creation.", "divi-lc-kit"); ?></p>
+				<h5><?php esc_html_e('Disable Divi Gallery Images', 'lc-tweaks'); ?></h5>
+					<p><?php esc_html_e("Remove et-pb-gallery-module-image-portrait image creation.", "lc-tweaks"); ?></p>
 				</div>
 			</div>
 		</div>
@@ -861,8 +861,8 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 			</div>
 			<div class="box-title">
 				<div class="box-descr">
-					<h5><?php esc_html_e('Disable Divi Portfolio Images', 'divi-lc-kit'); ?></h5>
-					<p><?php esc_html_e("Remove et-pb-portfolio-image, et-pb-portfolio-module-image and et-pb-portfolio-image-single images creation.", "divi-lc-kit"); ?></p>
+					<h5><?php esc_html_e('Disable Divi Portfolio Images', 'lc-tweaks'); ?></h5>
+					<p><?php esc_html_e("Remove et-pb-portfolio-image, et-pb-portfolio-module-image and et-pb-portfolio-image-single images creation.", "lc-tweaks"); ?></p>
 				</div>
 			</div>
 		</div>
@@ -876,15 +876,15 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 			</div>
 			<div class="box-title">
 				<div class="box-descr">
-					<h5><?php esc_html_e('Disable Divi Post Images', 'divi-lc-kit'); ?></h5>
-					<p><?php esc_html_e("Remove et-pb-post-main-image, et-pb-post-main-image-fullwidth and et-pb-post-main-image-fullwidth-large images creation.", "divi-lc-kit"); ?></p>
+					<h5><?php esc_html_e('Disable Divi Post Images', 'lc-tweaks'); ?></h5>
+					<p><?php esc_html_e("Remove et-pb-post-main-image, et-pb-post-main-image-fullwidth and et-pb-post-main-image-fullwidth-large images creation.", "lc-tweaks"); ?></p>
 				</div>
 			</div>
 		</div>
 		<div class="lc-kit">
 		<div class="box-title fullw">
-			<h3><?php esc_html_e('Stop Divi Image Crop', 'divi-lc-kit'); ?></h3>
-			<div class="box-descr"><p><?php esc_html_e('For Blog, Portfolio, and Gallery Modules. This disables WordPress auto cropping images completely for these sizes.', 'divi-lc-kit'); ?></p></div>			
+			<h3><?php esc_html_e('Stop Divi Image Crop', 'lc-tweaks'); ?></h3>
+			<div class="box-descr"><p><?php esc_html_e('For Blog, Portfolio, and Gallery Modules. This disables WordPress auto cropping images completely for these sizes.', 'lc-tweaks'); ?></p></div>			
 		</div>
 	</div>
 
@@ -897,8 +897,8 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 			</div>
 			<div class="box-title">
 				<div class="box-descr">
-					<h5><?php esc_html_e('Divi Gallery Images', 'divi-lc-kit'); ?></h5>
-					<p><?php esc_html_e("Remove Divi Gallery Module image crop.", "divi-lc-kit"); ?></p>
+					<h5><?php esc_html_e('Divi Gallery Images', 'lc-tweaks'); ?></h5>
+					<p><?php esc_html_e("Remove Divi Gallery Module image crop.", "lc-tweaks"); ?></p>
 				</div>
 			</div>
 		</div>
@@ -912,8 +912,8 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 			</div>
 			<div class="box-title">
 				<div class="box-descr">
-					<h5><?php esc_html_e('Divi Portfolio Images', 'divi-lc-kit'); ?></h5>
-					<p><?php esc_html_e("Remove Divi Portfolio and Filterable Portfolio featured image crop.", "divi-lc-kit"); ?></p>
+					<h5><?php esc_html_e('Divi Portfolio Images', 'lc-tweaks'); ?></h5>
+					<p><?php esc_html_e("Remove Divi Portfolio and Filterable Portfolio featured image crop.", "lc-tweaks"); ?></p>
 				</div>
 			</div>
 		</div>
@@ -927,8 +927,8 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 			</div>
 			<div class="box-title">
 				<div class="box-descr">
-					<h5><?php esc_html_e('Divi Blog Feed Images', 'divi-lc-kit'); ?></h5>
-					<p><?php esc_html_e("Remove Divi Blog Module featured image crop.", "divi-lc-kit"); ?></p>
+					<h5><?php esc_html_e('Divi Blog Feed Images', 'lc-tweaks'); ?></h5>
+					<p><?php esc_html_e("Remove Divi Blog Module featured image crop.", "lc-tweaks"); ?></p>
 				</div>
 			</div>
 		</div>
@@ -936,16 +936,16 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 		
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e('Videos', 'divi-lc-kit'); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e('Videos', 'lc-tweaks'); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Autoplay Standard Videos in Divi Video Module And Hide Controls', 'divi-lc-kit'); ?>
+				<h3><?php echo esc_html_e('Autoplay Standard Videos in Divi Video Module And Hide Controls', 'lc-tweaks'); ?>
 				</h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("Autoplay videos in the Divi video module and hide the controls on the video.", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("Autoplay videos in the Divi video module and hide the controls on the video.", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -962,9 +962,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<h4><?php echo esc_html_e('How to use it:', 'divi-lc-kit'); ?></h4>
+						<h4><?php echo esc_html_e('How to use it:', 'lc-tweaks'); ?></h4>
 						<p>
-							<?php echo esc_html_e("Add CSS Class To The Video Module", 'divi-lc-kit'); ?>
+							<?php echo esc_html_e("Add CSS Class To The Video Module", 'lc-tweaks'); ?>
 							</u>:</p>
 						<p>
 							<strong>dlck-video-autoplay</strong> - You can add the CSS Class inside the <strong>Video
@@ -976,11 +976,11 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 		
 		<div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Autoplay Divi Video Module Clips on Hover', 'divi-lc-kit'); ?>
+				<h3><?php echo esc_html_e('Autoplay Divi Video Module Clips on Hover', 'lc-tweaks'); ?>
 				</h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("The video will pause / return to the start when the user stops hovering over it.", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("The video will pause / return to the start when the user stops hovering over it.", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -997,9 +997,9 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<h4><?php echo esc_html_e('How to use it:', 'divi-lc-kit'); ?></h4>
+						<h4><?php echo esc_html_e('How to use it:', 'lc-tweaks'); ?></h4>
 						<p>
-							<?php echo esc_html_e("Add CSS Class To The Video Module", 'divi-lc-kit'); ?>
+							<?php echo esc_html_e("Add CSS Class To The Video Module", 'lc-tweaks'); ?>
 							</u>:</p>
 						<p>
 							<strong>dlck-autoplay-video-hover</strong> - You can add the CSS Class inside the
@@ -1012,10 +1012,10 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 
 		<div class="lc-kit">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Fix Youtube Loading Height in Divi Module', 'divi-lc-kit'); ?></h3>
+				<h3><?php echo esc_html_e('Fix Youtube Loading Height in Divi Module', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("Add the missing video fluid-width-video-wrapper div tag to the Divi module.", "divi-lc-kit"); ?>
+						<?php echo esc_html_e("Add the missing video fluid-width-video-wrapper div tag to the Divi module.", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>

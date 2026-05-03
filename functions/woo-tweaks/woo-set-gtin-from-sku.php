@@ -124,7 +124,7 @@ if ( ! function_exists( 'dlck_normalize_gtin_from_sku' ) ) {
  */
 function dlck_gtin_cleanup_invalid(): void {
 	if ( ! current_user_can( 'manage_woocommerce' ) ) {
-		wp_die( esc_html__( 'Sorry, you are not allowed to do that.', 'divi-lc-kit' ) );
+		wp_die( esc_html__( 'Sorry, you are not allowed to do that.', 'lc-tweaks' ) );
 	}
 	check_admin_referer( 'dlck_gtin_cleanup_invalid' );
 
@@ -207,7 +207,7 @@ function dlck_gtin_cleanup_notice(): void {
 
 	if ( $_GET['dlck_gtin_cleanup'] === 'locked' ) {
 		echo '<div class="notice notice-warning is-dismissible"><p>'
-			. esc_html__( 'GTIN cleanup is already running. Please try again in a moment.', 'divi-lc-kit' )
+			. esc_html__( 'GTIN cleanup is already running. Please try again in a moment.', 'lc-tweaks' )
 			. '</p></div>';
 		return;
 	}

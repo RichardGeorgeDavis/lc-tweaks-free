@@ -12,7 +12,7 @@ add_action( 'add_meta_boxes', 'dlck_add_order_history_meta_box', 1 );
 function dlck_add_order_history_meta_box() {
 	add_meta_box(
 		'dlck_order_history',
-		__( 'Customer Order History', 'divi-lc-kit' ),
+		__( 'Customer Order History', 'lc-tweaks' ),
 		'dlck_display_order_history_meta_box',
 		'shop_order',
 		'normal',

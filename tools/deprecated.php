@@ -18,22 +18,22 @@ $dlck_deprecated_compat_messages = array(
 
 	<div class="toolbox" style="padding:0 0 30px;">
 		<div class="info" style="background:transparent;">
-			<h4><?php esc_html_e('What are the deprecated functions?', 'divi-lc-kit'); ?></h4>
-			<p><?php echo esc_html_e('On this page you\'ll  find a list of features, which are no longer required with the latest Divi version.', 'divi-lc-kit'); ?><br/>
-			<p><?php echo esc_html_e('These features continue to work, but using the new Divi theme options to achieve the same results is recommended.', 'divi-lc-kit'); ?></p>
+			<h4><?php esc_html_e('What are the deprecated functions?', 'lc-tweaks'); ?></h4>
+			<p><?php echo esc_html_e('On this page you\'ll  find a list of features, which are no longer required with the latest Divi version.', 'lc-tweaks'); ?><br/>
+			<p><?php echo esc_html_e('These features continue to work, but using the new Divi theme options to achieve the same results is recommended.', 'lc-tweaks'); ?></p>
 		</div>
 	</div>		
 
 	<?php if ( dlck_is_divi_theme_active() ) : ?>
-		<h2 class="tool-section"><?php echo esc_html_e( 'Divi', 'divi-lc-kit' ); ?></h2>
+		<h2 class="tool-section"><?php echo esc_html_e( 'Divi', 'lc-tweaks' ); ?></h2>
 		<div class="tool-wrap">
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><span class="new divi4" data-tooltip="This option is designed for Divi 4. Divi 5 does not support this functionality.">Divi 4</span><?php echo esc_html_e( 'Fix Divi Flashing', 'divi-lc-kit' ); ?></h3>
+					<h3><span class="new divi4" data-tooltip="This option is designed for Divi 4. Divi 5 does not support this functionality.">Divi 4</span><?php echo esc_html_e( 'Fix Divi Flashing', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
 						<p>
-							<?php echo esc_html_e( "Fix Divi Flashing Unstyled Content On Page Load - ensure to add 'elm.style.display' to WP Rocket's Excluded JavaScript Files", 'divi-lc-kit' ); ?>
+							<?php echo esc_html_e( "Fix Divi Flashing Unstyled Content On Page Load - ensure to add 'elm.style.display' to WP Rocket's Excluded JavaScript Files", 'lc-tweaks' ); ?>
 						</p>
 					</div>
 				</div>
@@ -50,10 +50,10 @@ $dlck_deprecated_compat_messages = array(
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><span class="new divi4" data-tooltip="This option is designed for Divi 4. Divi 5 does not support this functionality.">Divi 4</span><?php echo esc_html_e( 'Divi Disable Plugin Check', 'divi-lc-kit' ); ?></h3>
+					<h3><span class="new divi4" data-tooltip="This option is designed for Divi 4. Divi 5 does not support this functionality.">Divi 4</span><?php echo esc_html_e( 'Divi Disable Plugin Check', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
 						<p>
-							<?php echo esc_html_e( 'Fix the Divi Builder timeout error.', 'divi-lc-kit' ); ?>
+							<?php echo esc_html_e( 'Fix the Divi Builder timeout error.', 'lc-tweaks' ); ?>
 						</p>
 					</div>
 				</div>
@@ -70,10 +70,10 @@ $dlck_deprecated_compat_messages = array(
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><span class="new divi4" data-tooltip="This option is designed for Divi 4. Divi 5 does not support this functionality.">Divi 4</span><?php echo esc_html_e( 'Enable Divi Builder by Default', 'divi-lc-kit' ); ?></h3>
+					<h3><span class="new divi4" data-tooltip="This option is designed for Divi 4. Divi 5 does not support this functionality.">Divi 4</span><?php echo esc_html_e( 'Enable Divi Builder by Default', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
 						<p>
-							<?php echo esc_html_e( 'Enable Divi Builder by Default on New Posts / Pages.', 'divi-lc-kit' ); ?>
+							<?php echo esc_html_e( 'Enable Divi Builder by Default on New Posts / Pages.', 'lc-tweaks' ); ?>
 						</p>
 					</div>
 				</div>
@@ -90,10 +90,10 @@ $dlck_deprecated_compat_messages = array(
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><span class="new divi4" data-tooltip="This option is designed for Divi 4. Divi 5 does not support this functionality.">Divi 4</span><?php echo esc_html_e( 'Hide The Gutenberg Editor Buttons', 'divi-lc-kit' ); ?></h3>
+					<h3><span class="new divi4" data-tooltip="This option is designed for Divi 4. Divi 5 does not support this functionality.">Divi 4</span><?php echo esc_html_e( 'Hide The Gutenberg Editor Buttons', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
 						<p>
-							<?php echo esc_html_e( 'Remove all of the Gutenberg and Classic Editor buttons so that you can always edit with the Divi Builder.', 'divi-lc-kit' ); ?>
+							<?php echo esc_html_e( 'Remove all of the Gutenberg and Classic Editor buttons so that you can always edit with the Divi Builder.', 'lc-tweaks' ); ?>
 						</p>
 					</div>
 				</div>
@@ -110,10 +110,10 @@ $dlck_deprecated_compat_messages = array(
 
 			<div class="lc-kit">
 				<div class="box-title">
-					<h3><span class="new divi4" data-tooltip="This option is designed for Divi 4. Divi 5 does not support this functionality.">Divi 4</span><?php echo esc_html_e( 'Divi Builder Quick Fixes', 'divi-lc-kit' ); ?></h3>
+					<h3><span class="new divi4" data-tooltip="This option is designed for Divi 4. Divi 5 does not support this functionality.">Divi 4</span><?php echo esc_html_e( 'Divi Builder Quick Fixes', 'lc-tweaks' ); ?></h3>
 					<div class="box-descr">
 						<p>
-							<?php echo esc_html_e( 'Enhancements include making text style options sticky within Divi Builder module text areas, increasing the default height of the Text (HTML) tab, expanding the height of the inner field settings modal, and enlarging the Divi icon picker area for a smoother editing experience.', 'divi-lc-kit' ); ?>
+							<?php echo esc_html_e( 'Enhancements include making text style options sticky within Divi Builder module text areas, increasing the default height of the Text (HTML) tab, expanding the height of the inner field settings modal, and enlarging the Divi icon picker area for a smoother editing experience.', 'lc-tweaks' ); ?>
 						</p>
 					</div>
 				</div>

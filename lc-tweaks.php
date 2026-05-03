@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: LC Tweaks
-Version: 1.5.1
+Version: 1.6.0
 Plugin URI: https://lucidity.design/product/lc-tweaks/
 Description: Powerful tools to customize the Divi Theme, Wordpress and Woocommerce - added fuctionality, boosted performance and improves page metric results.
 Author: Lucidity Design
 Author URI: https://lucidity.design
-Text Domain: divi-lc-kit
+Text Domain: lc-tweaks
 Domain Path: /languages
 */
 
@@ -90,7 +90,7 @@ if ( dlck_is_free_edition() ) {
 add_action(
 	'init',
 	static function () {
-		load_plugin_textdomain( 'divi-lc-kit' );
+		load_plugin_textdomain( 'lc-tweaks' );
 	}
 );
 
@@ -238,26 +238,26 @@ function dlck_get_preflight_conflicts( array $settings ): array {
 	$messages = array();
 
 	if ( $is_enabled( 'dlck_divi_hide_related_video_suggestions' ) && $is_enabled( 'dlck_divi_disable_related_video_suggestions' ) ) {
-		$messages[] = __( 'Both YouTube related-video options are enabled. The channel-only option will be switched off because "Hide Related YouTube Video Suggestions" is stronger.', 'divi-lc-kit' );
+		$messages[] = __( 'Both YouTube related-video options are enabled. The channel-only option will be switched off because "Hide Related YouTube Video Suggestions" is stronger.', 'lc-tweaks' );
 	}
 
 	if ( $is_enabled( 'dlck_remove_woo_files' ) && $is_enabled( 'dlck_remove_woo_all_files' ) ) {
-		$messages[] = __( 'Both WooCommerce script/style removal options are enabled. The safe option will be switched off because "Stop All Woocommerce Files from Loading" is stronger.', 'divi-lc-kit' );
+		$messages[] = __( 'Both WooCommerce script/style removal options are enabled. The safe option will be switched off because "Stop All Woocommerce Files from Loading" is stronger.', 'lc-tweaks' );
 	}
 
 	if ( $is_enabled( 'dlck_allow_unfiltered_uploads' ) && ( $is_enabled( 'dlck_svg_uploads' ) || $is_enabled( 'dlck_json_uploads' ) || $is_enabled( 'dlck_ttf_uploads' ) ) ) {
-		$messages[] = __( '"Allow Unfiltered Uploads" is enabled. SVG, JSON, and font upload toggles will be switched off because they are already covered.', 'divi-lc-kit' );
+		$messages[] = __( '"Allow Unfiltered Uploads" is enabled. SVG, JSON, and font upload toggles will be switched off because they are already covered.', 'lc-tweaks' );
 	}
 
 	if ( $is_enabled( 'dlck_disable_admin_new_user_notification_emails' ) && $is_enabled( 'dlck_notify_admin_when_a_new_customer_account_is_created' ) ) {
-		$messages[] = __( '"Disable Admin New User Notification Emails" is enabled. The WooCommerce customer-registration admin email toggle will be switched off because the global setting overrides it.', 'divi-lc-kit' );
+		$messages[] = __( '"Disable Admin New User Notification Emails" is enabled. The WooCommerce customer-registration admin email toggle will be switched off because the global setting overrides it.', 'lc-tweaks' );
 	}
 
 	if (
 		! $is_enabled( 'dlck_clear_divi_static_css_cache_local_storage' )
 		&& ( $is_enabled( 'dlck_auto_clear_cache_after_updates' ) || $is_enabled( 'dlck_auto_clear_cache_after_post_save_builder_exit' ) )
 	) {
-		$messages[] = __( 'Divi cache auto-clear options require "Clear Divi static css cache + local storage". Dependent options will be switched off.', 'divi-lc-kit' );
+		$messages[] = __( 'Divi cache auto-clear options require "Clear Divi static css cache + local storage". Dependent options will be switched off.', 'lc-tweaks' );
 	}
 
 	$woo_cart_policy = sanitize_key( (string) ( $settings['dlck_woo_cart_script_policy'] ?? 'default' ) );
@@ -266,12 +266,12 @@ function dlck_get_preflight_conflicts( array $settings ): array {
 	}
 
 	if ( $woo_cart_policy !== 'default' && $is_enabled( 'dlck_remove_woo_all_files' ) ) {
-		$messages[] = __( 'Woo cart script policy is active, but "Stop All Woocommerce Files from Loading" already removes these scripts where applicable.', 'divi-lc-kit' );
+		$messages[] = __( 'Woo cart script policy is active, but "Stop All Woocommerce Files from Loading" already removes these scripts where applicable.', 'lc-tweaks' );
 	} elseif (
 		in_array( $woo_cart_policy, array( 'disable_non_woo', 'disable_non_woo_plus_add_to_cart' ), true )
 		&& $is_enabled( 'dlck_remove_woo_files' )
 	) {
-		$messages[] = __( 'Woo cart script policy (non-Woo pages) overlaps with "Stop Woocommerce Files from Loading Safely".', 'divi-lc-kit' );
+		$messages[] = __( 'Woo cart script policy (non-Woo pages) overlaps with "Stop Woocommerce Files from Loading Safely".', 'lc-tweaks' );
 	}
 
 	$messages = array_merge( $messages, dlck_get_divi_compatibility_preflight_conflicts( $settings ) );
@@ -327,8 +327,8 @@ function dlck_is_valid_rank_math_schema_advanced_json( $value ): bool {
 function dlck_get_settings_presets(): array {
 	$presets = array(
 		'brochure'       => array(
-			'label'       => __( 'Brochure', 'divi-lc-kit' ),
-			'description' => __( 'Lean setup for brochure/informational sites that do not rely on WooCommerce storefront scripts.', 'divi-lc-kit' ),
+			'label'       => __( 'Brochure', 'lc-tweaks' ),
+			'description' => __( 'Lean setup for brochure/informational sites that do not rely on WooCommerce storefront scripts.', 'lc-tweaks' ),
 			'settings'    => array(
 				'dlck_divi_lazy_loading'                  => '1',
 				'dlck_divi_lazy_defer_sections'           => '0',
@@ -344,8 +344,8 @@ function dlck_get_settings_presets(): array {
 			),
 		),
 			'woo_store'      => array(
-				'label'       => __( 'Woo Store', 'divi-lc-kit' ),
-				'description' => __( 'Balanced defaults for active WooCommerce stores with safer performance-focused options.', 'divi-lc-kit' ),
+				'label'       => __( 'Woo Store', 'lc-tweaks' ),
+				'description' => __( 'Balanced defaults for active WooCommerce stores with safer performance-focused options.', 'lc-tweaks' ),
 				'settings'    => array(
 				'dlck_divi_lazy_loading'                  => '1',
 				'dlck_divi_lazy_defer_sections'           => '0',
@@ -361,8 +361,8 @@ function dlck_get_settings_presets(): array {
 			),
 		),
 			'troubleshooting' => array(
-				'label'       => __( 'Troubleshooting', 'divi-lc-kit' ),
-				'description' => __( 'Conservative profile to reduce moving parts when isolating compatibility and performance issues.', 'divi-lc-kit' ),
+				'label'       => __( 'Troubleshooting', 'lc-tweaks' ),
+				'description' => __( 'Conservative profile to reduce moving parts when isolating compatibility and performance issues.', 'lc-tweaks' ),
 				'settings'    => array(
 					'dlck_builder_safe_mode'                => '1',
 					'dlck_divi_lazy_loading'                  => '0',
@@ -1005,47 +1005,47 @@ if ( ! function_exists( 'dlck_get_divi_major_version' ) ) {
 function dlck_get_divi_compatibility_matrix(): array {
 	$matrix = array(
 		'dlck_woo_dg_product_carousel'            => array(
-			'label'    => __( 'Divi Woo Product Carousel', 'divi-lc-kit' ),
+			'label'    => __( 'Divi Woo Product Carousel', 'lc-tweaks' ),
 			'versions' => array( 4 ),
 		),
 		'dlck_divi_text_on_a_path'               => array(
-			'label'    => __( 'Text-On-A-Path', 'divi-lc-kit' ),
+			'label'    => __( 'Text-On-A-Path', 'lc-tweaks' ),
 			'versions' => array( 4 ),
 		),
 		'dlck_dwd_custom_fullwidth_header_extended' => array(
-			'label'    => __( 'Custom Fullwidth Header Extended', 'divi-lc-kit' ),
+			'label'    => __( 'Custom Fullwidth Header Extended', 'lc-tweaks' ),
 			'versions' => array( 4 ),
 		),
 		'dlck_tm_divi_shop_extended'             => array(
-			'label'    => __( 'TM Divi Shop Extended', 'divi-lc-kit' ),
+			'label'    => __( 'TM Divi Shop Extended', 'lc-tweaks' ),
 			'versions' => array( 3 ),
 		),
 		'dlck_divi_content_intense'              => array(
-			'label'    => __( 'Content Intense', 'divi-lc-kit' ),
+			'label'    => __( 'Content Intense', 'lc-tweaks' ),
 			'versions' => array( 3 ),
 		),
 		'dlck_dwd_map_extended'                  => array(
-			'label'    => __( 'Map Module Extended', 'divi-lc-kit' ),
+			'label'    => __( 'Map Module Extended', 'lc-tweaks' ),
 			'versions' => array( 3 ),
 		),
 		'dlck_fix_divi_flashing_content'         => array(
-			'label'    => __( 'Fix Divi Flashing', 'divi-lc-kit' ),
+			'label'    => __( 'Fix Divi Flashing', 'lc-tweaks' ),
 			'versions' => array( 4 ),
 		),
 		'dlck_disable_plugin_check'              => array(
-			'label'    => __( 'Divi Disable Plugin Check', 'divi-lc-kit' ),
+			'label'    => __( 'Divi Disable Plugin Check', 'lc-tweaks' ),
 			'versions' => array( 4 ),
 		),
 		'dlck_enable_divi_builder_by_default'    => array(
-			'label'    => __( 'Enable Divi Builder by Default', 'divi-lc-kit' ),
+			'label'    => __( 'Enable Divi Builder by Default', 'lc-tweaks' ),
 			'versions' => array( 4 ),
 		),
 		'dlck_hide_gutenberg_std_editor_buttons' => array(
-			'label'    => __( 'Hide The Gutenberg Editor Buttons', 'divi-lc-kit' ),
+			'label'    => __( 'Hide The Gutenberg Editor Buttons', 'lc-tweaks' ),
 			'versions' => array( 4 ),
 		),
 		'dlck_divi_builder_quick_fixes'          => array(
-			'label'    => __( 'Divi Builder Quick Fixes', 'divi-lc-kit' ),
+			'label'    => __( 'Divi Builder Quick Fixes', 'lc-tweaks' ),
 			'versions' => array( 4 ),
 		),
 	);
@@ -1110,7 +1110,7 @@ function dlck_get_divi_option_compatibility_message( string $option_name, ?int $
 	sort( $versions );
 	$required_labels = array_map(
 		static function ( int $version ): string {
-			return sprintf( __( 'Divi %d', 'divi-lc-kit' ), $version );
+			return sprintf( __( 'Divi %d', 'lc-tweaks' ), $version );
 		},
 		$versions
 	);
@@ -1122,10 +1122,10 @@ function dlck_get_divi_option_compatibility_message( string $option_name, ?int $
 	if ( $divi_major === null ) {
 		$divi_major = dlck_get_divi_major_version();
 	}
-	$current = $divi_major > 0 ? sprintf( __( 'Divi %d', 'divi-lc-kit' ), $divi_major ) : __( 'Unknown Divi version', 'divi-lc-kit' );
+	$current = $divi_major > 0 ? sprintf( __( 'Divi %d', 'lc-tweaks' ), $divi_major ) : __( 'Unknown Divi version', 'lc-tweaks' );
 
 	/* translators: 1: option label, 2: target Divi versions, 3: current Divi version */
-	return sprintf( __( '%1$s is built for %2$s (current: %3$s). It may still run with Divi backward compatibility, but can be buggy.', 'divi-lc-kit' ), $label, $required, $current );
+	return sprintf( __( '%1$s is built for %2$s (current: %3$s). It may still run with Divi backward compatibility, but can be buggy.', 'lc-tweaks' ), $label, $required, $current );
 }
 
 /**
@@ -1146,7 +1146,7 @@ function dlck_get_divi_compatibility_preflight_conflicts( array $settings ): arr
 		$message = dlck_get_divi_option_compatibility_message( $option_name, $divi_major );
 		if ( $message !== '' ) {
 			/* translators: %s: incompatibility explanation */
-			$messages[] = sprintf( __( '%s This option stays enabled, but behavior may be unstable on this Divi version.', 'divi-lc-kit' ), $message );
+			$messages[] = sprintf( __( '%s This option stays enabled, but behavior may be unstable on this Divi version.', 'lc-tweaks' ), $message );
 		}
 	}
 
@@ -1376,7 +1376,7 @@ add_action( 'admin_notices', 'dlck_lite_migration_notice' );
 // ---------------------------------------------------------------------
 function dlck_lc_kit_menu() {
 	$menu_callback = 'divi_lc_kit';
-	$title         = __( 'LC Tweaks', 'divi-lc-kit' );
+	$title         = __( 'LC Tweaks', 'lc-tweaks' );
 	$slug          = 'lc_tweaks';
 	$legacy_slug   = 'divi_lc_kit';
 
@@ -1417,7 +1417,7 @@ add_filter(
 		$settings_link = sprintf(
 			'<a href="%s">%s</a>',
 			esc_url( admin_url( 'admin.php?page=lc_tweaks' ) ),
-			esc_html__( 'Settings', 'divi-lc-kit' )
+			esc_html__( 'Settings', 'lc-tweaks' )
 		);
 		array_unshift( $links, $settings_link );
 		return $links;
@@ -1516,11 +1516,11 @@ function divi_lc_kit() {
 				$network_policy_nonce  = isset( $_POST['dlck_network_policy_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['dlck_network_policy_nonce'] ) ) : '';
 
 				if ( ! is_multisite() ) {
-					$is_settings_updated_message = __( 'Multisite policy mode is only available on multisite installs.', 'divi-lc-kit' );
+					$is_settings_updated_message = __( 'Multisite policy mode is only available on multisite installs.', 'lc-tweaks' );
 				} elseif ( ! current_user_can( 'manage_network_options' ) ) {
-					$is_settings_updated_message = __( 'Only network administrators can update multisite policy settings.', 'divi-lc-kit' );
+					$is_settings_updated_message = __( 'Only network administrators can update multisite policy settings.', 'lc-tweaks' );
 				} elseif ( $network_policy_action !== 'dlck_save_network_policy' || ! wp_verify_nonce( $network_policy_nonce, 'dlck_save_network_policy_nonce' ) ) {
-					$is_settings_updated_message = __( 'Could not save multisite policy settings. Please refresh and try again.', 'divi-lc-kit' );
+					$is_settings_updated_message = __( 'Could not save multisite policy settings. Please refresh and try again.', 'lc-tweaks' );
 				} else {
 					$policy_enabled      = isset( $_POST['dlck_network_policy_enabled'] ) ? '1' : '0';
 					$allow_site_overrides = isset( $_POST['dlck_network_policy_allow_site_overrides'] ) ? '1' : '0';
@@ -1570,11 +1570,11 @@ function divi_lc_kit() {
 
 					$is_settings_updated_success = true;
 					/* translators: %d: number of network default keys */
-					$is_settings_updated_message = sprintf( __( 'Multisite policy updated. Network defaults now contain %d keys.', 'divi-lc-kit' ), count( $network_defaults ) );
+					$is_settings_updated_message = sprintf( __( 'Multisite policy updated. Network defaults now contain %d keys.', 'lc-tweaks' ), count( $network_defaults ) );
 				}
 			} elseif ( $subform_type === 'settings_restore_preset' ) {
 				if ( function_exists( 'dlck_multisite_policy_blocks_site_saves' ) && dlck_multisite_policy_blocks_site_saves() ) {
-					$is_settings_updated_message = __( 'Preset restore is locked by multisite policy because per-site overrides are disabled.', 'divi-lc-kit' );
+					$is_settings_updated_message = __( 'Preset restore is locked by multisite policy because per-site overrides are disabled.', 'lc-tweaks' );
 					$is_settings_updated_success = false;
 				} else {
 					$restore_action = isset( $_POST['dlck_restore_preset_action'] ) ? sanitize_key( wp_unslash( $_POST['dlck_restore_preset_action'] ) ) : '';
@@ -1582,9 +1582,9 @@ function divi_lc_kit() {
 					$restore_data   = dlck_get_preset_restore_payload();
 
 					if ( $restore_action !== 'dlck_restore_preset' || ! wp_verify_nonce( $restore_nonce, 'dlck_restore_preset_nonce' ) ) {
-						$is_settings_updated_message = __( 'Could not restore preset backup. Please refresh and try again.', 'divi-lc-kit' );
+						$is_settings_updated_message = __( 'Could not restore preset backup. Please refresh and try again.', 'lc-tweaks' );
 					} elseif ( empty( $restore_data ) || ! array_key_exists( 'settings', $restore_data ) || ! is_array( $restore_data['settings'] ) ) {
-						$is_settings_updated_message = __( 'No preset restore backup is available yet.', 'divi-lc-kit' );
+						$is_settings_updated_message = __( 'No preset restore backup is available yet.', 'lc-tweaks' );
 					} else {
 						$restored_settings  = dlck_normalize_scope_rules_settings( $restore_data['settings'] );
 						$preflight_messages = dlck_get_preflight_conflicts( $restored_settings );
@@ -1607,13 +1607,13 @@ function divi_lc_kit() {
 
 						$is_settings_updated_success = true;
 						$is_settings_updated_message = $changed
-							? __( 'Preset restore completed.', 'divi-lc-kit' )
-							: __( 'Preset restore backup already matches current settings.', 'divi-lc-kit' );
+							? __( 'Preset restore completed.', 'lc-tweaks' )
+							: __( 'Preset restore backup already matches current settings.', 'lc-tweaks' );
 					}
 				}
 			} elseif ( $subform_type === 'settings_apply_preset' ) {
 				if ( function_exists( 'dlck_multisite_policy_blocks_site_saves' ) && dlck_multisite_policy_blocks_site_saves() ) {
-					$is_settings_updated_message = __( 'Preset apply is locked by multisite policy because per-site overrides are disabled.', 'divi-lc-kit' );
+					$is_settings_updated_message = __( 'Preset apply is locked by multisite policy because per-site overrides are disabled.', 'lc-tweaks' );
 					$is_settings_updated_success = false;
 				} else {
 					$preset_action = isset( $_POST['dlck_apply_preset_action'] ) ? sanitize_key( wp_unslash( $_POST['dlck_apply_preset_action'] ) ) : '';
@@ -1622,9 +1622,9 @@ function divi_lc_kit() {
 					$preset_data   = dlck_get_settings_preset( $preset_id );
 
 					if ( $preset_action !== 'dlck_apply_preset' || ! wp_verify_nonce( $preset_nonce, 'dlck_apply_preset_nonce' ) ) {
-						$is_settings_updated_message = __( 'Could not apply preset. Please refresh and try again.', 'divi-lc-kit' );
+						$is_settings_updated_message = __( 'Could not apply preset. Please refresh and try again.', 'lc-tweaks' );
 					} elseif ( empty( $preset_data ) || ! is_array( $preset_data ) ) {
-						$is_settings_updated_message = __( 'Please choose a valid preset before applying.', 'divi-lc-kit' );
+						$is_settings_updated_message = __( 'Please choose a valid preset before applying.', 'lc-tweaks' );
 					} else {
 						$preset_settings = isset( $preset_data['settings'] ) && is_array( $preset_data['settings'] ) ? $preset_data['settings'] : array();
 
@@ -1659,14 +1659,14 @@ function divi_lc_kit() {
 						$is_settings_updated_success = true;
 						$preset_label               = isset( $preset_data['label'] ) && is_string( $preset_data['label'] ) ? $preset_data['label'] : $preset_id;
 						$is_settings_updated_message = $changed
-							? sprintf( __( 'Preset applied: %s.', 'divi-lc-kit' ), $preset_label )
-							: sprintf( __( 'Preset already active: %s.', 'divi-lc-kit' ), $preset_label );
+							? sprintf( __( 'Preset applied: %s.', 'lc-tweaks' ), $preset_label )
+							: sprintf( __( 'Preset already active: %s.', 'lc-tweaks' ), $preset_label );
 					}
 				}
 			} else {
 				if ( function_exists( 'dlck_multisite_policy_blocks_site_saves' ) && dlck_multisite_policy_blocks_site_saves() ) {
 					$is_settings_updated_success = false;
-					$is_settings_updated_message = __( 'Per-site setting updates are locked by multisite policy. Ask a network administrator to enable site overrides.', 'divi-lc-kit' );
+					$is_settings_updated_message = __( 'Per-site setting updates are locked by multisite policy. Ask a network administrator to enable site overrides.', 'lc-tweaks' );
 				} else {
 					foreach ( $_POST as $key => $value ) {
 						if ( ! is_string( $key ) ) {
@@ -1681,7 +1681,7 @@ function divi_lc_kit() {
 						if ( $key === 'dlck_rank_math_schema_advanced_json' ) {
 							$advanced_json_value = wp_unslash( $value );
 							if ( ! dlck_is_valid_rank_math_schema_advanced_json( $advanced_json_value ) ) {
-								$preflight_messages[] = __( 'Advanced JSON Merge was not updated because it must be a valid top-level JSON object. The previously saved value was kept.', 'divi-lc-kit' );
+								$preflight_messages[] = __( 'Advanced JSON Merge was not updated because it must be a valid top-level JSON object. The previously saved value was kept.', 'lc-tweaks' );
 								continue;
 							}
 						}
@@ -1700,9 +1700,9 @@ function divi_lc_kit() {
 					update_option( 'dlck_lc_kit', $dlck_lc_kit_array );
 					$is_settings_updated_success = true;
 					if ( $lc_settings_changed ) {
-						$is_settings_updated_message = __( 'LC Tweaks settings updated.', 'divi-lc-kit' );
+						$is_settings_updated_message = __( 'LC Tweaks settings updated.', 'lc-tweaks' );
 					} else {
-						$is_settings_updated_message = __( 'No settings changes detected.', 'divi-lc-kit' );
+						$is_settings_updated_message = __( 'No settings changes detected.', 'lc-tweaks' );
 					}
 
 					// Immediately rebuild inline asset caches when settings change.
@@ -1712,7 +1712,7 @@ function divi_lc_kit() {
 				}
 			}
 		} else {
-			$is_settings_updated_message = __( 'Error authenticating request. Please try again.', 'divi-lc-kit' );
+			$is_settings_updated_message = __( 'Error authenticating request. Please try again.', 'lc-tweaks' );
 		}
 	}
 	?>
@@ -1720,13 +1720,13 @@ function divi_lc_kit() {
 		<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible <?php echo $is_settings_updated_success ? '' : 'error'; ?>">
 			<p><strong><?php echo esc_html( $is_settings_updated_message ); ?></strong></p>
 			<button type="button" class="notice-dismiss">
-				<span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'divi-lc-kit' ); ?></span>
+				<span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'lc-tweaks' ); ?></span>
 			</button>
 		</div>
 	<?php endif; ?>
 	<?php if ( $is_settings_updated_success && ! empty( $preflight_messages ) ) : ?>
 		<div class="notice notice-warning is-dismissible">
-			<p><strong><?php echo esc_html__( 'Preflight check notes:', 'divi-lc-kit' ); ?></strong></p>
+			<p><strong><?php echo esc_html__( 'Preflight check notes:', 'lc-tweaks' ); ?></strong></p>
 			<ul style="list-style:disc;padding-left:20px;">
 				<?php foreach ( $preflight_messages as $message ) : ?>
 					<li><?php echo esc_html( $message ); ?></li>
@@ -1808,9 +1808,9 @@ function divi_lc_kit() {
 		</form>
 	</div>
 	<div class="foot-links">
-		<a href="?page=divi_lc_kit&tab=settings"><?php esc_html_e( 'Plugin Settings', 'divi-lc-kit' ); ?></a>
-		<a href="?page=divi_lc_kit&tab=deprecated"><?php esc_html_e( 'Deprecated', 'divi-lc-kit' ); ?></a>
-		<a href="<?php echo esc_attr( DLCK_URL_SUPPORT ); ?>" target="_blank"><?php esc_html_e( 'Support', 'divi-lc-kit' ); ?></a>
+		<a href="?page=divi_lc_kit&tab=settings"><?php esc_html_e( 'Plugin Settings', 'lc-tweaks' ); ?></a>
+		<a href="?page=divi_lc_kit&tab=deprecated"><?php esc_html_e( 'Deprecated', 'lc-tweaks' ); ?></a>
+		<a href="<?php echo esc_attr( DLCK_URL_SUPPORT ); ?>" target="_blank"><?php esc_html_e( 'Support', 'lc-tweaks' ); ?></a>
 	</div>
 	<?php
 }
@@ -1988,14 +1988,14 @@ function dlck_get_scope_rules_preflight_conflicts( array $settings ): array {
 		)
 	);
 	if ( empty( $scope_options ) ) {
-		$messages[] = __( 'Scope Rules is enabled but no target option keys are listed. Add at least one option key to scope.', 'divi-lc-kit' );
+		$messages[] = __( 'Scope Rules is enabled but no target option keys are listed. Add at least one option key to scope.', 'lc-tweaks' );
 	}
 
 	$logged_state = sanitize_key( (string) ( $settings['dlck_scope_rules_logged_state'] ?? 'all' ) );
 	$roles        = dlck_scope_rules_parse_lines( (string) ( $settings['dlck_scope_rules_roles'] ?? '' ) );
 	$roles        = array_values( array_filter( array_map( 'sanitize_key', $roles ) ) );
 	if ( $logged_state === 'logged_out' && ! empty( $roles ) ) {
-		$messages[] = __( 'Scope Rules roles are set while "Logged-out users only" is selected. Role restrictions only apply to logged-in users.', 'divi-lc-kit' );
+		$messages[] = __( 'Scope Rules roles are set while "Logged-out users only" is selected. Role restrictions only apply to logged-in users.', 'lc-tweaks' );
 	}
 
 	$include_patterns = dlck_scope_rules_parse_lines( (string) ( $settings['dlck_scope_rules_include_paths'] ?? '' ) );
@@ -2017,13 +2017,13 @@ function dlck_get_scope_rules_preflight_conflicts( array $settings ): array {
 	if ( ! empty( $overlap_patterns ) ) {
 		/* translators: %s: comma-separated path patterns */
 		$messages[] = sprintf(
-			__( 'Scope Rules has matching include/exclude patterns (%s). Exclude paths take priority.', 'divi-lc-kit' ),
+			__( 'Scope Rules has matching include/exclude patterns (%s). Exclude paths take priority.', 'lc-tweaks' ),
 			implode( ', ', array_slice( $overlap_patterns, 0, 5 ) )
 		);
 	}
 
 	if ( $logged_state === 'all' && empty( $roles ) && empty( $include_patterns ) && empty( $exclude_patterns ) ) {
-		$messages[] = __( 'Scope Rules is enabled with no path, role, or login-state restrictions. Targeted options will run everywhere.', 'divi-lc-kit' );
+		$messages[] = __( 'Scope Rules is enabled with no path, role, or login-state restrictions. Targeted options will run everywhere.', 'lc-tweaks' );
 	}
 
 	$known_option_keys = dlck_get_registered_option_keys();
@@ -2032,7 +2032,7 @@ function dlck_get_scope_rules_preflight_conflicts( array $settings ): array {
 		if ( ! empty( $unknown_options ) ) {
 			/* translators: %s: comma-separated option keys */
 			$messages[] = sprintf(
-				__( 'Scope Rules includes unknown option keys (%s). These entries will not affect runtime behavior until corrected.', 'divi-lc-kit' ),
+				__( 'Scope Rules includes unknown option keys (%s). These entries will not affect runtime behavior until corrected.', 'lc-tweaks' ),
 				implode( ', ', array_slice( $unknown_options, 0, 5 ) )
 			);
 		}
@@ -2157,7 +2157,7 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 		return array(
 			'allowed' => true,
 			'code'    => 'runtime_skipped',
-			'reason'  => __( 'Scope rules do not run in this request context.', 'divi-lc-kit' ),
+			'reason'  => __( 'Scope rules do not run in this request context.', 'lc-tweaks' ),
 		);
 	}
 
@@ -2170,7 +2170,7 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 		return array(
 			'allowed' => true,
 			'code'    => 'rules_disabled',
-			'reason'  => __( 'Scope rules are disabled.', 'divi-lc-kit' ),
+			'reason'  => __( 'Scope rules are disabled.', 'lc-tweaks' ),
 		);
 	}
 
@@ -2189,7 +2189,7 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 		return array(
 			'allowed' => true,
 			'code'    => 'no_targets',
-			'reason'  => __( 'Scope rules are enabled but no target option keys are listed.', 'divi-lc-kit' ),
+			'reason'  => __( 'Scope rules are enabled but no target option keys are listed.', 'lc-tweaks' ),
 		);
 	}
 
@@ -2197,7 +2197,7 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 		return array(
 			'allowed' => true,
 			'code'    => 'option_not_targeted',
-			'reason'  => __( 'Option key is not listed in Scope Rules targets.', 'divi-lc-kit' ),
+			'reason'  => __( 'Option key is not listed in Scope Rules targets.', 'lc-tweaks' ),
 		);
 	}
 
@@ -2211,14 +2211,14 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 		return array(
 			'allowed' => false,
 			'code'    => 'requires_logged_in',
-			'reason'  => __( 'Rule requires a logged-in visitor.', 'divi-lc-kit' ),
+			'reason'  => __( 'Rule requires a logged-in visitor.', 'lc-tweaks' ),
 		);
 	}
 	if ( $logged_state === 'logged_out' && $is_logged_in ) {
 		return array(
 			'allowed' => false,
 			'code'    => 'requires_logged_out',
-			'reason'  => __( 'Rule requires a logged-out visitor.', 'divi-lc-kit' ),
+			'reason'  => __( 'Rule requires a logged-out visitor.', 'lc-tweaks' ),
 		);
 	}
 
@@ -2236,14 +2236,14 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 			return array(
 				'allowed' => false,
 				'code'    => 'roles_require_logged_in',
-				'reason'  => __( 'Role rules are set, but the visitor is logged out.', 'divi-lc-kit' ),
+				'reason'  => __( 'Role rules are set, but the visitor is logged out.', 'lc-tweaks' ),
 			);
 		}
 		if ( empty( array_intersect( $role_rules, $user_roles ) ) ) {
 			return array(
 				'allowed' => false,
 				'code'    => 'role_mismatch',
-				'reason'  => __( 'Visitor roles do not match configured role rules.', 'divi-lc-kit' ),
+				'reason'  => __( 'Visitor roles do not match configured role rules.', 'lc-tweaks' ),
 			);
 		}
 	}
@@ -2258,7 +2258,7 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 			'allowed' => false,
 			'code'    => 'include_no_match',
 			/* translators: 1: request path, 2: include patterns */
-			'reason'  => sprintf( __( 'Path %1$s did not match include rules (%2$s).', 'divi-lc-kit' ), $request_path, implode( ', ', array_slice( $include_rules, 0, 5 ) ) ),
+			'reason'  => sprintf( __( 'Path %1$s did not match include rules (%2$s).', 'lc-tweaks' ), $request_path, implode( ', ', array_slice( $include_rules, 0, 5 ) ) ),
 		);
 	}
 
@@ -2268,14 +2268,14 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 			'allowed' => false,
 			'code'    => 'exclude_match',
 			/* translators: 1: request path, 2: exclude patterns */
-			'reason'  => sprintf( __( 'Path %1$s matched exclude rules (%2$s).', 'divi-lc-kit' ), $request_path, implode( ', ', array_slice( $exclude_rules, 0, 5 ) ) ),
+			'reason'  => sprintf( __( 'Path %1$s matched exclude rules (%2$s).', 'lc-tweaks' ), $request_path, implode( ', ', array_slice( $exclude_rules, 0, 5 ) ) ),
 		);
 	}
 
 	return array(
 		'allowed'      => true,
 		'code'         => 'allowed',
-		'reason'       => __( 'Path and visitor conditions passed.', 'divi-lc-kit' ),
+		'reason'       => __( 'Path and visitor conditions passed.', 'lc-tweaks' ),
 		'request_path' => $request_path,
 		'user_roles'   => $user_roles,
 	);
@@ -2288,7 +2288,7 @@ function dlck_scope_rules_test_ajax(): void {
 	check_ajax_referer( 'dlck_scope_rules_test', 'nonce' );
 
 	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_send_json_error( __( 'You do not have permission to run this test.', 'divi-lc-kit' ), 403 );
+		wp_send_json_error( __( 'You do not have permission to run this test.', 'lc-tweaks' ), 403 );
 	}
 
 	$option_name  = isset( $_POST['option_name'] ) ? sanitize_key( wp_unslash( $_POST['option_name'] ) ) : '';
@@ -2297,7 +2297,7 @@ function dlck_scope_rules_test_ajax(): void {
 	$user_roles   = isset( $_POST['user_roles'] ) ? sanitize_textarea_field( wp_unslash( $_POST['user_roles'] ) ) : '';
 
 	if ( $option_name === '' || strpos( $option_name, 'dlck_' ) !== 0 ) {
-		wp_send_json_error( __( 'Enter a valid LC Tweaks option key (dlck_*).', 'divi-lc-kit' ) );
+		wp_send_json_error( __( 'Enter a valid LC Tweaks option key (dlck_*).', 'lc-tweaks' ) );
 	}
 
 	if ( ! in_array( $user_state, array( 'logged_in', 'logged_out' ), true ) ) {
@@ -2323,13 +2323,13 @@ function dlck_scope_rules_test_ajax(): void {
 	$normalized_path = isset( $evaluation['request_path'] ) && is_string( $evaluation['request_path'] )
 		? $evaluation['request_path']
 		: dlck_scope_rules_normalize_path( (string) $request_path );
-	$state_label = $user_state === 'logged_in' ? __( 'logged in', 'divi-lc-kit' ) : __( 'logged out', 'divi-lc-kit' );
+	$state_label = $user_state === 'logged_in' ? __( 'logged in', 'lc-tweaks' ) : __( 'logged out', 'lc-tweaks' );
 
 	/* translators: 1: option key, 2: request path, 3: user state */
-	$summary = sprintf( __( 'Option: %1$s | Path: %2$s | User: %3$s', 'divi-lc-kit' ), $option_name, $normalized_path, $state_label );
+	$summary = sprintf( __( 'Option: %1$s | Path: %2$s | User: %3$s', 'lc-tweaks' ), $option_name, $normalized_path, $state_label );
 	if ( $user_state === 'logged_in' && ! empty( $roles ) ) {
 		/* translators: %s: comma-separated roles */
-		$summary .= "\n" . sprintf( __( 'Roles: %s', 'divi-lc-kit' ), implode( ', ', $roles ) );
+		$summary .= "\n" . sprintf( __( 'Roles: %s', 'lc-tweaks' ), implode( ', ', $roles ) );
 	}
 
 	wp_send_json_success(
@@ -2569,6 +2569,7 @@ function dlck_load_active_tweaks() {
 			'dlck_woo_remove_payments_menu'                        => 'functions/woo-tweaks/woo-remove-payments-menu.php',
 			'dlck_woo_hide_downloads_tab_no_downloads'             => 'functions/woo-tweaks/woo-hide-downloads-tab-no-downloads.php',
 			'dlck_woo_order_history_meta_box'                      => 'functions/woo-tweaks/woo-order-history-meta-box.php',
+			'dlck_woo_block_bad_cart_query_abuse'                  => 'functions/woo-tweaks/woo-block-bad-cart-query-abuse.php',
 			'dlck_woo_add_to_cart_click_counter'                   => 'functions/woo-tweaks/woo-add-to-cart-click-counter.php',
 			'dlck_woo_remove_add_to_cart_param'                    => 'functions/woo-tweaks/woo-remove-add-to-cart-param.php',
 			'dlck_woo_remove_tax_suffixes'                         => 'functions/woo-tweaks/woo-remove-tax-suffixes.php',
@@ -2711,7 +2712,7 @@ function dlck_run_woo_session_cleanup_cron(): void {
 
 	if ( ! dlck_is_woocommerce_active() ) {
 		$health['status']  = 'skipped';
-		$health['message'] = __( 'WooCommerce is not active. Cleanup skipped.', 'divi-lc-kit' );
+		$health['message'] = __( 'WooCommerce is not active. Cleanup skipped.', 'lc-tweaks' );
 		update_option( 'dlck_woo_session_cleanup_health', $health, false );
 		return;
 	}
@@ -2728,7 +2729,7 @@ function dlck_run_woo_session_cleanup_cron(): void {
 
 	if ( ! is_string( $table ) || $table !== $table_name ) {
 		$health['status']  = 'error';
-		$health['message'] = __( 'WooCommerce sessions table was not found.', 'divi-lc-kit' );
+		$health['message'] = __( 'WooCommerce sessions table was not found.', 'lc-tweaks' );
 		update_option( 'dlck_woo_session_cleanup_health', $health, false );
 		return;
 	}
@@ -2743,10 +2744,10 @@ function dlck_run_woo_session_cleanup_cron(): void {
 
 	if ( false === $deleted_count ) {
 		$health['status']  = 'error';
-		$health['message'] = __( 'Could not delete expired WooCommerce sessions.', 'divi-lc-kit' );
+		$health['message'] = __( 'Could not delete expired WooCommerce sessions.', 'lc-tweaks' );
 	} else {
 		$health['deleted_count'] = (int) $deleted_count;
-		$health['message']       = __( 'Expired WooCommerce sessions cleaned up successfully.', 'divi-lc-kit' );
+		$health['message']       = __( 'Expired WooCommerce sessions cleaned up successfully.', 'lc-tweaks' );
 	}
 
 	$row_count = $wpdb->get_var( "SELECT COUNT(*) FROM {$table_name}" );

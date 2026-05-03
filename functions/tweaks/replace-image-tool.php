@@ -34,8 +34,8 @@ function dlck_replace_image_enqueue_scripts(): void {
 		'dlck-lc-kit-replace-image',
 		'dlckReplaceImage',
 		array(
-			'title'  => __( 'Choose Replacement Image', 'divi-lc-kit' ),
-			'button' => __( 'Replace Image', 'divi-lc-kit' ),
+			'title'  => __( 'Choose Replacement Image', 'lc-tweaks' ),
+			'button' => __( 'Replace Image', 'lc-tweaks' ),
 		)
 	);
 }
@@ -63,14 +63,14 @@ function dlck_replace_image_attachment_fields( array $fields, $attachment ): arr
 		'input' => 'html',
 		'html'  =>
 			'<button type="button" class="button-secondary button-large" onclick="dlckReplaceImageOpen();">'
-			. esc_html__( 'Replace Image', 'divi-lc-kit' )
+			. esc_html__( 'Replace Image', 'lc-tweaks' )
 			. '</button>'
 			. '<input type="hidden" id="dlck_replace_image_with_fld" name="dlck_replace_image_with" />'
 			. wp_nonce_field( 'dlck_replace_image', 'dlck_replace_image_nonce', false, false )
 			. '<p><strong>'
-			. esc_html__( 'Warning:', 'divi-lc-kit' )
+			. esc_html__( 'Warning:', 'lc-tweaks' )
 			. '</strong> '
-			. esc_html__( 'Replacing this image permanently removes the current image files and regenerates sizes using the replacement image while keeping the original attachment ID and URL.', 'divi-lc-kit' )
+			. esc_html__( 'Replacing this image permanently removes the current image files and regenerates sizes using the replacement image while keeping the original attachment ID and URL.', 'lc-tweaks' )
 			. '</p>',
 	);
 

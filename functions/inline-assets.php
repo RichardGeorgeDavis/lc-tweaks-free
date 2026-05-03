@@ -358,7 +358,7 @@ function dlck_clear_cache_files_ajax() {
 	check_ajax_referer( 'dlck_clear_cache_files' );
 
 	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_send_json_error( __( 'You do not have permission to do that.', 'divi-lc-kit' ), 403 );
+		wp_send_json_error( __( 'You do not have permission to do that.', 'lc-tweaks' ), 403 );
 	}
 
 	$dir = dlck_inline_assets_get_cache_dir();
@@ -404,9 +404,9 @@ function dlck_clear_cache_files_ajax() {
 	}
 
 	if ( $deleted_any ) {
-		wp_send_json_success( sprintf( __( 'Cache files cleared (%d).', 'divi-lc-kit' ), $deleted ) );
+		wp_send_json_success( sprintf( __( 'Cache files cleared (%d).', 'lc-tweaks' ), $deleted ) );
 	}
 
-	wp_send_json_success( __( 'No cache files to clear.', 'divi-lc-kit' ) );
+	wp_send_json_success( __( 'No cache files to clear.', 'lc-tweaks' ) );
 }
 add_action( 'wp_ajax_dlck_clear_cache_files', 'dlck_clear_cache_files_ajax' );

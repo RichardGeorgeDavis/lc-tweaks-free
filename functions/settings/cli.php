@@ -2,7 +2,7 @@
 /**
  * WP-CLI commands for LC Tweaks.
  *
- * @package divi-lc-kit
+ * @package lc-tweaks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

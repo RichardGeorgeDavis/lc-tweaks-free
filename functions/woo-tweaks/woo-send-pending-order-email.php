@@ -29,7 +29,7 @@ function dlck_send_pending_order_email( $order_id, $order ) {
 	WC()->shipping();
 	WC()->mailer()->customer_invoice( $order );
 
-	$order->add_order_note( __( 'Payment request automatically sent to customer.', 'divi-lc-kit' ), false, true );
+	$order->add_order_note( __( 'Payment request automatically sent to customer.', 'lc-tweaks' ), false, true );
 }
 
 ?>

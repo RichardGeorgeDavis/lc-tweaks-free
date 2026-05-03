@@ -129,7 +129,7 @@ function dlck_restore_divi_toolbox_data() {
 
 		return array(
 			'copied'  => true,
-			'message' => __( 'Divi Toolbox data restored from LC Kit.', 'divi-lc-kit' ),
+			'message' => __( 'Divi Toolbox data restored from LC Kit.', 'lc-tweaks' ),
 		);
 	}
 

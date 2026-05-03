@@ -49,7 +49,7 @@ if ( ! function_exists( 'dlck_csc_build_clear_all_menu_title' ) ) :
 			esc_attr( wp_create_nonce( 'dlck_misc_clear_static_css' ) ),
 			esc_attr( wp_create_nonce( 'dlck_clear_lazy_cache' ) ),
 			dlck_csc_lazy_cache_enabled() ? '1' : '0',
-			esc_html__( 'Clear All Caches (Automated)', 'divi-lc-kit' )
+			esc_html__( 'Clear All Caches (Automated)', 'lc-tweaks' )
 		);
 	}
 endif;
@@ -228,7 +228,7 @@ if ( ! function_exists( 'dlck_csc_maybe_admin_bar_link' ) ) :
 				'title'  => sprintf(
 					'<span data-wpnonce="%1$s">%2$s</span>',
 					esc_attr( wp_create_nonce( 'dlck_misc_clear_static_css' ) ),
-					esc_html__( 'Clear Static CSS File Generation', 'divi-lc-kit' )
+					esc_html__( 'Clear Static CSS File Generation', 'lc-tweaks' )
 				),
 				'href'   => '#',
 			)
@@ -238,7 +238,7 @@ if ( ! function_exists( 'dlck_csc_maybe_admin_bar_link' ) ) :
 			array(
 				'id'     => 'dlck_misc_csc_clear_local_storage',
 				'parent' => 'dlck_misc_csc',
-				'title'  => esc_html__( 'Clear Local Storage', 'divi-lc-kit' ),
+				'title'  => esc_html__( 'Clear Local Storage', 'lc-tweaks' ),
 				'href'   => '#',
 			)
 		);
@@ -251,7 +251,7 @@ if ( ! function_exists( 'dlck_csc_maybe_admin_bar_link' ) ) :
 					'title'  => sprintf(
 						'<span data-wpnonce="%1$s">%2$s</span>',
 						esc_attr( wp_create_nonce( 'dlck_clear_lazy_cache' ) ),
-						esc_html__( 'Clear Lazy Load Cache', 'divi-lc-kit' )
+						esc_html__( 'Clear Lazy Load Cache', 'lc-tweaks' )
 					),
 					'href'   => '#',
 				)
@@ -824,18 +824,18 @@ if ( is_admin() && ! function_exists( 'dlck_misc_csc_maybe_ajax_request' ) ) :
 	function dlck_misc_csc_maybe_ajax_request() {
 		$nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : '';
 		if ( ! wp_verify_nonce( $nonce, 'dlck_misc_clear_static_css' ) ) {
-			wp_send_json_error( __( 'Invalid nonce.', 'divi-lc-kit' ), 403 );
+			wp_send_json_error( __( 'Invalid nonce.', 'lc-tweaks' ), 403 );
 		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( __( 'You do not have permission to do that.', 'divi-lc-kit' ), 403 );
+			wp_send_json_error( __( 'You do not have permission to do that.', 'lc-tweaks' ), 403 );
 		}
 
 		if ( dlck_csc_clear_static_css_generation() ) {
-			wp_send_json_success( __( 'The static CSS file generation has been cleared!', 'divi-lc-kit' ), 200 );
+			wp_send_json_success( __( 'The static CSS file generation has been cleared!', 'lc-tweaks' ), 200 );
 		}
 
-		wp_send_json_error( __( 'Divi static CSS clear function is unavailable.', 'divi-lc-kit' ), 500 );
+		wp_send_json_error( __( 'Divi static CSS clear function is unavailable.', 'lc-tweaks' ), 500 );
 	}
 
 	add_action( 'wp_ajax_dlck_misc_clear_static_css', 'dlck_misc_csc_maybe_ajax_request' );
@@ -1153,7 +1153,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_stack_cache_ajax_step' ) ) :
 		if ( $request['action'] === '' ) {
 			return array(
 				'status'  => 'skipped',
-				'message' => __( '20i Stack Cache AJAX purge action is unavailable.', 'divi-lc-kit' ),
+				'message' => __( '20i Stack Cache AJAX purge action is unavailable.', 'lc-tweaks' ),
 			);
 		}
 
@@ -1161,7 +1161,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_stack_cache_ajax_step' ) ) :
 		if ( ! has_action( $hook ) ) {
 			return array(
 				'status'  => 'skipped',
-				'message' => __( '20i Stack Cache AJAX purge hook is unavailable.', 'divi-lc-kit' ),
+				'message' => __( '20i Stack Cache AJAX purge hook is unavailable.', 'lc-tweaks' ),
 			);
 		}
 
@@ -1208,7 +1208,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_stack_cache_ajax_step' ) ) :
 		if ( $combined_response === '-1' || strpos( $lowered_response, 'nonce' ) !== false || strpos( $lowered_response, 'forbidden' ) !== false || strpos( $lowered_response, 'permission' ) !== false || strpos( $lowered_response, 'error' ) !== false || strpos( $lowered_response, 'fail' ) !== false ) {
 			return array(
 				'status'  => 'error',
-				'message' => __( '20i Stack Cache purge failed.', 'divi-lc-kit' ),
+				'message' => __( '20i Stack Cache purge failed.', 'lc-tweaks' ),
 			);
 		}
 
@@ -1217,7 +1217,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_stack_cache_ajax_step' ) ) :
 			if ( is_array( $decoded ) && array_key_exists( 'success', $decoded ) ) {
 				return array(
 					'status'  => ! empty( $decoded['success'] ) ? 'success' : 'error',
-					'message' => ! empty( $decoded['success'] ) ? __( '20i Stack Cache cleared.', 'divi-lc-kit' ) : __( '20i Stack Cache purge failed.', 'divi-lc-kit' ),
+					'message' => ! empty( $decoded['success'] ) ? __( '20i Stack Cache cleared.', 'lc-tweaks' ) : __( '20i Stack Cache purge failed.', 'lc-tweaks' ),
 				);
 			}
 		}
@@ -1225,13 +1225,13 @@ if ( ! function_exists( 'dlck_misc_csc_run_stack_cache_ajax_step' ) ) :
 		if ( $combined_response === '' || $combined_response === '1' || strpos( $lowered_response, 'success' ) !== false || strpos( $lowered_response, 'purged' ) !== false ) {
 			return array(
 				'status'  => 'success',
-				'message' => __( '20i Stack Cache cleared.', 'divi-lc-kit' ),
+				'message' => __( '20i Stack Cache cleared.', 'lc-tweaks' ),
 			);
 		}
 
 		return array(
 			'status'  => 'error',
-			'message' => __( '20i Stack Cache purge failed.', 'divi-lc-kit' ),
+			'message' => __( '20i Stack Cache purge failed.', 'lc-tweaks' ),
 		);
 	}
 endif;
@@ -1269,7 +1269,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_wp_rocket_step' ) ) :
 		if ( $purge_function === '' ) {
 			return array(
 				'status'  => 'skipped',
-				'message' => __( 'WP Rocket is not active, so this step was skipped.', 'divi-lc-kit' ),
+				'message' => __( 'WP Rocket is not active, so this step was skipped.', 'lc-tweaks' ),
 			);
 		}
 
@@ -1284,13 +1284,13 @@ if ( ! function_exists( 'dlck_misc_csc_run_wp_rocket_step' ) ) :
 		if ( $preload_function !== '' ) {
 			return array(
 				'status'  => 'success',
-				'message' => __( 'WP Rocket cache cleared and preload started.', 'divi-lc-kit' ),
+				'message' => __( 'WP Rocket cache cleared and preload started.', 'lc-tweaks' ),
 			);
 		}
 
 		return array(
 			'status'  => 'success',
-			'message' => __( 'WP Rocket cache cleared. Preload function was not available.', 'divi-lc-kit' ),
+			'message' => __( 'WP Rocket cache cleared. Preload function was not available.', 'lc-tweaks' ),
 		);
 	}
 endif;
@@ -1316,7 +1316,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_litespeed_step' ) ) :
 		if ( ! dlck_misc_csc_litespeed_available() ) {
 			return array(
 				'status'  => 'skipped',
-				'message' => __( 'LiteSpeed Cache is not active, so this step was skipped.', 'divi-lc-kit' ),
+				'message' => __( 'LiteSpeed Cache is not active, so this step was skipped.', 'lc-tweaks' ),
 			);
 		}
 
@@ -1325,7 +1325,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_litespeed_step' ) ) :
 				do_action( 'litespeed_purge_all' );
 				return array(
 					'status'  => 'success',
-					'message' => __( 'LiteSpeed Cache cleared.', 'divi-lc-kit' ),
+					'message' => __( 'LiteSpeed Cache cleared.', 'lc-tweaks' ),
 				);
 			}
 
@@ -1333,7 +1333,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_litespeed_step' ) ) :
 				call_user_func( array( 'LiteSpeed_Cache_API', 'purge_all' ) );
 				return array(
 					'status'  => 'success',
-					'message' => __( 'LiteSpeed Cache cleared.', 'divi-lc-kit' ),
+					'message' => __( 'LiteSpeed Cache cleared.', 'lc-tweaks' ),
 				);
 			}
 
@@ -1343,20 +1343,20 @@ if ( ! function_exists( 'dlck_misc_csc_run_litespeed_step' ) ) :
 					$litespeed->purge_all();
 					return array(
 						'status'  => 'success',
-						'message' => __( 'LiteSpeed Cache cleared.', 'divi-lc-kit' ),
+						'message' => __( 'LiteSpeed Cache cleared.', 'lc-tweaks' ),
 					);
 				}
 			}
 		} catch ( Throwable $e ) {
 			return array(
 				'status'  => 'error',
-				'message' => __( 'LiteSpeed cache purge failed.', 'divi-lc-kit' ),
+				'message' => __( 'LiteSpeed cache purge failed.', 'lc-tweaks' ),
 			);
 		}
 
 		return array(
 			'status'  => 'skipped',
-			'message' => __( 'LiteSpeed Cache was detected but no compatible clear method was found.', 'divi-lc-kit' ),
+			'message' => __( 'LiteSpeed Cache was detected but no compatible clear method was found.', 'lc-tweaks' ),
 		);
 	}
 endif;
@@ -1382,7 +1382,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_w3_total_cache_step' ) ) :
 		if ( ! dlck_misc_csc_w3_total_cache_available() ) {
 			return array(
 				'status'  => 'skipped',
-				'message' => __( 'W3 Total Cache is not active, so this step was skipped.', 'divi-lc-kit' ),
+				'message' => __( 'W3 Total Cache is not active, so this step was skipped.', 'lc-tweaks' ),
 			);
 		}
 
@@ -1391,7 +1391,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_w3_total_cache_step' ) ) :
 				w3tc_flush_all();
 				return array(
 					'status'  => 'success',
-					'message' => __( 'W3 Total Cache cleared.', 'divi-lc-kit' ),
+					'message' => __( 'W3 Total Cache cleared.', 'lc-tweaks' ),
 				);
 			}
 
@@ -1399,7 +1399,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_w3_total_cache_step' ) ) :
 				do_action( 'w3tc_flush_posts' );
 				return array(
 					'status'  => 'success',
-					'message' => __( 'W3 Total Cache cleared.', 'divi-lc-kit' ),
+					'message' => __( 'W3 Total Cache cleared.', 'lc-tweaks' ),
 				);
 			}
 
@@ -1407,19 +1407,19 @@ if ( ! function_exists( 'dlck_misc_csc_run_w3_total_cache_step' ) ) :
 				do_action( 'w3tc_flush_all' );
 				return array(
 					'status'  => 'success',
-					'message' => __( 'W3 Total Cache cleared.', 'divi-lc-kit' ),
+					'message' => __( 'W3 Total Cache cleared.', 'lc-tweaks' ),
 				);
 			}
 		} catch ( Throwable $e ) {
 			return array(
 				'status'  => 'error',
-				'message' => __( 'W3 Total Cache purge failed.', 'divi-lc-kit' ),
+				'message' => __( 'W3 Total Cache purge failed.', 'lc-tweaks' ),
 			);
 		}
 
 		return array(
 			'status'  => 'skipped',
-			'message' => __( 'W3 Total Cache was detected but no compatible clear method was found.', 'divi-lc-kit' ),
+			'message' => __( 'W3 Total Cache was detected but no compatible clear method was found.', 'lc-tweaks' ),
 		);
 	}
 endif;
@@ -1444,7 +1444,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_nginx_helper_step' ) ) :
 		if ( ! dlck_misc_csc_nginx_helper_available() ) {
 			return array(
 				'status'  => 'skipped',
-				'message' => __( 'Nginx Helper is not active, so this step was skipped.', 'divi-lc-kit' ),
+				'message' => __( 'Nginx Helper is not active, so this step was skipped.', 'lc-tweaks' ),
 			);
 		}
 
@@ -1453,7 +1453,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_nginx_helper_step' ) ) :
 				do_action( 'rt_nginx_helper_purge_all' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
 				return array(
 					'status'  => 'success',
-					'message' => __( 'Nginx Helper cache cleared.', 'divi-lc-kit' ),
+					'message' => __( 'Nginx Helper cache cleared.', 'lc-tweaks' ),
 				);
 			}
 
@@ -1473,20 +1473,20 @@ if ( ! function_exists( 'dlck_misc_csc_run_nginx_helper_step' ) ) :
 				if ( $method !== '' ) {
 					return array(
 						'status'  => 'success',
-						'message' => __( 'Nginx Helper cache cleared.', 'divi-lc-kit' ),
+						'message' => __( 'Nginx Helper cache cleared.', 'lc-tweaks' ),
 					);
 				}
 			}
 		} catch ( Throwable $e ) {
 			return array(
 				'status'  => 'error',
-				'message' => __( 'Nginx Helper cache purge failed.', 'divi-lc-kit' ),
+				'message' => __( 'Nginx Helper cache purge failed.', 'lc-tweaks' ),
 			);
 		}
 
 		return array(
 			'status'  => 'skipped',
-			'message' => __( 'Nginx Helper was detected but no compatible clear method was found.', 'divi-lc-kit' ),
+			'message' => __( 'Nginx Helper was detected but no compatible clear method was found.', 'lc-tweaks' ),
 		);
 	}
 endif;
@@ -1512,7 +1512,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_siteground_step' ) ) :
 		if ( ! dlck_misc_csc_siteground_available() ) {
 			return array(
 				'status'  => 'skipped',
-				'message' => __( 'SiteGround cache is not active, so this step was skipped.', 'divi-lc-kit' ),
+				'message' => __( 'SiteGround cache is not active, so this step was skipped.', 'lc-tweaks' ),
 			);
 		}
 
@@ -1521,7 +1521,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_siteground_step' ) ) :
 				call_user_func( array( 'SiteGround_Optimizer\\Supercacher\\Supercacher', 'purge_cache' ) );
 				return array(
 					'status'  => 'success',
-					'message' => __( 'SiteGround cache cleared.', 'divi-lc-kit' ),
+					'message' => __( 'SiteGround cache cleared.', 'lc-tweaks' ),
 				);
 			}
 
@@ -1529,7 +1529,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_siteground_step' ) ) :
 				$GLOBALS['sg_cachepress_supercacher']->purge_cache( true );
 				return array(
 					'status'  => 'success',
-					'message' => __( 'SiteGround cache cleared.', 'divi-lc-kit' ),
+					'message' => __( 'SiteGround cache cleared.', 'lc-tweaks' ),
 				);
 			}
 
@@ -1537,19 +1537,19 @@ if ( ! function_exists( 'dlck_misc_csc_run_siteground_step' ) ) :
 				sg_cachepress_purge_cache();
 				return array(
 					'status'  => 'success',
-					'message' => __( 'SiteGround cache cleared.', 'divi-lc-kit' ),
+					'message' => __( 'SiteGround cache cleared.', 'lc-tweaks' ),
 				);
 			}
 		} catch ( Throwable $e ) {
 			return array(
 				'status'  => 'error',
-				'message' => __( 'SiteGround cache purge failed.', 'divi-lc-kit' ),
+				'message' => __( 'SiteGround cache purge failed.', 'lc-tweaks' ),
 			);
 		}
 
 		return array(
 			'status'  => 'skipped',
-			'message' => __( 'SiteGround cache was detected but no compatible clear method was found.', 'divi-lc-kit' ),
+			'message' => __( 'SiteGround cache was detected but no compatible clear method was found.', 'lc-tweaks' ),
 		);
 	}
 endif;
@@ -1580,7 +1580,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_wp_engine_step' ) ) :
 		if ( ! dlck_misc_csc_wp_engine_available() ) {
 			return array(
 				'status'  => 'skipped',
-				'message' => __( 'WP Engine cache is not active, so this step was skipped.', 'divi-lc-kit' ),
+				'message' => __( 'WP Engine cache is not active, so this step was skipped.', 'lc-tweaks' ),
 			);
 		}
 
@@ -1612,20 +1612,20 @@ if ( ! function_exists( 'dlck_misc_csc_run_wp_engine_step' ) ) :
 		} catch ( Throwable $e ) {
 			return array(
 				'status'  => 'error',
-				'message' => __( 'WP Engine cache purge failed.', 'divi-lc-kit' ),
+				'message' => __( 'WP Engine cache purge failed.', 'lc-tweaks' ),
 			);
 		}
 
 		if ( $runs > 0 ) {
 			return array(
 				'status'  => 'success',
-				'message' => __( 'WP Engine cache cleared.', 'divi-lc-kit' ),
+				'message' => __( 'WP Engine cache cleared.', 'lc-tweaks' ),
 			);
 		}
 
 		return array(
 			'status'  => 'skipped',
-			'message' => __( 'WP Engine cache was detected but no compatible clear method was found.', 'divi-lc-kit' ),
+			'message' => __( 'WP Engine cache was detected but no compatible clear method was found.', 'lc-tweaks' ),
 		);
 	}
 endif;
@@ -1640,7 +1640,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_stack_cache_step' ) ) :
 		if ( ! dlck_misc_csc_stack_cache_available() ) {
 			return array(
 				'status'  => 'skipped',
-				'message' => __( '20i Stack Cache is not active, so this step was skipped.', 'divi-lc-kit' ),
+				'message' => __( '20i Stack Cache is not active, so this step was skipped.', 'lc-tweaks' ),
 			);
 		}
 
@@ -1649,7 +1649,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_stack_cache_step' ) ) :
 			if ( $method !== '' ) {
 				return array(
 					'status'  => 'success',
-					'message' => __( '20i Stack Cache cleared.', 'divi-lc-kit' ),
+					'message' => __( '20i Stack Cache cleared.', 'lc-tweaks' ),
 				);
 			}
 		}
@@ -1663,7 +1663,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_stack_cache_step' ) ) :
 			'status'  => $ajax_result['status'] === 'error' ? 'error' : 'skipped',
 			'message' => $ajax_result['status'] === 'error'
 				? $ajax_result['message']
-				: __( '20i Stack Cache was detected but no compatible clear method was found.', 'divi-lc-kit' ),
+				: __( '20i Stack Cache was detected but no compatible clear method was found.', 'lc-tweaks' ),
 		);
 	}
 endif;
@@ -1686,14 +1686,14 @@ if ( ! function_exists( 'dlck_misc_csc_run_bluehost_cache_step' ) ) :
 						$purger->purge_all();
 						return array(
 							'status'  => 'success',
-							'message' => __( 'Bluehost cache cleared.', 'divi-lc-kit' ),
+							'message' => __( 'Bluehost cache cleared.', 'lc-tweaks' ),
 						);
 					}
 				}
 			} catch ( Throwable $e ) {
 				return array(
 					'status'  => 'error',
-					'message' => __( 'Bluehost cache purge failed.', 'divi-lc-kit' ),
+					'message' => __( 'Bluehost cache purge failed.', 'lc-tweaks' ),
 				);
 			}
 		}
@@ -1704,19 +1704,19 @@ if ( ! function_exists( 'dlck_misc_csc_run_bluehost_cache_step' ) ) :
 				$controller->purge_all();
 				return array(
 					'status'  => 'success',
-					'message' => __( 'Bluehost cache cleared.', 'divi-lc-kit' ),
+					'message' => __( 'Bluehost cache cleared.', 'lc-tweaks' ),
 				);
 			} catch ( Throwable $e ) {
 				return array(
 					'status'  => 'error',
-					'message' => __( 'Bluehost cache purge failed.', 'divi-lc-kit' ),
+					'message' => __( 'Bluehost cache purge failed.', 'lc-tweaks' ),
 				);
 			}
 		}
 
 		return array(
 			'status'  => 'skipped',
-			'message' => __( 'Bluehost cache plugin is not active, so this step was skipped.', 'divi-lc-kit' ),
+			'message' => __( 'Bluehost cache plugin is not active, so this step was skipped.', 'lc-tweaks' ),
 		);
 	}
 endif;
@@ -1731,7 +1731,7 @@ if ( ! function_exists( 'dlck_misc_csc_run_lc_tweaks_css_js_cache_step' ) ) :
 		if ( ! function_exists( 'dlck_rebuild_all_inline_caches' ) || ! function_exists( 'dlck_inline_assets_get_cache_dir' ) ) {
 			return array(
 				'status'  => 'skipped',
-				'message' => __( 'LC Tweaks CSS/JS cache system is unavailable, so this step was skipped.', 'divi-lc-kit' ),
+				'message' => __( 'LC Tweaks CSS/JS cache system is unavailable, so this step was skipped.', 'lc-tweaks' ),
 			);
 		}
 
@@ -1757,12 +1757,12 @@ if ( ! function_exists( 'dlck_misc_csc_run_lc_tweaks_css_js_cache_step' ) ) :
 
 			return array(
 				'status'  => 'success',
-				'message' => __( 'LC Tweaks CSS/JS cache cleared and rebuilt.', 'divi-lc-kit' ),
+				'message' => __( 'LC Tweaks CSS/JS cache cleared and rebuilt.', 'lc-tweaks' ),
 			);
 		} catch ( Throwable $e ) {
 			return array(
 				'status'  => 'error',
-				'message' => __( 'Could not clear LC Tweaks CSS/JS cache.', 'divi-lc-kit' ),
+				'message' => __( 'Could not clear LC Tweaks CSS/JS cache.', 'lc-tweaks' ),
 			);
 		}
 	}
@@ -1846,7 +1846,7 @@ if ( is_admin() && ! function_exists( 'dlck_misc_csc_clear_all_cache_fallback_ac
 	 */
 	function dlck_misc_csc_clear_all_cache_fallback_action(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to do that.', 'divi-lc-kit' ), '', array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You do not have permission to do that.', 'lc-tweaks' ), '', array( 'response' => 403 ) );
 		}
 
 		check_admin_referer( 'dlck_misc_clear_all_cache' );
@@ -1901,7 +1901,7 @@ if ( is_admin() && ! function_exists( 'dlck_misc_csc_cache_fallback_notice' ) ) 
 				esc_html(
 					sprintf(
 						/* translators: %1$d failed steps, %2$d skipped steps. */
-						__( 'Cache automation finished with %1$d failed step(s) and %2$d skipped optional step(s).', 'divi-lc-kit' ),
+						__( 'Cache automation finished with %1$d failed step(s) and %2$d skipped optional step(s).', 'lc-tweaks' ),
 						$failed,
 						$skipped
 					)
@@ -1916,7 +1916,7 @@ if ( is_admin() && ! function_exists( 'dlck_misc_csc_cache_fallback_notice' ) ) 
 				esc_html(
 					sprintf(
 						/* translators: %d skipped steps. */
-						__( 'Cache automation completed. %d optional step(s) were skipped.', 'divi-lc-kit' ),
+						__( 'Cache automation completed. %d optional step(s) were skipped.', 'lc-tweaks' ),
 						$skipped
 					)
 				)
@@ -1924,7 +1924,7 @@ if ( is_admin() && ! function_exists( 'dlck_misc_csc_cache_fallback_notice' ) ) 
 			return;
 		}
 
-		echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Cache automation completed.', 'divi-lc-kit' ) . '</p></div>';
+		echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Cache automation completed.', 'lc-tweaks' ) . '</p></div>';
 	}
 
 	add_action( 'admin_notices', 'dlck_misc_csc_cache_fallback_notice' );
@@ -2111,7 +2111,7 @@ if ( is_admin() && ! function_exists( 'dlck_misc_csc_cache_automation_step_ajax'
 		check_ajax_referer( 'dlck_misc_clear_all_cache' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'You do not have permission to do that.', 'divi-lc-kit' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to do that.', 'lc-tweaks' ) ), 403 );
 		}
 
 		wp_send_json_success(
@@ -2137,13 +2137,13 @@ if ( is_admin() && ! function_exists( 'dlck_misc_csc_cache_automation_step_ajax'
 		check_ajax_referer( 'dlck_misc_clear_all_cache' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'You do not have permission to do that.', 'divi-lc-kit' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to do that.', 'lc-tweaks' ) ), 403 );
 		}
 
 		$step = isset( $_POST['step'] ) ? sanitize_key( wp_unslash( $_POST['step'] ) ) : '';
 		$result = array(
 			'status'  => 'error',
-			'message' => __( 'Invalid cache automation step.', 'divi-lc-kit' ),
+			'message' => __( 'Invalid cache automation step.', 'lc-tweaks' ),
 		);
 
 		switch ( $step ) {

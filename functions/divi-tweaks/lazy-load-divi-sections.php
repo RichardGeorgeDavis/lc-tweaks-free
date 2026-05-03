@@ -313,7 +313,7 @@ function dlck_divi_lazy_enqueue_assets( int $post_id, array $cache ): void {
 			'deferInitial' => $defer_initial,
 			'deferMargin' => $defer_margin,
 			'strings'    => array(
-				'loading' => __( 'Loading...', 'divi-lc-kit' ),
+				'loading' => __( 'Loading...', 'lc-tweaks' ),
 			),
 		)
 	);
@@ -1154,7 +1154,7 @@ function dlck_divi_lazy_add_metabox(): void {
 	$screens = array( 'post', 'page', 'product' );
 	add_meta_box(
 		'dlck-divi-lazy-loading',
-		__( 'LC Tweaks Lazy Loading', 'divi-lc-kit' ),
+		__( 'LC Tweaks Lazy Loading', 'lc-tweaks' ),
 		'dlck_divi_lazy_render_metabox',
 		$screens,
 		'side'
@@ -1171,7 +1171,7 @@ function dlck_divi_lazy_render_metabox( WP_Post $post ): void {
 	<p>
 		<label>
 			<input type="checkbox" name="dlck_divi_lazy_off" value="1" <?php checked( '1', $off ); ?> />
-			<?php esc_html_e( 'Disable lazy loading for this content', 'divi-lc-kit' ); ?>
+			<?php esc_html_e( 'Disable lazy loading for this content', 'lc-tweaks' ); ?>
 		</label>
 	</p>
 	<?php
@@ -1218,12 +1218,12 @@ function dlck_divi_lazy_clear_cache_ajax(): void {
 	check_ajax_referer( 'dlck_clear_lazy_cache' );
 
 	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_send_json_error( __( 'You do not have permission to do that.', 'divi-lc-kit' ), 403 );
+		wp_send_json_error( __( 'You do not have permission to do that.', 'lc-tweaks' ), 403 );
 	}
 
 	$base = dlck_divi_lazy_get_cache_base_dir();
 	if ( ! is_dir( $base ) ) {
-		wp_send_json_success( __( 'No lazy cache files to clear.', 'divi-lc-kit' ) );
+		wp_send_json_success( __( 'No lazy cache files to clear.', 'lc-tweaks' ) );
 	}
 
 	$deleted = 0;
@@ -1249,10 +1249,10 @@ function dlck_divi_lazy_clear_cache_ajax(): void {
 	}
 
 	if ( $deleted ) {
-		wp_send_json_success( sprintf( __( 'Lazy cache cleared (%d).', 'divi-lc-kit' ), $deleted ) );
+		wp_send_json_success( sprintf( __( 'Lazy cache cleared (%d).', 'lc-tweaks' ), $deleted ) );
 	}
 
-	wp_send_json_success( __( 'No lazy cache files to clear.', 'divi-lc-kit' ) );
+	wp_send_json_success( __( 'No lazy cache files to clear.', 'lc-tweaks' ) );
 }
 
 /**
@@ -1306,7 +1306,7 @@ function dlck_divi_lazy_add_dipi_clear_menu( $admin_bar ): void {
 			'title'  => sprintf(
 				'<span data-wpnonce="%1$s">%2$s</span>',
 				wp_create_nonce( 'dlck_clear_lazy_cache' ),
-				esc_html__( 'Clear Lazy Load Cache', 'divi-lc-kit' )
+				esc_html__( 'Clear Lazy Load Cache', 'lc-tweaks' )
 			),
 			'href'   => 'javascript:void(0)',
 		)

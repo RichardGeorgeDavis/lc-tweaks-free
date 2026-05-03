@@ -54,7 +54,7 @@ function dlck_edit_in_visual_builder_row_action( $actions, $post ) {
 	$edit_in_visual_builder_action = sprintf(
 		'<a href="%1$s">%2$s</a>',
 		esc_url( $builder_url ),
-		esc_html__( 'Edit in Visual Builder', 'divi-lc-kit' )
+		esc_html__( 'Edit in Visual Builder', 'lc-tweaks' )
 	);
 
 	return array( 'edit_in_visual_builder' => $edit_in_visual_builder_action ) + $actions;

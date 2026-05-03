@@ -95,6 +95,10 @@ These options appear when Divi is active.
 
 These options appear when WooCommerce is active.
 
+### Request Protection
+
+- **Block Bad WooCommerce Query Abuse:** block cart-style query actions combined with common ad click tracking parameters.
+
 ### Performance & Cleanup
 
 - **Resave All Products:** admin tool for resaving product data.
@@ -206,11 +210,11 @@ lc-tweaks-free-{version}.zip
 For example:
 
 ```text
-lc-tweaks-free-1.5.1.zip
+lc-tweaks-free-1.6.0.zip
 ```
 
 Release tags should use the matching version, preferably with a `v` prefix:
 
 ```text
-v1.5.1
+v1.6.0
 ```
