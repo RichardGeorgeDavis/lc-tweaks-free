@@ -1,130 +1,174 @@
 <?php
 /**
- * Plugin Name: Divi Library View (Updated)
- * Description: Adds featured image support and front-end views for Divi Library layouts in a safer, updated way.
- * Author: Richard / Lucidity
- * Version: 1.1.0
+ * Enhanced Divi Library previews and admin actions.
  */
 
-// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
- * Ensure our changes only run once Divi has registered the et_pb_layout post type.
- */
-add_action( 'init', function () {
-	// Run a bit later than default init so Divi has a chance to register its CPT.
-	if ( ! post_type_exists( 'et_pb_layout' ) ) {
-		return;
-	}
-
-	// Add featured image support to Divi Library layouts.
-	add_post_type_support( 'et_pb_layout', 'thumbnail' );
-
-	// Register a small thumbnail size for the Library list table.
-	if ( function_exists( 'add_image_size' ) ) {
-		add_image_size( 'ds_library_layout_featured_image', 120, 120, true );
-	}
-}, 20 );
-
-/**
- * Tweak et_pb_layout post type args without re-registering it.
- * Makes layouts viewable on the front end while keeping them out of search.
- */
-add_filter( 'register_post_type_args', function ( $args, $post_type ) {
-	if ( 'et_pb_layout' !== $post_type ) {
-		return $args;
-	}
-
-	// Keep existing args, just adjust what we care about.
-	$args['publicly_queryable']  = true;
-	$args['exclude_from_search'] = true;
-
-	return $args;
-}, 10, 2 );
-
-/**
- * Add a Featured Image column to the Divi Library list table.
- */
-add_filter( 'manage_et_pb_layout_posts_columns', function ( $columns ) {
-
-	$new_columns = [];
-
-	// Optionally shift the thumbnail column to the front.
-	foreach ( $columns as $key => $label ) {
-		if ( 'cb' === $key ) {
-			$new_columns[ $key ] = $label;
-			$new_columns['ds_featured_image'] = __( 'Thumbnail', 'divi-library-view' );
-		} else {
-			$new_columns[ $key ] = $label;
+add_action(
+	'init',
+	static function () {
+		if ( ! post_type_exists( 'et_pb_layout' ) ) {
+			return;
 		}
+
+		add_post_type_support( 'et_pb_layout', 'thumbnail' );
+		if ( function_exists( 'add_image_size' ) ) {
+			add_image_size( 'dlck_divi_library_thumb', 120, 120, true );
+		}
+	},
+	20
+);
+
+add_filter(
+	'register_post_type_args',
+	static function ( $args, $post_type ) {
+		if ( $post_type !== 'et_pb_layout' ) {
+			return $args;
+		}
+
+		$args['publicly_queryable']  = false;
+		$args['exclude_from_search'] = true;
+
+		return $args;
+	},
+	10,
+	2
+);
+
+add_filter(
+	'query_vars',
+	static function ( array $vars ): array {
+		$vars[] = 'dlck_divi_library_preview';
+		return $vars;
 	}
+);
 
-	return $new_columns;
-} );
-
-add_action( 'manage_et_pb_layout_posts_custom_column', function ( $column, $post_id ) {
-	if ( 'ds_featured_image' !== $column ) {
-		return;
+add_filter(
+	'manage_et_pb_layout_posts_columns',
+	static function ( array $columns ): array {
+		$new_columns = array();
+		foreach ( $columns as $key => $label ) {
+			$new_columns[ $key ] = $label;
+			if ( $key === 'cb' ) {
+				$new_columns['dlck_featured_image'] = __( 'Thumbnail', 'lc-tweaks' );
+			}
+		}
+		return $new_columns;
 	}
+);
 
-	$thumb_id = get_post_thumbnail_id( $post_id );
+add_action(
+	'manage_et_pb_layout_posts_custom_column',
+	static function ( string $column, int $post_id ): void {
+		if ( $column !== 'dlck_featured_image' ) {
+			return;
+		}
 
-	if ( ! $thumb_id ) {
-		echo '&mdash;';
-		return;
+		$image = get_the_post_thumbnail( $post_id, 'dlck_divi_library_thumb', array( 'style' => 'max-width:120px;height:auto;' ) );
+		echo $image ? wp_kses_post( $image ) : '&mdash;';
+	},
+	10,
+	2
+);
+
+if ( ! function_exists( 'dlck_divi_library_edit_with_divi_url' ) ) {
+	/**
+	 * Return a stable edit URL for Divi Library items.
+	 *
+	 * Divi Library layouts do not have a reliable public singular context for
+	 * frontend Visual Builder URLs, so use the post editor where Divi loads its
+	 * library builder UI.
+	 */
+	function dlck_divi_library_edit_with_divi_url( WP_Post $post ): string {
+		$edit_url = get_edit_post_link( $post->ID, 'raw' );
+		return is_string( $edit_url ) ? $edit_url : '';
 	}
-
-	echo wp_kses_post(
-		wp_get_attachment_image(
-			$thumb_id,
-			'ds_library_layout_featured_image',
-			false,
-			[ 'style' => 'max-width:120px;height:auto;' ]
-		)
-	);
-}, 10, 2 );
-
-/**
- * On single Divi Library views, optionally strip Divi builder-specific body classes
- * to avoid styling collisions. This mirrors the intent of the original snippet
- * but in a more targeted way.
- */
-add_action( 'template_redirect', function () {
-	if ( is_admin() || ! is_singular( 'et_pb_layout' ) ) {
-		return;
-	}
-
-	if ( function_exists( 'et_builder_body_classes' ) ) {
-		remove_filter( 'body_class', 'et_builder_body_classes' );
-	}
-} );
-
-/**
- * Flush rewrite rules on activation and deactivation so the et_pb_layout
- * URLs work consistently when this plugin is toggled.
- */
-function dlv_activate() {
-	// Ensure CPTs are registered before flushing.
-	dlv_prime_cpt();
-	flush_rewrite_rules();
 }
-register_activation_hook( __FILE__, 'dlv_activate' );
 
-function dlv_deactivate() {
-	flush_rewrite_rules();
-}
-register_deactivation_hook( __FILE__, 'dlv_deactivate' );
+add_filter(
+	'post_row_actions',
+	static function ( array $actions, WP_Post $post ): array {
+		if ( $post->post_type !== 'et_pb_layout' || ! current_user_can( 'edit_post', $post->ID ) ) {
+			return $actions;
+		}
 
-/**
- * Prime CPT registration before flushing (in case init hasn't fired yet).
- * Divi normally registers et_pb_layout on init, but we defensively trigger init if needed.
- */
-function dlv_prime_cpt() {
-	// If init hasn't fired yet, fire it once so Divi can register its post types.
-	if ( ! did_action( 'init' ) ) {
-		do_action( 'init' );
+		$preview_url = wp_nonce_url(
+			add_query_arg( 'dlck_divi_library_preview', absint( $post->ID ), home_url( '/' ) ),
+			'dlck_divi_library_preview_' . $post->ID
+		);
+
+		$actions['dlck_view_layout'] = sprintf(
+			'<a href="%1$s" target="_blank" rel="noopener">%2$s</a>',
+			esc_url( $preview_url ),
+			esc_html__( 'View', 'lc-tweaks' )
+		);
+
+		$builder_url = dlck_divi_library_edit_with_divi_url( $post );
+		if ( $builder_url !== '' ) {
+			$actions['dlck_edit_layout_builder'] = sprintf(
+				'<a href="%1$s" target="_blank" rel="noopener">%2$s</a>',
+				esc_url( $builder_url ),
+				esc_html__( 'Edit With Divi', 'lc-tweaks' )
+			);
+		}
+
+		return $actions;
+	},
+	10,
+	2
+);
+
+add_action(
+	'template_redirect',
+	static function (): void {
+		$preview_id = absint( get_query_var( 'dlck_divi_library_preview' ) );
+		if ( ! $preview_id ) {
+			return;
+		}
+
+		if ( get_post_type( $preview_id ) !== 'et_pb_layout' || ! current_user_can( 'edit_post', $preview_id ) ) {
+			status_header( 404 );
+			return;
+		}
+
+		$nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'dlck_divi_library_preview_' . $preview_id ) ) {
+			status_header( 403 );
+			return;
+		}
+
+		nocache_headers();
+		header( 'X-Robots-Tag: noindex, nofollow', true );
+
+		add_filter( 'wp_robots', static fn( array $robots ): array => array_merge( $robots, array( 'noindex' => true, 'nofollow' => true ) ) );
+		add_filter( 'redirect_canonical', '__return_false' );
+
+		$content = get_post_field( 'post_content', $preview_id );
+		get_header();
+		echo '<main id="dlck-divi-library-preview" class="dlck-divi-library-preview">';
+		echo $content ? apply_filters( 'the_content', $content ) : '';
+		echo '</main>';
+		get_footer();
+		exit;
+	},
+	0
+);
+
+add_action(
+	'template_redirect',
+	static function (): void {
+		if ( is_admin() || ! is_singular( 'et_pb_layout' ) ) {
+			return;
+		}
+
+		global $wp_query;
+		if ( $wp_query instanceof WP_Query ) {
+			$wp_query->set_404();
+		}
+		status_header( 404 );
+		nocache_headers();
 	}
-}
+);

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: LC Tweaks
-Version: 1.6.0
+Version: 1.6.1
 Plugin URI: https://lucidity.design/product/lc-tweaks/
 Description: Powerful tools to customize the Divi Theme, Wordpress and Woocommerce - added fuctionality, boosted performance and improves page metric results.
 Author: Lucidity Design
@@ -49,6 +49,29 @@ if ( ! function_exists( 'dlck_get_free_disabled_options' ) ) {
 			'dlck_yith_activator_exclude_membership',
 			'dlck_yith_activator_exclude_compare',
 			'dlck_yith_activator_exclude_wishlist',
+			'dlck_code_helper_enabled',
+			'dlck_code_helper_run_php',
+			'dlck_code_helper_footer_js',
+			'dlck_code_helper_css',
+			'dlck_code_helper_js',
+			'dlck_code_helper_theme_css_height',
+			'dlck_code_helper_integration_height',
+			'dlck_fonts_helper_enabled',
+			'dlck_styles_helper_enabled',
+			'dlck_divi_image_helper_enabled',
+			'dlck_divi_taxonomy_helper_enabled',
+			'dlck_divi_taxonomy_helper_taxonomies',
+			'dlck_smtp_enabled',
+			'dlck_smtp_host',
+			'dlck_smtp_port',
+			'dlck_smtp_encryption',
+			'dlck_smtp_username',
+			'dlck_smtp_from_email',
+			'dlck_smtp_from_name',
+			'dlck_support_access_enabled',
+			'dlck_support_access_email',
+			'dlck_support_access_days',
+			'dlck_divi_version_tools_enabled',
 		);
 	}
 }
@@ -76,6 +99,333 @@ if ( ! function_exists( 'dlck_filter_settings_for_edition' ) ) {
 		}
 
 		return $settings;
+	}
+}
+
+if ( ! function_exists( 'dlck_sensitive_helper_option_keys' ) ) {
+	/**
+	 * Return helper fields stored outside dlck_lc_kit to avoid accidental export.
+	 *
+	 * @return string[]
+	 */
+	function dlck_sensitive_helper_option_keys(): array {
+		return array(
+			'dlck_smtp_password',
+			'dlck_code_helper_php_code',
+		);
+	}
+}
+
+if ( ! function_exists( 'dlck_get_divi_helper_option_keys' ) ) {
+	/**
+	 * Return Divi Helper option keys so Scope Rules can validate dynamically loaded helpers.
+	 *
+	 * @return string[]
+	 */
+	function dlck_get_divi_helper_option_keys(): array {
+		return array(
+			'dlck_divi_vb_escape_key',
+			'dlck_divi_vb_sticky_toolbar',
+			'dlck_divi_vb_html_textarea_height_enabled',
+			'dlck_divi_vb_html_textarea_height',
+			'dlck_divi_vb_icon_picker_height_enabled',
+			'dlck_divi_vb_icon_picker_height',
+			'dlck_divi_vb_disable_inline_text_toolbar',
+			'dlck_divi_vb_swap_global_saved_colors',
+			'dlck_divi_vb_full_width_post_content_rows',
+			'dlck_divi_vb_hide_marketplace_layout_promo',
+			'dlck_divi_vb_hide_explore_modules',
+			'dlck_divi_ai_hide_quick_sites',
+			'dlck_divi_ai_hide_page',
+			'dlck_divi_ai_hide_section',
+			'dlck_divi_ai_hide_layout',
+			'dlck_divi_ai_hide_text',
+			'dlck_divi_ai_hide_image',
+			'dlck_divi_ai_hide_code',
+			'dlck_remove_howdy',
+			'dlck_admin_bar_frontend_hide',
+			'dlck_admin_bar_hover',
+			'dlck_divi_quick_links_enabled',
+			'dlck_divi_quick_links_in_builder',
+			'dlck_custom_quick_links_enabled',
+			'dlck_custom_quick_links_label',
+			'dlck_custom_quick_links_items',
+			'dlck_custom_quick_links_in_builder',
+			'dlck_theme_builder_details_admin_bar',
+			'dlck_theme_builder_details_builder_bar',
+			'dlck_environment_badge_enabled',
+			'dlck_environment_badge_mode',
+			'dlck_environment_badge_label',
+			'dlck_environment_badge_bg_color',
+			'dlck_environment_badge_text_color',
+			'dlck_duplicate_posts_pages',
+			'dlck_duplicate_divi_library_layouts',
+			'dlck_divi_library_shortcode_widget',
+			'dlck_shortcode_in_menus',
+			'dlck_divi_posts_builder_filter',
+			'dlck_featured_image_admin_column',
+			'dlck_default_featured_image_pages_enabled',
+			'dlck_default_featured_image_pages',
+			'dlck_default_featured_image_posts_enabled',
+			'dlck_default_featured_image_posts',
+			'dlck_divi_editor_back_links',
+			'dlck_admin_notes_enabled',
+			'dlck_frontend_anchor_offset_enabled',
+			'dlck_frontend_anchor_offset_px',
+			'dlck_cursor_highlight_enabled',
+			'dlck_cursor_highlight_color',
+			'dlck_disable_horizontal_scroll',
+			'dlck_custom_scrollbar_enabled',
+			'dlck_custom_scrollbar_width',
+			'dlck_custom_scrollbar_track_color',
+			'dlck_custom_scrollbar_thumb_color',
+			'dlck_custom_scrollbar_thumb_hover_color',
+			'dlck_back_to_top_customizer_enabled',
+			'dlck_back_to_top_size',
+			'dlck_back_to_top_bg_color',
+			'dlck_back_to_top_text_color',
+			'dlck_text_replacement_enabled',
+			'dlck_text_replacement_rules',
+			'dlck_media_max_upload_size_enabled',
+			'dlck_media_max_upload_size_kb',
+			'dlck_svg_img_class_enabled',
+			'dlck_media_filename_metadata_enabled',
+			'dlck_media_filename_metadata_override',
+			'dlck_divi_cache_auto_schedule',
+			'dlck_divi_cache_builder_buttons',
+			'dlck_site_availability_mode',
+			'dlck_site_availability_layout_id',
+			'dlck_site_availability_excluded_paths',
+			'dlck_site_availability_allowed_ips',
+			'dlck_site_availability_bypass_enabled',
+			'dlck_site_availability_bypass_token',
+			'dlck_code_helper_enabled',
+			'dlck_code_helper_css',
+			'dlck_code_helper_js',
+			'dlck_code_helper_footer_js',
+			'dlck_code_helper_run_php',
+			'dlck_code_helper_theme_css_height',
+			'dlck_code_helper_integration_height',
+			'dlck_smtp_enabled',
+			'dlck_smtp_host',
+			'dlck_smtp_port',
+			'dlck_smtp_encryption',
+			'dlck_smtp_username',
+			'dlck_smtp_from_email',
+			'dlck_smtp_from_name',
+			'dlck_support_access_enabled',
+			'dlck_support_access_email',
+			'dlck_support_access_days',
+			'dlck_divi_version_tools_enabled',
+		);
+	}
+}
+
+if ( ! function_exists( 'dlck_normalize_divi_helper_settings' ) ) {
+	/**
+	 * Normalize Divi Helper settings before they are persisted.
+	 *
+	 * @param array $settings Settings keyed by dlck option name.
+	 * @return array
+	 */
+	function dlck_normalize_divi_helper_settings( array $settings ): array {
+		foreach ( dlck_sensitive_helper_option_keys() as $sensitive_key ) {
+			unset( $settings[ $sensitive_key ] );
+		}
+
+		$checkbox_keys = array(
+			'dlck_divi_vb_escape_key',
+			'dlck_divi_vb_sticky_toolbar',
+			'dlck_divi_vb_html_textarea_height_enabled',
+			'dlck_divi_vb_icon_picker_height_enabled',
+			'dlck_divi_vb_disable_inline_text_toolbar',
+			'dlck_divi_vb_swap_global_saved_colors',
+			'dlck_divi_vb_full_width_post_content_rows',
+			'dlck_divi_vb_hide_marketplace_layout_promo',
+			'dlck_divi_vb_hide_explore_modules',
+			'dlck_divi_ai_hide_quick_sites',
+			'dlck_divi_ai_hide_page',
+			'dlck_divi_ai_hide_section',
+			'dlck_divi_ai_hide_layout',
+			'dlck_divi_ai_hide_text',
+			'dlck_divi_ai_hide_image',
+			'dlck_divi_ai_hide_code',
+			'dlck_remove_howdy',
+			'dlck_admin_bar_frontend_hide',
+			'dlck_admin_bar_hover',
+			'dlck_divi_quick_links_enabled',
+			'dlck_divi_quick_links_in_builder',
+			'dlck_custom_quick_links_enabled',
+			'dlck_custom_quick_links_in_builder',
+			'dlck_theme_builder_details_admin_bar',
+			'dlck_theme_builder_details_builder_bar',
+			'dlck_environment_badge_enabled',
+			'dlck_duplicate_posts_pages',
+			'dlck_duplicate_divi_library_layouts',
+			'dlck_divi_library_shortcode_widget',
+			'dlck_shortcode_in_menus',
+			'dlck_divi_posts_builder_filter',
+			'dlck_featured_image_admin_column',
+			'dlck_default_featured_image_pages_enabled',
+			'dlck_default_featured_image_posts_enabled',
+			'dlck_divi_editor_back_links',
+			'dlck_admin_notes_enabled',
+			'dlck_frontend_anchor_offset_enabled',
+			'dlck_cursor_highlight_enabled',
+			'dlck_disable_horizontal_scroll',
+			'dlck_custom_scrollbar_enabled',
+			'dlck_back_to_top_customizer_enabled',
+			'dlck_text_replacement_enabled',
+			'dlck_media_max_upload_size_enabled',
+			'dlck_svg_img_class_enabled',
+			'dlck_media_filename_metadata_enabled',
+			'dlck_media_filename_metadata_override',
+			'dlck_divi_cache_builder_buttons',
+			'dlck_site_availability_bypass_enabled',
+			'dlck_code_helper_enabled',
+			'dlck_code_helper_run_php',
+			'dlck_code_helper_footer_js',
+			'dlck_smtp_enabled',
+			'dlck_support_access_enabled',
+			'dlck_divi_version_tools_enabled',
+			'dlck_fonts_helper_enabled',
+			'dlck_styles_helper_enabled',
+			'dlck_divi_image_helper_enabled',
+			'dlck_divi_taxonomy_helper_enabled',
+		);
+
+		foreach ( $checkbox_keys as $key ) {
+			if ( array_key_exists( $key, $settings ) ) {
+				$settings[ $key ] = ! empty( $settings[ $key ] ) && (string) $settings[ $key ] !== '0' ? '1' : '0';
+			}
+		}
+
+		$integer_fields = array(
+			'dlck_divi_vb_html_textarea_height' => array( 120, 1200, 360 ),
+			'dlck_divi_vb_icon_picker_height'   => array( 120, 1200, 420 ),
+			'dlck_frontend_anchor_offset_px'    => array( 0, 600, 90 ),
+			'dlck_custom_scrollbar_width'       => array( 4, 30, 12 ),
+			'dlck_back_to_top_size'             => array( 28, 90, 44 ),
+			'dlck_media_max_upload_size_kb'     => array( 1, 1048576, 10240 ),
+			'dlck_site_availability_layout_id'  => array( 0, PHP_INT_MAX, 0 ),
+			'dlck_default_featured_image_pages' => array( 0, PHP_INT_MAX, 0 ),
+			'dlck_default_featured_image_posts' => array( 0, PHP_INT_MAX, 0 ),
+			'dlck_support_access_days'          => array( 1, 30, 7 ),
+			'dlck_code_helper_theme_css_height' => array( 120, 1200, 420 ),
+			'dlck_code_helper_integration_height' => array( 120, 1200, 420 ),
+		);
+
+		foreach ( $integer_fields as $key => $bounds ) {
+			if ( ! array_key_exists( $key, $settings ) ) {
+				continue;
+			}
+			$value = absint( $settings[ $key ] );
+			$value = max( (int) $bounds[0], min( (int) $bounds[1], $value > 0 ? $value : (int) $bounds[2] ) );
+			if ( $key === 'dlck_site_availability_layout_id' || $key === 'dlck_default_featured_image_pages' || $key === 'dlck_default_featured_image_posts' ) {
+				$value = absint( $settings[ $key ] );
+			}
+			$settings[ $key ] = (string) $value;
+		}
+
+		$color_fields = array(
+			'dlck_cursor_highlight_color',
+			'dlck_custom_scrollbar_track_color',
+			'dlck_custom_scrollbar_thumb_color',
+			'dlck_custom_scrollbar_thumb_hover_color',
+			'dlck_back_to_top_bg_color',
+			'dlck_back_to_top_text_color',
+			'dlck_environment_badge_bg_color',
+			'dlck_environment_badge_text_color',
+		);
+
+		foreach ( $color_fields as $key ) {
+			if ( ! array_key_exists( $key, $settings ) ) {
+				continue;
+			}
+			$color = sanitize_hex_color( (string) $settings[ $key ] );
+			$settings[ $key ] = $color ? $color : '';
+		}
+
+		if ( array_key_exists( 'dlck_divi_cache_auto_schedule', $settings ) ) {
+			$schedule = sanitize_key( (string) $settings['dlck_divi_cache_auto_schedule'] );
+			$settings['dlck_divi_cache_auto_schedule'] = in_array( $schedule, array( 'none', 'hourly', 'twicedaily', 'daily', 'weekly', 'monthly' ), true ) ? $schedule : 'none';
+		}
+
+		if ( array_key_exists( 'dlck_site_availability_mode', $settings ) ) {
+			$mode = sanitize_key( (string) $settings['dlck_site_availability_mode'] );
+			$settings['dlck_site_availability_mode'] = in_array( $mode, array( 'off', 'coming_soon', 'maintenance' ), true ) ? $mode : 'off';
+		}
+
+		if ( array_key_exists( 'dlck_environment_badge_mode', $settings ) ) {
+			$mode = sanitize_key( (string) $settings['dlck_environment_badge_mode'] );
+			$settings['dlck_environment_badge_mode'] = in_array( $mode, array( 'custom', 'development', 'staging', 'production' ), true ) ? $mode : 'custom';
+		}
+
+		$textarea_fields = array(
+			'dlck_custom_quick_links_items',
+			'dlck_text_replacement_rules',
+			'dlck_site_availability_excluded_paths',
+			'dlck_site_availability_allowed_ips',
+			'dlck_divi_taxonomy_helper_taxonomies',
+			'dlck_code_helper_css',
+			'dlck_code_helper_js',
+		);
+		foreach ( $textarea_fields as $key ) {
+			if ( array_key_exists( $key, $settings ) && is_scalar( $settings[ $key ] ) ) {
+				$settings[ $key ] = trim( (string) $settings[ $key ] );
+			}
+		}
+
+		$text_fields = array(
+			'dlck_custom_quick_links_label',
+			'dlck_environment_badge_label',
+			'dlck_smtp_host',
+			'dlck_smtp_username',
+			'dlck_smtp_from_name',
+			'dlck_site_availability_bypass_token',
+		);
+		foreach ( $text_fields as $key ) {
+			if ( array_key_exists( $key, $settings ) && is_scalar( $settings[ $key ] ) ) {
+				$settings[ $key ] = sanitize_text_field( (string) $settings[ $key ] );
+			}
+		}
+
+		foreach ( array( 'dlck_smtp_from_email', 'dlck_support_access_email' ) as $key ) {
+			if ( array_key_exists( $key, $settings ) && is_scalar( $settings[ $key ] ) ) {
+				$settings[ $key ] = sanitize_email( (string) $settings[ $key ] );
+			}
+		}
+
+		if ( array_key_exists( 'dlck_smtp_encryption', $settings ) ) {
+			$encryption = sanitize_key( (string) $settings['dlck_smtp_encryption'] );
+			$settings['dlck_smtp_encryption'] = in_array( $encryption, array( 'none', 'ssl', 'tls' ), true ) ? $encryption : 'none';
+		}
+
+		if ( array_key_exists( 'dlck_smtp_port', $settings ) ) {
+			$settings['dlck_smtp_port'] = (string) max( 1, min( 65535, absint( $settings['dlck_smtp_port'] ) ) );
+		}
+
+		return $settings;
+	}
+}
+
+if ( ! function_exists( 'dlck_save_sensitive_helper_options_from_post' ) ) {
+	/**
+	 * Save helper values intentionally stored outside dlck_lc_kit.
+	 */
+	function dlck_save_sensitive_helper_options_from_post(): void {
+		if ( isset( $_POST['dlck_smtp_clear_password'] ) && (string) wp_unslash( $_POST['dlck_smtp_clear_password'] ) === '1' ) {
+			delete_option( 'dlck_smtp_password' );
+		} elseif ( isset( $_POST['dlck_smtp_password'] ) ) {
+			$password = (string) wp_unslash( $_POST['dlck_smtp_password'] );
+			if ( $password !== '' ) {
+				update_option( 'dlck_smtp_password', $password, false );
+			}
+		}
+
+		if ( isset( $_POST['dlck_code_helper_php_code'] ) ) {
+			update_option( 'dlck_code_helper_php_code', (string) wp_unslash( $_POST['dlck_code_helper_php_code'] ), false );
+		}
 	}
 }
 
@@ -125,6 +475,7 @@ function dlck_enforce_mutually_exclusive_options( $new_value, $old_value ) { // 
 	if ( is_array( $settings ) ) {
 		$old_settings = is_array( $old_settings ) ? $old_settings : array();
 		$settings     = dlck_filter_settings_for_edition( $settings );
+		$settings     = dlck_normalize_divi_helper_settings( $settings );
 
 		// Normalize Woo cart script policy to known values.
 		if ( array_key_exists( 'dlck_woo_cart_script_policy', $settings ) ) {
@@ -187,6 +538,8 @@ function dlck_enforce_mutually_exclusive_options( $new_value, $old_value ) { // 
 				array(
 					'dlck_auto_clear_cache_after_updates'                 => ! empty( $settings['dlck_auto_clear_cache_after_updates'] ) ? '1' : '0',
 					'dlck_auto_clear_cache_after_post_save_builder_exit' => ! empty( $settings['dlck_auto_clear_cache_after_post_save_builder_exit'] ) ? '1' : '0',
+					'dlck_divi_cache_auto_schedule'                     => isset( $settings['dlck_divi_cache_auto_schedule'] ) ? (string) $settings['dlck_divi_cache_auto_schedule'] : 'none',
+					'dlck_divi_cache_builder_buttons'                   => ! empty( $settings['dlck_divi_cache_builder_buttons'] ) ? '1' : '0',
 				),
 				false
 			);
@@ -195,6 +548,8 @@ function dlck_enforce_mutually_exclusive_options( $new_value, $old_value ) { // 
 		if ( ! $divi_cache_helper_enabled ) {
 			$settings['dlck_auto_clear_cache_after_updates']              = '0';
 			$settings['dlck_auto_clear_cache_after_post_save_builder_exit'] = '0';
+			$settings['dlck_divi_cache_auto_schedule']                     = 'none';
+			$settings['dlck_divi_cache_builder_buttons']                   = '0';
 		} elseif ( ! $divi_cache_helper_was_enabled ) {
 			$restore_state = get_option( $cache_restore_option, array() );
 			if ( is_array( $restore_state ) ) {
@@ -212,6 +567,22 @@ function dlck_enforce_mutually_exclusive_options( $new_value, $old_value ) { // 
 					&& (string) $restore_state['dlck_auto_clear_cache_after_post_save_builder_exit'] === '1'
 				) {
 					$settings['dlck_auto_clear_cache_after_post_save_builder_exit'] = '1';
+				}
+
+				if (
+					isset( $settings['dlck_divi_cache_auto_schedule'] )
+					&& (string) $settings['dlck_divi_cache_auto_schedule'] === 'none'
+					&& isset( $restore_state['dlck_divi_cache_auto_schedule'] )
+				) {
+					$settings['dlck_divi_cache_auto_schedule'] = (string) $restore_state['dlck_divi_cache_auto_schedule'];
+				}
+
+				if (
+					empty( $settings['dlck_divi_cache_builder_buttons'] )
+					&& isset( $restore_state['dlck_divi_cache_builder_buttons'] )
+					&& (string) $restore_state['dlck_divi_cache_builder_buttons'] === '1'
+				) {
+					$settings['dlck_divi_cache_builder_buttons'] = '1';
 				}
 			}
 
@@ -255,7 +626,12 @@ function dlck_get_preflight_conflicts( array $settings ): array {
 
 	if (
 		! $is_enabled( 'dlck_clear_divi_static_css_cache_local_storage' )
-		&& ( $is_enabled( 'dlck_auto_clear_cache_after_updates' ) || $is_enabled( 'dlck_auto_clear_cache_after_post_save_builder_exit' ) )
+		&& (
+			$is_enabled( 'dlck_auto_clear_cache_after_updates' )
+			|| $is_enabled( 'dlck_auto_clear_cache_after_post_save_builder_exit' )
+			|| $is_enabled( 'dlck_divi_cache_builder_buttons' )
+			|| ( isset( $settings['dlck_divi_cache_auto_schedule'] ) && (string) $settings['dlck_divi_cache_auto_schedule'] !== '' && (string) $settings['dlck_divi_cache_auto_schedule'] !== 'none' )
+		)
 	) {
 		$messages[] = __( 'Divi cache auto-clear options require "Clear Divi static css cache + local storage". Dependent options will be switched off.', 'lc-tweaks' );
 	}
@@ -553,6 +929,7 @@ register_activation_hook( __FILE__, 'dlck_maybe_rebuild_front_head_cache_on_upda
  */
 function dlck_clear_plugin_scheduled_events_on_deactivation(): void {
 	wp_clear_scheduled_hook( 'dlck_woo_session_cleanup_cron' );
+	wp_clear_scheduled_hook( 'dlck_divi_cache_scheduled_clear' );
 }
 register_deactivation_hook( __FILE__, 'dlck_clear_plugin_scheduled_events_on_deactivation' );
 
@@ -1452,7 +1829,7 @@ add_action( 'admin_enqueue_scripts', 'dlck_lc_kit_enqueue_scripts_admin' );
 // Admin page (Tweaks + Woo Tweaks + Settings)
 // ---------------------------------------------------------------------
 function divi_lc_kit() {
-	$allowed_tabs = array( 'tweaks', 'divi-tweaks', 'modules', 'woo-tweaks', 'settings', 'deprecated', 'maintenance' );
+	$allowed_tabs = array( 'tweaks', 'divi-tweaks', 'divi-helpers', 'modules', 'woo-tweaks', 'settings', 'deprecated', 'maintenance' );
 	$active_tab   = 'tweaks';
 	$divi_active  = dlck_is_divi_theme_active();
 	$wppt_exists  = file_exists( DLCK_LC_KIT_PLUGIN_DIR . 'functions/modules/wp-page-transition/wp-page-transition.php' );
@@ -1470,6 +1847,10 @@ function divi_lc_kit() {
 	}
 
 	if ( $active_tab === 'divi-tweaks' && ! dlck_is_divi_theme_active() ) {
+		$active_tab = 'tweaks';
+	}
+
+	if ( $active_tab === 'divi-helpers' && ! dlck_is_divi_theme_active() ) {
 		$active_tab = 'tweaks';
 	}
 
@@ -1668,6 +2049,7 @@ function divi_lc_kit() {
 					$is_settings_updated_success = false;
 					$is_settings_updated_message = __( 'Per-site setting updates are locked by multisite policy. Ask a network administrator to enable site overrides.', 'lc-tweaks' );
 				} else {
+					dlck_save_sensitive_helper_options_from_post();
 					foreach ( $_POST as $key => $value ) {
 						if ( ! is_string( $key ) ) {
 							continue;
@@ -1676,6 +2058,9 @@ function divi_lc_kit() {
 							continue;
 						}
 						if ( strpos( $key, 'dlck_' ) !== 0 ) {
+							continue;
+						}
+						if ( in_array( $key, dlck_sensitive_helper_option_keys(), true ) || $key === 'dlck_smtp_clear_password' ) {
 							continue;
 						}
 						if ( $key === 'dlck_rank_math_schema_advanced_json' ) {
@@ -1688,6 +2073,7 @@ function divi_lc_kit() {
 						$dlck_lc_kit_array[ $key ] = wp_unslash( $value );
 					}
 					$dlck_lc_kit_array  = dlck_normalize_scope_rules_settings( $dlck_lc_kit_array );
+					$dlck_lc_kit_array  = dlck_normalize_divi_helper_settings( $dlck_lc_kit_array );
 					$preflight_messages = dlck_get_preflight_conflicts( $dlck_lc_kit_array );
 					// Enforce YT mutual exclusivity on manual saves too.
 					$dlck_lc_kit_array = dlck_enforce_mutually_exclusive_options( $dlck_lc_kit_array, array() );
@@ -1745,6 +2131,7 @@ function divi_lc_kit() {
 				<a href="?page=<?php echo esc_attr( $page_slug ); ?>&tab=tweaks" class="nav-tab <?php echo $active_tab === 'tweaks' ? 'nav-tab-active' : ''; ?>">WordPress</a>
 				<?php if ( $divi_active ) : ?>
 					<a href="?page=<?php echo esc_attr( $page_slug ); ?>&tab=divi-tweaks" class="nav-tab <?php echo $active_tab === 'divi-tweaks' ? 'nav-tab-active' : ''; ?>">Divi</a>
+					<a href="?page=<?php echo esc_attr( $page_slug ); ?>&tab=divi-helpers" class="nav-tab <?php echo $active_tab === 'divi-helpers' ? 'nav-tab-active' : ''; ?>">Divi Helpers</a>
 				<?php endif; ?>
 				<?php if ( $show_modules ) : ?>
 					<a href="?page=<?php echo esc_attr( $page_slug ); ?>&tab=modules" class="nav-tab <?php echo $active_tab === 'modules' ? 'nav-tab-active' : ''; ?>">Modules</a>
@@ -1767,6 +2154,11 @@ function divi_lc_kit() {
 					case 'divi-tweaks':
 						if ( $divi_active ) {
 							include_once DLCK_LC_KIT_PLUGIN_DIR . '/tools/divi-tweaks.php';
+						}
+						break;
+					case 'divi-helpers':
+						if ( $divi_active ) {
+							include_once DLCK_LC_KIT_PLUGIN_DIR . '/tools/divi-helpers.php';
 						}
 						break;
 					case 'modules':
@@ -1888,6 +2280,10 @@ function dlck_get_registered_option_keys(): array {
 			}
 			$keys[] = sanitize_key( $match );
 		}
+	}
+
+	if ( function_exists( 'dlck_get_divi_helper_option_keys' ) ) {
+		$keys = array_merge( $keys, dlck_get_divi_helper_option_keys() );
 	}
 
 	$keys = array_values( array_unique( array_filter( $keys ) ) );
@@ -2417,7 +2813,12 @@ function dlck_load_active_tweaks() {
 		if ( ! dlck_builder_safe_mode_is_active() ) {
 			$divi_always_files = array(
 				'functions/web-performance/clear-divi-static-css-cache-local-storage.php',
+				'functions/divi-tweaks/divi-helpers.php',
 			);
+
+			if ( ! dlck_is_free_edition() ) {
+				$divi_always_files[] = 'functions/modules/divi-assistant-helpers/pro-divi-helpers.php';
+			}
 
 			foreach ( $divi_always_files as $file ) {
 				$path = DLCK_LC_KIT_PLUGIN_DIR . $file;
@@ -2487,7 +2888,9 @@ function dlck_load_active_tweaks() {
 			$dlck_maintenance_layout_val = dlck_get_option( 'dlck_maintenance_layout' );
 			$dlck_maintenance_layout_id  = absint( $dlck_maintenance_layout_val );
 
-		if ( $dlck_maintenance_layout_id && dlck_scope_rules_allow_option( 'dlck_maintenance_layout' ) && ! dlck_builder_safe_mode_is_active() && ! is_admin() && ! wp_doing_ajax() && ! is_customize_preview() ) {
+		$dlck_site_availability_mode = sanitize_key( (string) dlck_get_option( 'dlck_site_availability_mode', 'off' ) );
+
+		if ( $dlck_maintenance_layout_id && ( $dlck_site_availability_mode === '' || $dlck_site_availability_mode === 'off' ) && dlck_scope_rules_allow_option( 'dlck_maintenance_layout' ) && ! dlck_builder_safe_mode_is_active() && ! is_admin() && ! wp_doing_ajax() && ! is_customize_preview() ) {
 			add_action(
 				'template_redirect',
 				static function () use ( $dlck_maintenance_layout_id ) {

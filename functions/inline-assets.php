@@ -122,11 +122,35 @@ add_action(
 	1
 );
 
+if ( ! function_exists( 'dlck_inline_assets_should_enqueue_front_in_admin' ) ) {
+	/**
+	 * Decide whether frontend inline assets are needed during wp-admin enqueue.
+	 */
+	function dlck_inline_assets_should_enqueue_front_in_admin(): bool {
+		$should_enqueue = false;
+
+		if ( function_exists( 'dlck_is_divi_visual_builder_request' ) && dlck_is_divi_visual_builder_request() ) {
+			$should_enqueue = true;
+		}
+
+		foreach ( array( 'et_fb', 'et_vb_preview_id', 'app_window', 'et_builder', 'et_builder_frame' ) as $flag ) {
+			if ( isset( $_GET[ $flag ] ) || isset( $_POST[ $flag ] ) ) {
+				$should_enqueue = true;
+				break;
+			}
+		}
+
+		return (bool) apply_filters( 'dlck_inline_assets_enqueue_front_in_admin', $should_enqueue );
+	}
+}
+
 add_action(
 	'admin_enqueue_scripts',
 	static function () {
-		// Also load front-context assets in admin (e.g., visual builders/previews).
-		dlck_inline_assets_enqueue_context( 'front' );
+		// Also load front-context assets in admin only for builder/preview requests.
+		if ( dlck_inline_assets_should_enqueue_front_in_admin() ) {
+			dlck_inline_assets_enqueue_context( 'front' );
+		}
 		dlck_inline_assets_enqueue_context( 'admin' );
 	},
 	50

@@ -27,4 +27,17 @@ if ($dlck_uninstall_data_val == '1' ){
 	}
 	delete_option('dlck_lc_kit');
 	delete_option('dlckchange_v1_2');
+	delete_option('dlck_smtp_password');
+	delete_option('dlck_code_helper_php_code');
+	delete_option('dlck_code_helper_last_error');
+	delete_option('dlck_support_access_token_hash');
+	delete_option('dlck_support_access_token_plain_once');
+	delete_option('dlck_support_access_expires');
+	$dlck_support_user = get_user_by('login', 'lc-tweaks-support');
+	if ($dlck_support_user && get_user_meta($dlck_support_user->ID, '_dlck_support_access_user', true) === '1') {
+		if (!function_exists('wp_delete_user')) {
+			require_once ABSPATH . 'wp-admin/includes/user.php';
+		}
+		wp_delete_user($dlck_support_user->ID);
+	}
 }

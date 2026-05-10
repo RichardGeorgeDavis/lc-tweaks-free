@@ -3,6 +3,14 @@ Changelog
 
 Unreleased
 
+1.6.1
+- Added a Divi Helpers admin tab with Assistant-inspired Visual Builder, utility, Library/admin-list, frontend, media, and maintenance controls.
+- Added granular Divi AI hiding, builder UI helpers, admin-bar quick links, environment badges, duplicate actions, Divi Library shortcodes/widgets, Admin Notes, Builder usage filters, featured-image fallbacks, and filename-based media metadata helpers.
+- Enhanced Divi Library viewing with safer preview row actions, correct LC Tweaks text domain usage, and no feature-file activation hooks.
+- Expanded maintenance helpers with scheduled Divi cache clearing, Visual Builder cache buttons, and coming-soon/maintenance mode exclusions, IP allow lists, bypass tokens, and no-cache headers.
+- Added pro-only helper implementations for Code Helper CSS/JS/PHP snippets, SMTP sending, temporary support access, and guarded Divi version notices.
+- Hardened Divi Helper asset loading so Visual Builder-only helpers stay scoped to builder requests, Code Helper JavaScript defaults to footer-safe loading, and temporary support access avoids needless cleanup work when disabled.
+
 1.6.0
 - Changed the plugin text domain from `divi-lc-kit` to `lc-tweaks` for WordPress.org compatibility.
 - Added a WooCommerce toggle to block cart-style query actions combined with common ad click tracking parameters.

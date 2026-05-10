@@ -31,27 +31,27 @@ if ( ! defined( 'DLCK_MAINTENANCE_LAYOUT_ACTIVE' ) || ! DLCK_MAINTENANCE_LAYOUT_
 	return;
 }
 
-// Using PHP's header function to send a 503 Service Temporarily Unavailable status code to the client.
-header( $_SERVER['SERVER_PROTOCOL'] . ' 503 Service Temporarily Unavailable', true, 503 );
-$retryAfterSeconds = 240;
-header( 'Retry-After: ' . $retryAfterSeconds );
+$dlck_site_availability_mode = function_exists( 'dlck_get_option' ) ? sanitize_key( (string) dlck_get_option( 'dlck_site_availability_mode', 'maintenance' ) ) : 'maintenance';
+if ( $dlck_site_availability_mode === 'coming_soon' ) {
+	status_header( 200 );
+} else {
+	status_header( 503 );
+	header( 'Retry-After: 240' );
+}
+nocache_headers();
 
-add_action('wp_footer', 'dlck_maintenance_override_footer');
-function dlck_maintenance_override_footer()
-{
-    ?>
+if ( ! function_exists( 'dlck_maintenance_override_footer' ) ) {
+	function dlck_maintenance_override_footer() {
+		?>
   <style type="text/css">
   #main-header,#top-header, #main-footer {display:none !important;}
 #page-container {padding-top:0!important;}
   </style>
-  <?php
+		<?php
+	}
 }
+add_action( 'wp_footer', 'dlck_maintenance_override_footer' );
 get_header();
-dlck_display_divi_section($dlck_maintenance_layout_val);
+dlck_display_divi_section( $dlck_maintenance_layout_val );
 get_footer();
 exit;
-
-//Kill the PHP script.
-exit;
-
-?>

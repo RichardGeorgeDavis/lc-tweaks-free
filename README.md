@@ -22,7 +22,7 @@ Future free-edition updates are delivered through this repository's GitHub Relea
 LC Tweaks Free includes focused toggles for:
 
 - WordPress cleanup, editor, upload, comments, and admin behavior.
-- Divi frontend, builder, media, video, layout, and dashboard tweaks.
+- Divi frontend, builder, media, video, layout, dashboard, and helper tweaks.
 - WooCommerce performance, catalog, checkout, admin, order, email, and product identifier tools.
 - Maintenance tooling for cache clearing, settings import/export, diagnostics, presets, scope rules, and migration helpers.
 
@@ -90,6 +90,18 @@ These options appear when Divi is active.
 - **Autoplay Video Module Clips on Hover:** autoplay Divi video module clips on hover.
 - **Autoplay Standard Videos and Hide Controls:** autoplay standard Divi video module videos and hide controls.
 - **Fix YouTube Loading Height:** stabilize YouTube video module height.
+
+## Divi Helpers
+
+These options appear when Divi is active and are available in the free edition unless marked pro-only in the plugin UI.
+
+- **Visual Builder Helpers:** ESC modal close, sticky builder toolbar, taller HTML/code fields, taller icon picker, inline toolbar hiding, saved/global color ordering, post-content row width, marketplace promo hiding, and Explore Modules hiding.
+- **Granular Divi AI Hiding:** hide specific AI surfaces such as Quick Sites, page, section, layout, text, image, and code actions.
+- **Utility Helpers:** Divi quick links, custom quick links, Theme Builder links, environment badge, remove Howdy, frontend admin-bar hiding/hover reveal, duplicate actions, shortcode-in-menu support, and Divi Library shortcode/widget output.
+- **Library and Admin Lists:** enhanced Divi Library preview/actions, Visual Builder row links, Divi Builder filters on posts/pages, featured-image columns, default featured-image fallbacks, editor back links, and Admin Notes.
+- **Frontend Helpers:** anchor offset, text-selection highlight color, horizontal overflow prevention, custom scrollbar styling, custom back-to-top button, and content text replacement rules.
+- **Media Helpers:** max upload size override, SVG output class, and attachment title/alt/caption/description generation from filenames.
+- **Maintenance Helpers:** scheduled Divi cache clearing, Visual Builder cache buttons, and coming-soon/maintenance mode with path exclusions, IP allow lists, bypass token, and no-cache headers.
 
 ## WooCommerce Options
 
@@ -198,6 +210,10 @@ LC Tweaks Free intentionally excludes these pro/current features:
   - Content Intense
   - Map Module Extended
   - Custom Fullwidth Header Extended
+- Pro-only Divi Helper systems:
+  - Code Helper PHP execution and code editor helpers
+  - SMTP Helper
+  - Temporary support access
 
 ## Updates
 
@@ -210,11 +226,11 @@ lc-tweaks-free-{version}.zip
 For example:
 
 ```text
-lc-tweaks-free-1.6.0.zip
+lc-tweaks-free-1.6.1.zip
 ```
 
 Release tags should use the matching version, preferably with a `v` prefix:
 
 ```text
-v1.6.0
+v1.6.1
 ```
