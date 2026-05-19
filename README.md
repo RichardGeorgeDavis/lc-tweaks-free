@@ -223,14 +223,14 @@ LC Tweaks Free updates from GitHub Releases. Each release must include a zip ass
 lc-tweaks-free-{version}.zip
 ```
 
-For example:
+Asset name pattern:
 
 ```text
-lc-tweaks-free-1.6.1.zip
+lc-tweaks-free-{version}.zip
 ```
 
 Release tags should use the matching version, preferably with a `v` prefix:
 
 ```text
-v1.6.1
+v{version}
 ```

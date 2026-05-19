@@ -101,6 +101,21 @@ function dlck_add_inline_js( $js, $context = 'front' ) {
 }
 
 /**
+ * Wrap collected JS so cached files behave like inline output.
+ *
+ * @param string $js Raw collected JS.
+ * @return string Wrapped JS.
+ */
+function dlck_inline_assets_wrap_js( $js ): string {
+	$js = trim( (string) $js );
+	if ( $js === '' ) {
+		return '';
+	}
+
+	return "(function(){\n" . $js . "\n})();";
+}
+
+/**
  * Build or reuse cached inline CSS/JS files and enqueue/print them.
  */
 function dlck_inline_assets_enqueue() {
@@ -177,32 +192,15 @@ function dlck_inline_assets_enqueue_context( $context ) {
 
 	// Nothing to do.
 	if ( $css_blob === '' && $js_blob === '' ) {
-		// If nothing was collected but cache files exist, reuse them.
-		$upload_dir = dlck_inline_assets_get_cache_dir();
-		$css_path   = $upload_dir . "dlck-inline-{$context}.css";
-		$js_path    = $upload_dir . "dlck-inline-{$context}.js";
-		$has_css_file = file_exists( $css_path ) && filesize( $css_path ) > 0;
-		$has_js_file  = file_exists( $js_path ) && filesize( $js_path ) > 0;
-		if ( ! $has_css_file && ! $has_js_file ) {
-			return;
-		}
-		$cache_url = dlck_inline_assets_get_cache_url();
-		if ( $has_css_file ) {
-			$css_ver = filemtime( $css_path );
-			wp_enqueue_style( "dlck-inline-css-{$context}", $cache_url . "dlck-inline-{$context}.css", array(), $css_ver ? (string) $css_ver : null );
-		}
-		if ( $has_js_file ) {
-			$js_ver = filemtime( $js_path );
-			wp_enqueue_script( "dlck-inline-js-{$context}", $cache_url . "dlck-inline-{$context}.js", array( 'jquery' ), $js_ver ? (string) $js_ver : null, true );
-		}
 		return;
 	}
 
 	$upload_dir = dlck_inline_assets_get_cache_dir();
 	$cache_url  = dlck_inline_assets_get_cache_url();
+	$js_output  = dlck_inline_assets_wrap_js( $js_blob );
 
 	$has_css_file = dlck_inline_assets_maybe_write( $upload_dir, "dlck-inline-{$context}.css", $css_blob );
-	$has_js_file  = dlck_inline_assets_maybe_write( $upload_dir, "dlck-inline-{$context}.js", $js_blob );
+	$has_js_file  = dlck_inline_assets_maybe_write( $upload_dir, "dlck-inline-{$context}.js", $js_output );
 
 	if ( $has_css_file ) {
 		$css_path = $upload_dir . "dlck-inline-{$context}.css";
@@ -218,10 +216,10 @@ function dlck_inline_assets_enqueue_context( $context ) {
 		$js_path = $upload_dir . "dlck-inline-{$context}.js";
 		$js_ver  = file_exists( $js_path ) ? filemtime( $js_path ) : false;
 		wp_enqueue_script( "dlck-inline-js-{$context}", $cache_url . "dlck-inline-{$context}.js", array( 'jquery' ), $js_ver ? (string) $js_ver : null, true );
-	} elseif ( $js_blob !== '' ) {
+	} elseif ( $js_output !== '' ) {
 		wp_register_script( "dlck-inline-js-inline-{$context}", false, array( 'jquery' ), null, true );
 		wp_enqueue_script( "dlck-inline-js-inline-{$context}" );
-		wp_add_inline_script( "dlck-inline-js-inline-{$context}", $js_blob );
+		wp_add_inline_script( "dlck-inline-js-inline-{$context}", $js_output );
 	}
 }
 
@@ -258,10 +256,11 @@ function dlck_inline_assets_output( $context ) {
 		echo '<style id="dlck-inline-css-' . esc_attr( $context ) . '">' . $css_blob . '</style>';
 	}
 	if ( $js_blob !== '' ) {
+		$js_output = dlck_inline_assets_wrap_js( $js_blob );
 		if ( $write_files ) {
-			dlck_inline_assets_maybe_write( $dir, "dlck-inline-{$context}.js", $js_blob );
+			dlck_inline_assets_maybe_write( $dir, "dlck-inline-{$context}.js", $js_output );
 		}
-		echo '<script id="dlck-inline-js-' . esc_attr( $context ) . '">(function(){' . $js_blob . '})();</script>';
+		echo '<script id="dlck-inline-js-' . esc_attr( $context ) . '">' . $js_output . '</script>';
 	}
 }
 
@@ -285,7 +284,7 @@ function dlck_inline_assets_build_cache( $context ) {
 	}
 
 	if ( $blobs['js'] !== '' ) {
-		dlck_inline_assets_maybe_write( $dir, "dlck-inline-{$context}.js", $blobs['js'] );
+		dlck_inline_assets_maybe_write( $dir, "dlck-inline-{$context}.js", dlck_inline_assets_wrap_js( $blobs['js'] ) );
 	} else {
 		$js_path = $dir . "dlck-inline-{$context}.js";
 		if ( file_exists( $js_path ) ) {
@@ -361,7 +360,7 @@ function dlck_inline_assets_maybe_write( $dir, $file, $data ) {
 	$hash_option  = 'dlck_' . md5( $file ) . '_hash';
 	$stored_hash  = get_option( $hash_option );
 
-	if ( file_exists( $target ) && $stored_hash === $hash ) {
+	if ( file_exists( $target ) && $stored_hash === $hash && sha1_file( $target ) === $hash ) {
 		return true;
 	}
 

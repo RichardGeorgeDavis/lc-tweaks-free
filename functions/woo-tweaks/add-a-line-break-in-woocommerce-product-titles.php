@@ -1,6 +1,6 @@
 <?php
 /**
-* @package Add a line break in Woocommerce Product Titles
+* @package Add a line break in WooCommerce Product Titles
  * @version 1.1
  */
 

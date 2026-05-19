@@ -284,10 +284,10 @@
 
 			<div class="lc-kit">
         <div class="box-title">
-          <h3><?php echo esc_html_e('Stop Woocommerce Files from Loading Safely', 'lc-tweaks'); ?></h3>
+          <h3><?php echo esc_html_e('Stop WooCommerce Files from Loading Safely', 'lc-tweaks'); ?></h3>
           <div class="box-descr">
             <p>
-              <?php echo esc_html_e("Safely Remove Woocommerce script and css files from unnecessary pages.", "lc-tweaks"); ?>
+              <?php echo esc_html_e("Safely remove WooCommerce script and CSS files from unnecessary pages.", "lc-tweaks"); ?>
             </p>
           </div>
         </div>
@@ -300,10 +300,10 @@
 
 	  <div class="lc-kit trigger">
 			<div class="box-title">
-				<h3><?php echo esc_html_e('Stop All Woocommerce Files from Loading', 'lc-tweaks'); ?></h3>
+				<h3><?php echo esc_html_e('Stop All WooCommerce Files from Loading', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-						<?php echo esc_html_e("Remove all Woocommerce script and css files from unnecessary pages.", "lc-tweaks"); ?>
+						<?php echo esc_html_e("Remove all WooCommerce script and CSS files from unnecessary pages.", "lc-tweaks"); ?>
 					</p>
 				</div>
 			</div>
@@ -322,7 +322,7 @@
 					<div class="info">
 						<h4><?php echo esc_html_e('NOTE:', 'lc-tweaks'); ?></h4>
 						<p>
-							<?php echo esc_html_e("Enabling this option will remove the default styling and scripts from all non Woocommerce. ie featured section on home page", 'lc-tweaks'); ?>
+							<?php echo esc_html_e("Enabling this option will remove the default styling and scripts from all non-WooCommerce pages, such as a featured section on the home page.", 'lc-tweaks'); ?>
 							</u>:</p>
 						<p>
 							<strong>USE WITH CAUTION</strong> - This dequeues scripts (js) and removes styleing (css).</p>
@@ -336,7 +336,7 @@
 				<h3><?php echo esc_html_e('Stop WooCommerce Gutenberg Blocks from loading', 'lc-tweaks'); ?></h3>
 				<div class="box-descr">
 					<p>
-              <?php echo esc_html_e("Remove Woocommerce Blocks script and css files from unnecessary pages.", "lc-tweaks"); ?>
+              <?php echo esc_html_e("Remove WooCommerce Blocks script and CSS files from unnecessary pages.", "lc-tweaks"); ?>
             </p>
           </div>
         </div>

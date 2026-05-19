@@ -19,7 +19,7 @@ $dlck_deprecated_compat_messages = array(
 	<div class="toolbox" style="padding:0 0 30px;">
 		<div class="info" style="background:transparent;">
 			<h4><?php esc_html_e('What are the deprecated functions?', 'lc-tweaks'); ?></h4>
-			<p><?php echo esc_html_e('On this page you\'ll  find a list of features, which are no longer required with the latest Divi version.', 'lc-tweaks'); ?><br/>
+			<p><?php echo esc_html_e('On this page you\'ll find a list of features that are no longer required with current Divi versions.', 'lc-tweaks'); ?><br/>
 			<p><?php echo esc_html_e('These features continue to work, but using the new Divi theme options to achieve the same results is recommended.', 'lc-tweaks'); ?></p>
 		</div>
 	</div>		

@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: LC Tweaks
-Version: 1.6.1
+Version: 1.6.2
 Plugin URI: https://lucidity.design/product/lc-tweaks/
-Description: Powerful tools to customize the Divi Theme, Wordpress and Woocommerce - added fuctionality, boosted performance and improves page metric results.
+Description: Powerful tools to customize the Divi Theme, WordPress and WooCommerce - added functionality, boosted performance and improved page metric results.
 Author: Lucidity Design
 Author URI: https://lucidity.design
 Text Domain: lc-tweaks
@@ -613,7 +613,7 @@ function dlck_get_preflight_conflicts( array $settings ): array {
 	}
 
 	if ( $is_enabled( 'dlck_remove_woo_files' ) && $is_enabled( 'dlck_remove_woo_all_files' ) ) {
-		$messages[] = __( 'Both WooCommerce script/style removal options are enabled. The safe option will be switched off because "Stop All Woocommerce Files from Loading" is stronger.', 'lc-tweaks' );
+		$messages[] = __( 'Both WooCommerce script/style removal options are enabled. The safe option will be switched off because "Stop All WooCommerce Files from Loading" is stronger.', 'lc-tweaks' );
 	}
 
 	if ( $is_enabled( 'dlck_allow_unfiltered_uploads' ) && ( $is_enabled( 'dlck_svg_uploads' ) || $is_enabled( 'dlck_json_uploads' ) || $is_enabled( 'dlck_ttf_uploads' ) ) ) {
@@ -642,12 +642,12 @@ function dlck_get_preflight_conflicts( array $settings ): array {
 	}
 
 	if ( $woo_cart_policy !== 'default' && $is_enabled( 'dlck_remove_woo_all_files' ) ) {
-		$messages[] = __( 'Woo cart script policy is active, but "Stop All Woocommerce Files from Loading" already removes these scripts where applicable.', 'lc-tweaks' );
+		$messages[] = __( 'Woo cart script policy is active, but "Stop All WooCommerce Files from Loading" already removes these scripts where applicable.', 'lc-tweaks' );
 	} elseif (
 		in_array( $woo_cart_policy, array( 'disable_non_woo', 'disable_non_woo_plus_add_to_cart' ), true )
 		&& $is_enabled( 'dlck_remove_woo_files' )
 	) {
-		$messages[] = __( 'Woo cart script policy (non-Woo pages) overlaps with "Stop Woocommerce Files from Loading Safely".', 'lc-tweaks' );
+		$messages[] = __( 'Woo cart script policy (non-Woo pages) overlaps with "Stop WooCommerce Files from Loading Safely".', 'lc-tweaks' );
 	}
 
 	$messages = array_merge( $messages, dlck_get_divi_compatibility_preflight_conflicts( $settings ) );
@@ -2834,9 +2834,9 @@ function dlck_load_active_tweaks() {
 			'dlck_dwd_map_extended'                    => 'functions/modules/divi-module-map-extended/load_custom_map_module.php',
 			'dlck_dwd_custom_fullwidth_header_extended' => 'functions/modules/divi-module-fullwidth-header-extended/load-fullwidth-header-extended.php',
 			'dlck_woo_dg_product_carousel'             => 'functions/modules/woo-dg-product-carousel/dg-product-carousel.php',
-			'dlck_hide_divi_image_tooltip'             => 'functions/tweaks/divi-tweaks/hide-divi-image-img-tooltip.php',
+			'dlck_hide_divi_image_tooltip'             => 'functions/divi-tweaks/hide-divi-image-img-tooltip.php',
 			'dlck_fix_divi_flashing_content'           => 'functions/deprecated/fix-divi-flashing-content.php',
-			'dlck_fix_divi_user_scalable'              => 'functions/tweaks/divi-tweaks/fix-divi-zooming-user-scalable.php',
+			'dlck_fix_divi_user_scalable'              => 'functions/divi-tweaks/fix-divi-zooming-user-scalable.php',
 			'dlck_enable_divi_builder_by_default'      => 'functions/deprecated/enable_divi_builder_by_default.php',
 			'dlck_hide_gutenberg_std_editor_buttons'   => 'functions/deprecated/hide-the-gutenberg-and-standard-editor-buttons.php',
 			'dlck_disable_premade_layouts'             => 'functions/divi-tweaks/divi-disable-premade-layouts/divi-disable-premade-layouts.php',
@@ -2852,14 +2852,14 @@ function dlck_load_active_tweaks() {
 			'dlck_divi_custom_icons'                   => 'functions/divi-tweaks/add-custom-icons.php',
 			'dlck_divi_lazy_loading'                  => 'functions/divi-tweaks/lazy-load-divi-sections.php',
 			'dlck_divi_lazy_defer_sections'           => 'functions/divi-tweaks/lazy-load-divi-sections.php',
-			'dlck_full_width_divi_footer'              => 'functions/tweaks/divi-tweaks/full-width-footer.php',
+			'dlck_full_width_divi_footer'              => 'functions/divi-tweaks/full-width-footer.php',
 			'dlck_sticky_footer'                       => 'functions/divi-tweaks/sticky-footer.php',
 			'dlck_social_target'                       => 'functions/divi-tweaks/social-links-new-tab.php',
 			'dlck_hide_projects'                       => 'functions/divi-tweaks/hide-projects.php',
-			'dlck_move_sidebar_to_top_on_mobile'       => 'functions/tweaks/divi-tweaks/move-sidebar-to-top-on-mobile.php',
-			'dlck_divi_fix_Anchor_links'               => 'functions/tweaks/divi-tweaks/divi_fix_Anchor_links.php',
-			'dlck_copy_sender_contact_form'            => 'functions/tweaks/divi-tweaks/contact-form-copy-to-sender.php',
-			'dlck_divi_accordions_closed_default'      => 'functions/tweaks/divi-tweaks/divi_accordions_closed_default.php',
+			'dlck_move_sidebar_to_top_on_mobile'       => 'functions/divi-tweaks/move-sidebar-to-top-on-mobile.php',
+			'dlck_divi_fix_Anchor_links'               => 'functions/divi-tweaks/divi_fix_Anchor_links.php',
+			'dlck_copy_sender_contact_form'            => 'functions/divi-tweaks/contact-form-copy-to-sender.php',
+			'dlck_divi_accordions_closed_default'      => 'functions/divi-tweaks/divi_accordions_closed_default.php',
 			'dlck_disable_wordpress_image_sizes'       => 'functions/tweaks/images/disable-wordpress-image-sizes.php',
 			'dlck_remove_divi_resize_image_gallery'    => 'functions/tweaks/images/remove-divi-resize-image-gallery.php',
 			'dlck_remove_divi_resize_image_portfolio'  => 'functions/tweaks/images/remove-divi-resize-image-portfolio.php',
@@ -3251,7 +3251,7 @@ function dlck_output_mobile_theme_color_meta() {
 add_action( 'wp_head', 'dlck_output_mobile_theme_color_meta', 5 );
 
 /**
- * Sync WP Page Transitions Advanced keys + seed table when module toggles.
+ * Sync WP Page Transitions Advanced setup when module toggles.
  *
  * @param mixed $old_value Previous dlck_lc_kit option value.
  * @param mixed $new_value New dlck_lc_kit option value.
@@ -3265,9 +3265,8 @@ function dlck_handle_wppt_toggle( $old_value, $new_value ) {
 	$deactivated = $old === '1' && $new !== '1';
 
 	if ( $activated ) {
-		// Ensure required WP Page Transitions credentials exist when toggled on.
-		update_option( 'wppatr-user-key', 'richarddavis' );
-		update_option( 'wppatr-api-key', '60a7f806df785083c7558592cf8015e6' );
+		dlck_wppt_remove_legacy_shared_credentials();
+		dlck_wppt_seed_credentials_from_constants();
 		dlck_wppt_seed_table_from_sql();
 	} elseif ( $deactivated ) {
 		delete_option( 'wppatr-user-key' );
@@ -3277,19 +3276,50 @@ function dlck_handle_wppt_toggle( $old_value, $new_value ) {
 add_action( 'update_option_dlck_lc_kit', 'dlck_handle_wppt_toggle', 10, 2 );
 
 /**
- * Ensure WP Page Transitions credentials and table exist when module is enabled.
+ * Ensure WP Page Transitions table exists when module is enabled.
  */
 function dlck_wppt_ensure_setup() {
 	if ( dlck_get_option( 'dlck_divi_wp_page_transitions' ) !== '1' ) {
 		return;
 	}
+	dlck_wppt_remove_legacy_shared_credentials();
+	dlck_wppt_seed_credentials_from_constants();
+	dlck_wppt_seed_table_from_sql();
+}
+
+/**
+ * Seed WP Page Transitions credentials only when the site explicitly defines them.
+ */
+function dlck_wppt_seed_credentials_from_constants() {
+	$user_key = defined( 'DLCK_WPPT_DEFAULT_USER_KEY' ) ? (string) constant( 'DLCK_WPPT_DEFAULT_USER_KEY' ) : '';
+	$api_key  = defined( 'DLCK_WPPT_DEFAULT_API_KEY' ) ? (string) constant( 'DLCK_WPPT_DEFAULT_API_KEY' ) : '';
+
+	if ( $user_key === '' || $api_key === '' ) {
+		return;
+	}
+
 	if ( get_option( 'wppatr-user-key' ) === false ) {
-		update_option( 'wppatr-user-key', 'richarddavis' );
+		update_option( 'wppatr-user-key', sanitize_text_field( $user_key ) );
 	}
 	if ( get_option( 'wppatr-api-key' ) === false ) {
-		update_option( 'wppatr-api-key', '60a7f806df785083c7558592cf8015e6' );
+		update_option( 'wppatr-api-key', sanitize_text_field( $api_key ) );
 	}
-	dlck_wppt_seed_table_from_sql();
+}
+
+/**
+ * Remove the legacy bundled shared credentials if this site still has them.
+ */
+function dlck_wppt_remove_legacy_shared_credentials() {
+	$user_key = (string) get_option( 'wppatr-user-key', '' );
+	$api_key  = (string) get_option( 'wppatr-api-key', '' );
+
+	$has_legacy_user_key = hash_equals( '4a947709cb5aeea91f8b2ff99a74b96cb2f132d1059e9184c7ddf8cd317d4acc', hash( 'sha256', $user_key ) );
+	$has_legacy_api_key  = hash_equals( '3932c5ef6ba64e22f9815635391fb4f96ea2501d3a0a97701983298e32bc0282', hash( 'sha256', $api_key ) );
+
+	if ( $has_legacy_user_key && $has_legacy_api_key ) {
+		delete_option( 'wppatr-user-key' );
+		delete_option( 'wppatr-api-key' );
+	}
 }
 
 /**

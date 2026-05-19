@@ -1530,7 +1530,9 @@ jQuery(document).ready(function($) {
 			{
 				action: 'dlck_lazy_load_section',
 				post_id: config.postId,
-				chunk: parseInt(chunkIndex, 10)
+				chunk: parseInt(chunkIndex, 10),
+				cache_key: config.cacheKey,
+				nonce: config.nonce
 			},
 			function(data) {
 				if (!data) {

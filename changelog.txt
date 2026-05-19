@@ -3,6 +3,17 @@ Changelog
 
 Unreleased
 
+1.6.2
+- Fixed cached inline JavaScript generation so cache files are wrapped like inline output and stale generated files are not reused after collection comes back empty.
+- Fixed stale Divi tweak include paths, added the missing WP Rocket Priority Elements helper, and refreshed release documentation placeholders to avoid stale version examples.
+- Cleaned release packaging so backup `.bak` artifacts stay out of generated packages.
+- Hardened font, SVG, and JSON uploads with stricter extension checks, content validation, SVG sanitization, and administrator-only SVG uploads.
+- Locked down Divi lazy-load and bundled module AJAX handlers with nonces, capability checks, product/layout validation, and safer public throttling.
+- Removed bundled WP Page Transitions shared credential seeding, cleaned legacy shared credentials, and stopped exposing those credentials through localized admin data.
+- Safer bundled module behavior for TM Divi Shop Extended, including checksum-gated template cleanup, no runtime theme-template copying, safer product override saves, sanitized quick-view output, and PHP 8 compatibility fixes.
+- Preserved real YITH update/API traffic while keeping the activator behavior scoped to licence activation requests.
+- Hardened temporary support access so successful links are consumed, failed attempts are throttled, and the support user cannot regenerate access links.
+
 1.6.1
 - Added a Divi Helpers admin tab with Assistant-inspired Visual Builder, utility, Library/admin-list, frontend, media, and maintenance controls.
 - Added granular Divi AI hiding, builder UI helpers, admin-bar quick links, environment badges, duplicate actions, Divi Library shortcodes/widgets, Admin Notes, Builder usage filters, featured-image fallbacks, and filename-based media metadata helpers.

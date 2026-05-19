@@ -34,7 +34,7 @@ $dlck_divi_disable_related_video_suggestions_val    = dlck_get_option( 'dlck_div
 		</div>
 	</div>
 
-	<h2 class="tool-section"><?php echo esc_html_e( 'Wordpress', 'lc-tweaks' ); ?></h2>
+	<h2 class="tool-section"><?php echo esc_html_e( 'WordPress', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 
 		<div class="lc-kit trigger">

@@ -2,8 +2,8 @@
 $dlck_import_messages;
 $dlck_import_messages = array(
 	array(
-		'Filed to import settings.',
-		'This file is not a correct LC Kit export file. Please upload a JSON file.',
+		'Failed to import settings.',
+		'This file is not a correct LC Tweaks export file. Please upload a JSON file.',
 		'Per-site settings are locked by multisite policy.',
 	),
 	array(

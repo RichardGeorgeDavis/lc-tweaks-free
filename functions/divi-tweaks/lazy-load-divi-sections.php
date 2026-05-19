@@ -305,6 +305,7 @@ function dlck_divi_lazy_enqueue_assets( int $post_id, array $cache ): void {
 			'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
 			'postId'     => $post_id,
 			'cacheKey'   => $cache_key,
+			'nonce'      => wp_create_nonce( 'dlck_lazy_load_section_' . $post_id . '_' . $cache_key ),
 			'chunkCount' => $chunk_count,
 			'prefetchOffset' => $prefetch_offset,
 			'loadAllOnInteraction' => $load_all_interaction,
@@ -345,8 +346,10 @@ function dlck_divi_lazy_hex_to_rgb( string $color ): string {
 function dlck_divi_lazy_load_section(): void {
 	$post_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
 	$chunk   = isset( $_POST['chunk'] ) ? absint( $_POST['chunk'] ) : 0;
+	$cache_key = isset( $_POST['cache_key'] ) ? sanitize_key( wp_unslash( $_POST['cache_key'] ) ) : '';
+	$nonce  = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 
-	if ( ! $post_id || $chunk < 1 ) {
+	if ( ! $post_id || $chunk < 1 || $cache_key === '' || ! wp_verify_nonce( $nonce, 'dlck_lazy_load_section_' . $post_id . '_' . $cache_key ) ) {
 		wp_die();
 	}
 
@@ -360,11 +363,7 @@ function dlck_divi_lazy_load_section(): void {
 	}
 
 	$cache = dlck_divi_lazy_get_cache_from_storage( $post_id );
-	if ( empty( $cache['chunks'] ) || $chunk >= (int) $cache['chunks'] ) {
-		$cache = dlck_divi_lazy_rebuild_cache( $post_id );
-	}
-
-	if ( empty( $cache['chunks'] ) || $chunk >= (int) $cache['chunks'] ) {
+	if ( empty( $cache['key'] ) || ! hash_equals( (string) $cache['key'], $cache_key ) || empty( $cache['chunks'] ) || $chunk >= (int) $cache['chunks'] ) {
 		wp_die();
 	}
 

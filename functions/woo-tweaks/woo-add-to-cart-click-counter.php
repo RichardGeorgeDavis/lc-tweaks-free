@@ -27,7 +27,8 @@ function dlck_collect_add_to_cart_click_counter_assets() {
 		"if(!window.jQuery){return;}\n" .
 		"var $=window.jQuery;\n" .
 		"$(document).on('click','.single_add_to_cart_button',function(){\n" .
-		"var pid=$(this).attr('value');\n" .
+		"var $button=$(this);\n" .
+		"var pid=$button.val()||$button.attr('value')||$button.closest('form.cart').find('[name=\"add-to-cart\"],[name=\"product_id\"]').first().val();\n" .
 		"if(!pid){return;}\n" .
 		"$.post(dlckAddCart.ajaxUrl,{action:'dlck_add_cart_clicked',pid:pid,nonce:dlckAddCart.nonce});\n" .
 		"});\n" .
@@ -52,10 +53,41 @@ function dlck_add_cart_clicked() {
 		wp_die();
 	}
 
+	if ( get_post_type( $pid ) !== 'product' || get_post_status( $pid ) !== 'publish' || ! function_exists( 'wc_get_product' ) ) {
+		wp_die( '', 403 );
+	}
+
+	$product = wc_get_product( $pid );
+	if ( ! $product || ! $product->is_purchasable() ) {
+		wp_die( '', 403 );
+	}
+
+	$rate_key = 'dlck_add_cart_click_' . md5( dlck_add_cart_click_actor_key() . '|' . $pid );
+	if ( get_transient( $rate_key ) ) {
+		wp_die();
+	}
+	set_transient( $rate_key, 1, 5 );
+
 	$times_added_to_cart = (int) get_post_meta( $pid, 'add_cart_clicks', true );
 	update_post_meta( $pid, 'add_cart_clicks', $times_added_to_cart + 1 );
 
 	wp_die();
+}
+
+/**
+ * Build a coarse actor key for public click-counter throttling.
+ *
+ * @return string
+ */
+function dlck_add_cart_click_actor_key() {
+	if ( is_user_logged_in() ) {
+		return 'user:' . get_current_user_id();
+	}
+
+	$remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+	$user_agent  = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
+
+	return 'anon:' . wp_hash( $remote_addr . '|' . $user_agent );
 }
 
 /**
