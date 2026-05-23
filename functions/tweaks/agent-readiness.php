@@ -28,6 +28,121 @@ function dlck_agent_readiness_enabled( string $option_name, string $default = '1
 }
 
 /**
+ * Whether WooCommerce store surfaces should be skipped by agent-readable output.
+ */
+function dlck_agent_readiness_exclude_woocommerce(): bool {
+	return dlck_agent_readiness_enabled( 'dlck_agent_readiness_exclude_woo', '0' );
+}
+
+/**
+ * Whether included WooCommerce content should receive product/catalog Markdown.
+ */
+function dlck_agent_readiness_woocommerce_markdown_enabled(): bool {
+	return dlck_agent_readiness_enabled( 'dlck_agent_readiness_woo_markdown', '1' );
+}
+
+/**
+ * Return true when a post is a WooCommerce product or configured WooCommerce page.
+ *
+ * @param int|WP_Post $post_or_id Post object or ID.
+ */
+function dlck_agent_readiness_is_woocommerce_post( $post_or_id ): bool {
+	$post = get_post( $post_or_id );
+	if ( ! $post instanceof WP_Post ) {
+		return false;
+	}
+
+	if ( in_array( get_post_type( $post ), array( 'product', 'product_variation' ), true ) ) {
+		return true;
+	}
+
+	if ( function_exists( 'wc_get_page_id' ) ) {
+		$page_ids = array();
+		foreach ( array( 'shop', 'cart', 'checkout', 'myaccount', 'terms' ) as $page ) {
+			$page_id = wc_get_page_id( $page );
+			if ( $page_id > 0 ) {
+				$page_ids[] = (int) $page_id;
+			}
+		}
+
+		return in_array( (int) $post->ID, $page_ids, true );
+	}
+
+	return false;
+}
+
+/**
+ * Return true when a post is the configured WooCommerce shop page.
+ *
+ * @param int|WP_Post $post_or_id Post object or ID.
+ */
+function dlck_agent_readiness_is_woocommerce_shop_page( $post_or_id ): bool {
+	$post = get_post( $post_or_id );
+	if ( ! $post instanceof WP_Post || ! function_exists( 'wc_get_page_id' ) ) {
+		return false;
+	}
+
+	$shop_id = wc_get_page_id( 'shop' );
+
+	return $shop_id > 0 && (int) $post->ID === (int) $shop_id;
+}
+
+/**
+ * Return the configured WooCommerce shop page ID.
+ */
+function dlck_agent_readiness_get_woocommerce_shop_page_id(): int {
+	if ( ! function_exists( 'wc_get_page_id' ) ) {
+		return 0;
+	}
+
+	$shop_id = wc_get_page_id( 'shop' );
+
+	return $shop_id > 0 ? (int) $shop_id : 0;
+}
+
+/**
+ * Return true when the current query is the WooCommerce shop/catalog page.
+ */
+function dlck_agent_readiness_is_woocommerce_shop_query(): bool {
+	return function_exists( 'is_shop' ) && is_shop();
+}
+
+/**
+ * Return true when this post should be excluded from agent-readable output.
+ *
+ * @param int|WP_Post $post_or_id Post object or ID.
+ */
+function dlck_agent_readiness_should_exclude_post( $post_or_id ): bool {
+	return dlck_agent_readiness_exclude_woocommerce() && dlck_agent_readiness_is_woocommerce_post( $post_or_id );
+}
+
+/**
+ * Return true when the current queried page is excluded from agent discovery.
+ */
+function dlck_agent_readiness_current_request_is_excluded(): bool {
+	if ( ! dlck_agent_readiness_exclude_woocommerce() ) {
+		return false;
+	}
+
+	if ( is_front_page() && get_option( 'show_on_front' ) === 'page' ) {
+		$page_id = absint( get_option( 'page_on_front' ) );
+		return $page_id > 0 && dlck_agent_readiness_is_woocommerce_post( $page_id );
+	}
+
+	if ( dlck_agent_readiness_is_woocommerce_shop_query() ) {
+		$shop_id = dlck_agent_readiness_get_woocommerce_shop_page_id();
+		return $shop_id > 0;
+	}
+
+	if ( is_singular() ) {
+		$post = get_queried_object();
+		return $post instanceof WP_Post && dlck_agent_readiness_is_woocommerce_post( $post );
+	}
+
+	return false;
+}
+
+/**
  * Return a normalized Content Signals value.
  */
 function dlck_agent_readiness_get_signal_value( string $option_name, string $default ): string {
@@ -177,6 +292,10 @@ function dlck_agent_readiness_get_index_md_document(): ?array {
 		return null;
 	}
 
+	if ( dlck_agent_readiness_should_exclude_post( $post_id ) ) {
+		return null;
+	}
+
 	return dlck_agent_readiness_get_post_markdown_document( $post_id );
 }
 
@@ -186,6 +305,13 @@ function dlck_agent_readiness_get_index_md_document(): ?array {
 function dlck_agent_readiness_get_current_markdown_document(): ?array {
 	if ( is_front_page() ) {
 		return dlck_agent_readiness_get_home_markdown_document();
+	}
+
+	if ( dlck_agent_readiness_is_woocommerce_shop_query() ) {
+		$shop_id = dlck_agent_readiness_get_woocommerce_shop_page_id();
+		if ( $shop_id > 0 ) {
+			return dlck_agent_readiness_get_post_markdown_document( $shop_id );
+		}
 	}
 
 	if ( is_singular() ) {
@@ -199,11 +325,33 @@ function dlck_agent_readiness_get_current_markdown_document(): ?array {
 }
 
 /**
+ * Render post content through normal WordPress filters with that post in context.
+ */
+function dlck_agent_readiness_apply_post_content_filters( WP_Post $post, string $content ): string {
+	$had_previous_post = array_key_exists( 'post', $GLOBALS );
+	$previous_post     = $had_previous_post ? $GLOBALS['post'] : null;
+	$GLOBALS['post'] = $post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+	setup_postdata( $post );
+	$html = apply_filters( 'the_content', $content );
+	wp_reset_postdata();
+	if ( $had_previous_post ) {
+		$GLOBALS['post'] = $previous_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+	} else {
+		unset( $GLOBALS['post'] );
+	}
+
+	return is_string( $html ) ? $html : '';
+}
+
+/**
  * Build Markdown for the public front page.
  */
 function dlck_agent_readiness_get_home_markdown_document(): ?array {
 	$page_id = ( get_option( 'show_on_front' ) === 'page' ) ? absint( get_option( 'page_on_front' ) ) : 0;
 	if ( $page_id ) {
+		if ( dlck_agent_readiness_should_exclude_post( $page_id ) ) {
+			return null;
+		}
 		return dlck_agent_readiness_get_post_markdown_document( $page_id, home_url( '/' ) );
 	}
 
@@ -266,8 +414,22 @@ function dlck_agent_readiness_get_post_markdown_document( $post_or_id, string $c
 		return null;
 	}
 
+	if ( dlck_agent_readiness_should_exclude_post( $post ) ) {
+		return null;
+	}
+
 	if ( get_post_status( $post ) !== 'publish' || ! is_post_type_viewable( get_post_type( $post ) ) || $post->post_password !== '' ) {
 		return null;
+	}
+
+	if ( dlck_agent_readiness_woocommerce_markdown_enabled() ) {
+		if ( get_post_type( $post ) === 'product' ) {
+			return dlck_agent_readiness_get_product_markdown_document( $post, $canonical_url );
+		}
+
+		if ( dlck_agent_readiness_is_woocommerce_shop_page( $post ) ) {
+			return dlck_agent_readiness_get_shop_markdown_document( $post, $canonical_url );
+		}
 	}
 
 	$title = wp_strip_all_tags( get_the_title( $post ) );
@@ -280,19 +442,8 @@ function dlck_agent_readiness_get_post_markdown_document( $post_or_id, string $c
 		$permalink = home_url( '/' );
 	}
 
-	$previous_post = $GLOBALS['post'] ?? null;
-	$GLOBALS['post'] = $post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-	setup_postdata( $post );
-	$html = apply_filters( 'the_content', $post->post_content );
-	wp_reset_postdata();
-	if ( $previous_post instanceof WP_Post ) {
-		$GLOBALS['post'] = $previous_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-	} elseif ( null === $previous_post ) {
-		unset( $GLOBALS['post'] );
-	}
-
 	$excerpt = has_excerpt( $post ) ? wp_strip_all_tags( get_the_excerpt( $post ) ) : '';
-	$body    = dlck_agent_readiness_html_to_markdown( is_string( $html ) ? $html : '' );
+	$body    = dlck_agent_readiness_html_to_markdown( dlck_agent_readiness_apply_post_content_filters( $post, $post->post_content ) );
 	if ( $body === '' && $excerpt !== '' ) {
 		$body = $excerpt;
 	}
@@ -309,6 +460,206 @@ function dlck_agent_readiness_get_post_markdown_document( $post_or_id, string $c
 	);
 
 	return array( 'markdown' => $markdown );
+}
+
+/**
+ * Build Markdown for a WooCommerce product page.
+ */
+function dlck_agent_readiness_get_product_markdown_document( WP_Post $post, string $canonical_url = '' ): ?array {
+	if ( ! function_exists( 'wc_get_product' ) ) {
+		return null;
+	}
+
+	$product = wc_get_product( $post );
+	if ( ! $product ) {
+		return null;
+	}
+
+	$title     = wp_strip_all_tags( $product->get_name() );
+	$permalink = $canonical_url !== '' ? $canonical_url : get_permalink( $post );
+	if ( ! $permalink ) {
+		$permalink = home_url( '/' );
+	}
+
+	$had_previous_post = array_key_exists( 'post', $GLOBALS );
+	$previous_post     = $had_previous_post ? $GLOBALS['post'] : null;
+	$GLOBALS['post'] = $post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+	setup_postdata( $post );
+	$had_previous_product = array_key_exists( 'product', $GLOBALS );
+	$previous_product     = $had_previous_product ? $GLOBALS['product'] : null;
+	$GLOBALS['product'] = $product; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+	$summary_html = apply_filters( 'woocommerce_short_description', $product->get_short_description() );
+	$summary_html = is_string( $summary_html ) ? $summary_html : '';
+	$summary      = dlck_agent_readiness_html_to_markdown( $summary_html );
+	$summary_text = trim( wp_strip_all_tags( $summary_html ) );
+	wp_reset_postdata();
+	if ( $had_previous_post ) {
+		$GLOBALS['post'] = $previous_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+	} else {
+		unset( $GLOBALS['post'] );
+	}
+
+	$details = array(
+		'Product Type' => ucfirst( str_replace( '-', ' ', (string) $product->get_type() ) ),
+		'SKU'          => $product->get_sku(),
+		'Price'        => wp_strip_all_tags( html_entity_decode( (string) $product->get_price_html(), ENT_QUOTES, 'UTF-8' ) ),
+		'Availability' => dlck_agent_readiness_get_product_availability_text( $product ),
+		'Categories'   => function_exists( 'wc_get_product_category_list' ) ? wp_strip_all_tags( wc_get_product_category_list( $product->get_id(), ', ' ) ) : '',
+	);
+
+	$body = '';
+	if ( $summary !== '' ) {
+		$body .= $summary . "\n\n";
+	}
+
+	$body .= "## Product Details\n\n";
+	foreach ( $details as $label => $value ) {
+		$value = trim( wp_strip_all_tags( (string) $value ) );
+		if ( $value === '' ) {
+			continue;
+		}
+		$body .= '- **' . $label . ':** ' . dlck_agent_readiness_escape_markdown_inline( $value ) . "\n";
+	}
+
+	$body .= '- **Product URL:** ' . esc_url_raw( $permalink ) . "\n";
+
+	$description = dlck_agent_readiness_html_to_markdown( dlck_agent_readiness_apply_post_content_filters( $post, $product->get_description() ) );
+	if ( $description !== '' ) {
+		$body .= "\n## Description\n\n" . $description . "\n";
+	}
+	if ( $had_previous_product ) {
+		$GLOBALS['product'] = $previous_product; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+	} else {
+		unset( $GLOBALS['product'] );
+	}
+
+	$markdown = dlck_agent_readiness_render_markdown_document(
+		array(
+			'title'        => $title,
+			'url'          => $permalink,
+			'description'  => $summary_text,
+			'type'         => 'product',
+			'sku'          => $product->get_sku(),
+			'availability' => dlck_agent_readiness_get_product_availability_text( $product ),
+			'dateModified' => get_post_modified_time( 'c', true, $post ),
+		),
+		$title,
+		$body
+	);
+
+	return array( 'markdown' => $markdown );
+}
+
+/**
+ * Build Markdown for the WooCommerce shop/catalog page.
+ */
+function dlck_agent_readiness_get_shop_markdown_document( WP_Post $post, string $canonical_url = '' ): ?array {
+	$title = wp_strip_all_tags( get_the_title( $post ) );
+	if ( $title === '' ) {
+		$title = __( 'Shop', 'lc-tweaks' );
+	}
+
+	$permalink = $canonical_url !== '' ? $canonical_url : get_permalink( $post );
+	if ( ! $permalink ) {
+		$permalink = home_url( '/' );
+	}
+
+	$body = dlck_agent_readiness_html_to_markdown( dlck_agent_readiness_apply_post_content_filters( $post, $post->post_content ) );
+	$product_query_args = array(
+		'post_type'           => 'product',
+		'post_status'         => 'publish',
+		'posts_per_page'      => 24,
+		'ignore_sticky_posts' => true,
+		'orderby'             => array(
+			'menu_order' => 'ASC',
+			'title'      => 'ASC',
+		),
+		'suppress_filters'    => false,
+	);
+
+	if ( function_exists( 'wc_get_product_visibility_term_ids' ) ) {
+		$product_visibility_terms = wc_get_product_visibility_term_ids();
+		$excluded_visibility_ids  = array();
+		if ( ! empty( $product_visibility_terms['exclude-from-catalog'] ) ) {
+			$excluded_visibility_ids[] = (int) $product_visibility_terms['exclude-from-catalog'];
+		}
+		if ( get_option( 'woocommerce_hide_out_of_stock_items' ) === 'yes' && ! empty( $product_visibility_terms['outofstock'] ) ) {
+			$excluded_visibility_ids[] = (int) $product_visibility_terms['outofstock'];
+		}
+
+		if ( ! empty( $excluded_visibility_ids ) ) {
+			$product_query_args['tax_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+				array(
+					'taxonomy' => 'product_visibility',
+					'field'    => 'term_taxonomy_id',
+					'terms'    => array_values( array_unique( $excluded_visibility_ids ) ),
+					'operator' => 'NOT IN',
+				),
+			);
+		}
+	}
+
+	$products = get_posts( $product_query_args );
+
+	if ( ! empty( $products ) && function_exists( 'wc_get_product' ) ) {
+		$body .= "\n\n## Products\n\n";
+		foreach ( $products as $product_post ) {
+			if ( ! $product_post instanceof WP_Post || $product_post->post_password !== '' ) {
+				continue;
+			}
+
+			$product = wc_get_product( $product_post );
+			if ( ! $product ) {
+				continue;
+			}
+
+			$product_url = get_permalink( $product_post );
+			$product_title = wp_strip_all_tags( $product->get_name() );
+			if ( $product_title === '' || ! $product_url ) {
+				continue;
+			}
+
+			$meta = array_filter(
+				array(
+					wp_strip_all_tags( html_entity_decode( (string) $product->get_price_html(), ENT_QUOTES, 'UTF-8' ) ),
+					dlck_agent_readiness_get_product_availability_text( $product ),
+				)
+			);
+			$suffix = empty( $meta ) ? '' : ' - ' . dlck_agent_readiness_escape_markdown_inline( implode( ' - ', $meta ) );
+			$body  .= '- [' . dlck_agent_readiness_escape_markdown_inline( $product_title ) . '](' . esc_url_raw( $product_url ) . ')' . $suffix . "\n";
+		}
+	}
+
+	$markdown = dlck_agent_readiness_render_markdown_document(
+		array(
+			'title'       => $title,
+			'url'         => $permalink,
+			'description' => wp_strip_all_tags( get_the_excerpt( $post ) ),
+			'type'        => 'shop',
+		),
+		$title,
+		$body
+	);
+
+	return array( 'markdown' => $markdown );
+}
+
+/**
+ * Return compact public product availability text.
+ *
+ * @param WC_Product $product Product object.
+ */
+function dlck_agent_readiness_get_product_availability_text( $product ): string {
+	if ( ! is_object( $product ) || ! method_exists( $product, 'get_availability' ) ) {
+		return '';
+	}
+
+	$availability = $product->get_availability();
+	if ( is_array( $availability ) && ! empty( $availability['availability'] ) ) {
+		return wp_strip_all_tags( (string) $availability['availability'] );
+	}
+
+	return method_exists( $product, 'is_in_stock' ) && $product->is_in_stock() ? __( 'In stock', 'lc-tweaks' ) : __( 'Out of stock', 'lc-tweaks' );
 }
 
 /**
@@ -660,7 +1011,11 @@ function dlck_agent_readiness_send_discovery_headers(): void {
 		return;
 	}
 
-	if ( ! ( is_front_page() || is_singular() ) ) {
+	if ( ! ( is_front_page() || is_singular() || dlck_agent_readiness_is_woocommerce_shop_query() ) ) {
+		return;
+	}
+
+	if ( dlck_agent_readiness_current_request_is_excluded() ) {
 		return;
 	}
 
@@ -681,6 +1036,10 @@ function dlck_agent_readiness_render_markdown_alternate_link(): void {
 		return;
 	}
 
+	if ( dlck_agent_readiness_current_request_is_excluded() ) {
+		return;
+	}
+
 	$markdown_url = dlck_agent_readiness_get_current_markdown_url();
 	if ( $markdown_url === '' ) {
 		return;
@@ -697,8 +1056,23 @@ function dlck_agent_readiness_get_current_markdown_url(): string {
 		return '';
 	}
 
+	if ( dlck_agent_readiness_current_request_is_excluded() ) {
+		return '';
+	}
+
 	if ( is_front_page() ) {
 		return home_url( '/index.md' );
+	}
+
+	if ( dlck_agent_readiness_is_woocommerce_shop_query() ) {
+		$shop_id = dlck_agent_readiness_get_woocommerce_shop_page_id();
+		if ( $shop_id <= 0 ) {
+			return '';
+		}
+
+		$shop_url = get_permalink( $shop_id );
+
+		return $shop_url ? trailingslashit( $shop_url ) . 'index.md' : '';
 	}
 
 	if ( ! is_singular() || get_option( 'permalink_structure' ) === '' ) {
@@ -707,6 +1081,10 @@ function dlck_agent_readiness_get_current_markdown_url(): string {
 
 	$post = get_queried_object();
 	if ( ! $post instanceof WP_Post || get_post_status( $post ) !== 'publish' || ! is_post_type_viewable( get_post_type( $post ) ) || $post->post_password !== '' ) {
+		return '';
+	}
+
+	if ( dlck_agent_readiness_should_exclude_post( $post ) ) {
 		return '';
 	}
 

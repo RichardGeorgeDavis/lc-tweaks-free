@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: LC Tweaks
-Version: 1.6.5
+Version: 1.6.6
 Plugin URI: https://lucidity.design/product/lc-tweaks/
 Description: Powerful tools to customize the Divi Theme, WordPress and WooCommerce - added functionality, boosted performance and improved page metric results.
 Author: Lucidity Design
@@ -232,6 +232,8 @@ if ( ! function_exists( 'dlck_get_agent_readiness_option_keys' ) ) {
 			'dlck_agent_readiness_enabled',
 			'dlck_agent_readiness_markdown_accept',
 			'dlck_agent_readiness_index_md',
+			'dlck_agent_readiness_exclude_woo',
+			'dlck_agent_readiness_woo_markdown',
 			'dlck_agent_readiness_robots_signals',
 			'dlck_agent_readiness_discovery_headers',
 			'dlck_agent_readiness_llms_enrichment',
@@ -316,6 +318,8 @@ if ( ! function_exists( 'dlck_normalize_divi_helper_settings' ) ) {
 			'dlck_agent_readiness_enabled',
 			'dlck_agent_readiness_markdown_accept',
 			'dlck_agent_readiness_index_md',
+			'dlck_agent_readiness_exclude_woo',
+			'dlck_agent_readiness_woo_markdown',
 			'dlck_agent_readiness_robots_signals',
 			'dlck_agent_readiness_discovery_headers',
 			'dlck_agent_readiness_llms_enrichment',

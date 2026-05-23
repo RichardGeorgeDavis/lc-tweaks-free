@@ -530,6 +530,8 @@ $dlck_rank_math_llms_summary_rows            = array(
 $dlck_agent_readiness_enabled_val           = $dlck_setting( 'dlck_agent_readiness_enabled' );
 $dlck_agent_readiness_markdown_accept_val   = $dlck_setting( 'dlck_agent_readiness_markdown_accept', '1' );
 $dlck_agent_readiness_index_md_val          = $dlck_setting( 'dlck_agent_readiness_index_md', '1' );
+$dlck_agent_readiness_exclude_woo_val       = $dlck_setting( 'dlck_agent_readiness_exclude_woo', '0' );
+$dlck_agent_readiness_woo_markdown_val      = $dlck_setting( 'dlck_agent_readiness_woo_markdown', '1' );
 $dlck_agent_readiness_robots_signals_val    = $dlck_setting( 'dlck_agent_readiness_robots_signals', '1' );
 $dlck_agent_readiness_discovery_headers_val = $dlck_setting( 'dlck_agent_readiness_discovery_headers', '1' );
 $dlck_agent_readiness_llms_enrichment_val   = $dlck_setting( 'dlck_agent_readiness_llms_enrichment', '1' );
@@ -547,6 +549,7 @@ $dlck_agent_readiness_sitemap_url           = $dlck_rank_math_sitemap_enabled ? 
 $dlck_agent_readiness_physical_robots       = file_exists( ABSPATH . 'robots.txt' );
 $dlck_agent_readiness_cloudflare_request    = ! empty( $_SERVER['HTTP_CF_RAY'] ) || ! empty( $_SERVER['HTTP_CF_CONNECTING_IP'] ) || ! empty( $_SERVER['HTTP_CF_VISITOR'] );
 $dlck_agent_readiness_pretty_permalinks     = get_option( 'permalink_structure' ) !== '';
+$dlck_agent_readiness_woo_active            = class_exists( 'WooCommerce' ) || function_exists( 'WC' ) || function_exists( 'wc_get_page_id' );
 $dlck_agent_readiness_home_url              = home_url( '/' );
 $dlck_agent_readiness_index_md_url          = home_url( '/index.md' );
 $dlck_agent_readiness_robots_url            = home_url( '/robots.txt' );
@@ -561,6 +564,22 @@ $dlck_agent_readiness_htaccess_remove_url   = wp_nonce_url( admin_url( 'admin-po
 $dlck_agent_readiness_htaccess_label        = $dlck_agent_readiness_htaccess_installed
 	? __( 'Installed in .htaccess. Purge page/CDN caches after updates.', 'lc-tweaks' )
 	: ( $dlck_agent_readiness_htaccess_writable ? __( 'Not installed. LC Tweaks can add it because .htaccess is writable.', 'lc-tweaks' ) : __( 'Not installed. Copy the snippet manually because .htaccess is not writable.', 'lc-tweaks' ) );
+$dlck_agent_readiness_woo_label             = __( 'WooCommerce is not active.', 'lc-tweaks' );
+if ( $dlck_agent_readiness_woo_active ) {
+	$dlck_agent_readiness_woo_label = $dlck_agent_readiness_exclude_woo_val === '1'
+		? __( 'Enabled. Products and configured WooCommerce pages are excluded from Markdown and discovery links.', 'lc-tweaks' )
+		: __( 'WooCommerce is active; products and store pages are currently eligible unless this exclusion is enabled.', 'lc-tweaks' );
+}
+$dlck_agent_readiness_woo_markdown_label    = __( 'WooCommerce is not active.', 'lc-tweaks' );
+if ( $dlck_agent_readiness_woo_active ) {
+	if ( $dlck_agent_readiness_exclude_woo_val === '1' ) {
+		$dlck_agent_readiness_woo_markdown_label = __( 'Not applied while WooCommerce exclusions are enabled.', 'lc-tweaks' );
+	} elseif ( $dlck_agent_readiness_woo_markdown_val === '1' ) {
+		$dlck_agent_readiness_woo_markdown_label = __( 'Enabled. Included product and shop pages get product/catalog Markdown.', 'lc-tweaks' );
+	} else {
+		$dlck_agent_readiness_woo_markdown_label = __( 'Disabled. Included WooCommerce pages use generic page Markdown.', 'lc-tweaks' );
+	}
+}
 $dlck_agent_readiness_diagnostic_rows       = array(
 	array(
 		'label' => __( 'Content Signals', 'lc-tweaks' ),
@@ -577,6 +596,14 @@ $dlck_agent_readiness_diagnostic_rows       = array(
 	array(
 		'label' => __( 'Permalink Fallbacks', 'lc-tweaks' ),
 		'value' => $dlck_agent_readiness_pretty_permalinks ? __( 'Pretty permalinks are enabled, so singular /page/index.md fallbacks can resolve.', 'lc-tweaks' ) : __( 'Pretty permalinks are disabled; use Accept: text/markdown and the homepage /index.md fallback.', 'lc-tweaks' ),
+	),
+	array(
+		'label' => __( 'WooCommerce Exclusions', 'lc-tweaks' ),
+		'value' => $dlck_agent_readiness_woo_label,
+	),
+	array(
+		'label' => __( 'WooCommerce Markdown', 'lc-tweaks' ),
+		'value' => $dlck_agent_readiness_woo_markdown_label,
 	),
 	array(
 		'label' => __( 'Rank Math LLMS Txt', 'lc-tweaks' ),
@@ -929,6 +956,14 @@ $dlck_agent_readiness_diagnostic_rows       = array(
 						<label>
 							<input type="checkbox" class="minicheckbox" name="dlck_agent_readiness_index_md" value="1" <?php checked( '1', $dlck_agent_readiness_index_md_val ); ?> />
 							<?php esc_html_e( 'Enable /index.md Markdown fallback URLs', 'lc-tweaks' ); ?>
+						</label>
+						<label>
+							<input type="checkbox" class="minicheckbox" name="dlck_agent_readiness_exclude_woo" value="1" <?php checked( '1', $dlck_agent_readiness_exclude_woo_val ); ?> />
+							<?php esc_html_e( 'Exclude WooCommerce products and store pages from Markdown and discovery links', 'lc-tweaks' ); ?>
+						</label>
+						<label>
+							<input type="checkbox" class="minicheckbox" name="dlck_agent_readiness_woo_markdown" value="1" <?php checked( '1', $dlck_agent_readiness_woo_markdown_val ); ?> />
+							<?php esc_html_e( 'Enhance included WooCommerce products and shop pages with product/catalog Markdown', 'lc-tweaks' ); ?>
 						</label>
 						<label>
 							<input type="checkbox" class="minicheckbox" name="dlck_agent_readiness_robots_signals" value="1" <?php checked( '1', $dlck_agent_readiness_robots_signals_val ); ?> />
