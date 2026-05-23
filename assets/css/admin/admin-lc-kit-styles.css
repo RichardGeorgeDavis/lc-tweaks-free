@@ -94,6 +94,11 @@
 #dlck .dlck-rank-math-advanced-editor {width:100%; margin-top:12px; padding:12px 14px; border:1px solid #EDF2F6; border-radius:6px; background:#F9FBFD; box-sizing:border-box;}
 #dlck .dlck-rank-math-advanced-editor summary {cursor:pointer; font-weight:700; color:#1F3F5E;}
 #dlck .dlck-rank-math-advanced-editor[open] summary {margin-bottom:10px;}
+#dlck .dlck-agent-readiness-options {display:grid; gap:10px; margin:18px 0 4px;}
+#dlck .dlck-agent-readiness-options label {display:flex; align-items:center; gap:8px; color:#1F3F5E;}
+#dlck .dlck-agent-readiness-signal-grid {display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:12px; margin:12px 0;}
+#dlck .dlck-agent-readiness-signal-grid label {display:flex; flex-direction:column; gap:6px; font-weight:700; color:#1F3F5E;}
+#dlck .dlck-agent-readiness-command {margin:10px 0 0; padding:12px 14px; border-radius:4px; background:#F5F8FA; color:#45515f; font-size:13px; line-height:1.5; white-space:pre-wrap; word-break:break-word; overflow:auto;}
 #dlck .box-title h5,
 #dlck .box-content h5 {font-size:14px; margin:0; color:#1F3F5E;}
 #dlck .box-content p.info {color:#C5CDDA; padding:13px; border-radius:4px; background:#fff; box-shadow:1px 3px 25px -5px rgba(44,86,207,0.2);}
@@ -106,6 +111,7 @@
 }
 @media (max-width: 700px) {
 	#dlck .dlck-rank-math-summary-row {grid-template-columns:1fr; gap:6px;}
+	#dlck .dlck-agent-readiness-signal-grid {grid-template-columns:1fr;}
 }
 #dlck .sett-wrap .tool-wrap {
 	display: inline-block;

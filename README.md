@@ -53,6 +53,7 @@ LC Tweaks Free includes focused toggles for:
 - **All Settings Page:** expose the WordPress all-options settings page.
 - **Replace Image Tool:** replace a media attachment file while preserving the attachment ID and URL.
 - **Rank Math Schema Enrichment:** enrich Rank Math schema and optional `llms.txt` data from LC Tweaks settings.
+- **AI Agent Readiness:** serve public content as Markdown for agents, add Content Signals, publish honest discovery headers, and show readiness diagnostics.
 
 ## Divi Options
 

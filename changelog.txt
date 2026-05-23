@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 
+1.6.3
+- Added an AI Agent Readiness maintenance feature for public content sites, including Markdown negotiation, `/index.md` fallbacks, Content Signals, honest discovery headers, Rank Math `llms.txt` context, and admin diagnostics.
+
 1.6.2
 - Fixed cached inline JavaScript generation so cache files are wrapped like inline output and stale generated files are not reused after collection comes back empty.
 - Fixed stale Divi tweak include paths, added the missing WP Rocket Priority Elements helper, and refreshed release documentation placeholders to avoid stale version examples.

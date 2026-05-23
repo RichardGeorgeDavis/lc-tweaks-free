@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: LC Tweaks
-Version: 1.6.2
+Version: 1.6.3
 Plugin URI: https://lucidity.design/product/lc-tweaks/
 Description: Powerful tools to customize the Divi Theme, WordPress and WooCommerce - added functionality, boosted performance and improved page metric results.
 Author: Lucidity Design
@@ -221,6 +221,27 @@ if ( ! function_exists( 'dlck_get_divi_helper_option_keys' ) ) {
 	}
 }
 
+if ( ! function_exists( 'dlck_get_agent_readiness_option_keys' ) ) {
+	/**
+	 * Return AI Agent Readiness option keys so Scope Rules can validate them.
+	 *
+	 * @return string[]
+	 */
+	function dlck_get_agent_readiness_option_keys(): array {
+		return array(
+			'dlck_agent_readiness_enabled',
+			'dlck_agent_readiness_markdown_accept',
+			'dlck_agent_readiness_index_md',
+			'dlck_agent_readiness_robots_signals',
+			'dlck_agent_readiness_discovery_headers',
+			'dlck_agent_readiness_llms_enrichment',
+			'dlck_agent_readiness_signal_search',
+			'dlck_agent_readiness_signal_ai_input',
+			'dlck_agent_readiness_signal_ai_train',
+		);
+	}
+}
+
 if ( ! function_exists( 'dlck_normalize_divi_helper_settings' ) ) {
 	/**
 	 * Normalize Divi Helper settings before they are persisted.
@@ -292,6 +313,12 @@ if ( ! function_exists( 'dlck_normalize_divi_helper_settings' ) ) {
 			'dlck_styles_helper_enabled',
 			'dlck_divi_image_helper_enabled',
 			'dlck_divi_taxonomy_helper_enabled',
+			'dlck_agent_readiness_enabled',
+			'dlck_agent_readiness_markdown_accept',
+			'dlck_agent_readiness_index_md',
+			'dlck_agent_readiness_robots_signals',
+			'dlck_agent_readiness_discovery_headers',
+			'dlck_agent_readiness_llms_enrichment',
 		);
 
 		foreach ( $checkbox_keys as $key ) {
@@ -359,6 +386,21 @@ if ( ! function_exists( 'dlck_normalize_divi_helper_settings' ) ) {
 		if ( array_key_exists( 'dlck_environment_badge_mode', $settings ) ) {
 			$mode = sanitize_key( (string) $settings['dlck_environment_badge_mode'] );
 			$settings['dlck_environment_badge_mode'] = in_array( $mode, array( 'custom', 'development', 'staging', 'production' ), true ) ? $mode : 'custom';
+		}
+
+		$agent_signal_defaults = array(
+			'dlck_agent_readiness_signal_search'   => 'yes',
+			'dlck_agent_readiness_signal_ai_input' => 'yes',
+			'dlck_agent_readiness_signal_ai_train' => 'no',
+		);
+
+		foreach ( $agent_signal_defaults as $key => $default ) {
+			if ( ! array_key_exists( $key, $settings ) ) {
+				continue;
+			}
+
+			$value = sanitize_key( (string) $settings[ $key ] );
+			$settings[ $key ] = in_array( $value, array( 'yes', 'no', 'unset' ), true ) ? $value : $default;
 		}
 
 		$textarea_fields = array(
@@ -2286,6 +2328,10 @@ function dlck_get_registered_option_keys(): array {
 		$keys = array_merge( $keys, dlck_get_divi_helper_option_keys() );
 	}
 
+	if ( function_exists( 'dlck_get_agent_readiness_option_keys' ) ) {
+		$keys = array_merge( $keys, dlck_get_agent_readiness_option_keys() );
+	}
+
 	$keys = array_values( array_unique( array_filter( $keys ) ) );
 	sort( $keys );
 
@@ -2772,6 +2818,7 @@ function dlck_load_active_tweaks() {
 		'dlck_footer_date_shortcode'                     => 'functions/tweaks/common/footer-date-shortcode.php',
 		'dlck_make_phone_number_click_to_call'           => 'functions/tweaks/common/make-phone-number-click-to-call.php',
 		'dlck_rank_math_schema_enrichment'               => 'functions/tweaks/rank-math-schema-enrichment.php',
+		'dlck_agent_readiness_enabled'                   => 'functions/tweaks/agent-readiness.php',
 		'dlck_svg_uploads'                               => 'functions/tweaks/svg-support.php',
 		'dlck_json_uploads'                              => 'functions/tweaks/json-support.php',
 		'dlck_ttf_uploads'                               => 'functions/tweaks/font-support.php',

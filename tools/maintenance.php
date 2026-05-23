@@ -134,6 +134,29 @@ if ( ! function_exists( 'dlck_rank_math_maintenance_render_summary_rows' ) ) {
 	}
 }
 
+if ( ! function_exists( 'dlck_agent_readiness_maintenance_signal_value' ) ) {
+	function dlck_agent_readiness_maintenance_signal_value( $value, string $default ): string {
+		$value = sanitize_key( is_scalar( $value ) ? (string) $value : '' );
+
+		return in_array( $value, array( 'yes', 'no', 'unset' ), true ) ? $value : $default;
+	}
+}
+
+if ( ! function_exists( 'dlck_agent_readiness_maintenance_signal_string' ) ) {
+	function dlck_agent_readiness_maintenance_signal_string( array $signals ): string {
+		$parts = array();
+		foreach ( $signals as $name => $value ) {
+			if ( $value === 'unset' ) {
+				continue;
+			}
+
+			$parts[] = $name . '=' . $value;
+		}
+
+		return implode( ', ', $parts );
+	}
+}
+
 $dlck_kill_jetpack_cron_val          = $dlck_setting( 'dlck_kill_jetpack_cron' );
 $dlck_speedup_scheduled_actions_val  = $dlck_setting( 'dlck_speedup_scheduled_actions' );
 $dlck_wprocket_force_page_caching_val = $dlck_setting( 'dlck_wprocket_force_page_caching' );
@@ -504,6 +527,57 @@ $dlck_rank_math_llms_summary_rows            = array(
 	),
 );
 
+$dlck_agent_readiness_enabled_val           = $dlck_setting( 'dlck_agent_readiness_enabled' );
+$dlck_agent_readiness_markdown_accept_val   = $dlck_setting( 'dlck_agent_readiness_markdown_accept', '1' );
+$dlck_agent_readiness_index_md_val          = $dlck_setting( 'dlck_agent_readiness_index_md', '1' );
+$dlck_agent_readiness_robots_signals_val    = $dlck_setting( 'dlck_agent_readiness_robots_signals', '1' );
+$dlck_agent_readiness_discovery_headers_val = $dlck_setting( 'dlck_agent_readiness_discovery_headers', '1' );
+$dlck_agent_readiness_llms_enrichment_val   = $dlck_setting( 'dlck_agent_readiness_llms_enrichment', '1' );
+$dlck_agent_readiness_signal_search_val     = dlck_agent_readiness_maintenance_signal_value( $dlck_setting( 'dlck_agent_readiness_signal_search', 'yes' ), 'yes' );
+$dlck_agent_readiness_signal_ai_input_val   = dlck_agent_readiness_maintenance_signal_value( $dlck_setting( 'dlck_agent_readiness_signal_ai_input', 'yes' ), 'yes' );
+$dlck_agent_readiness_signal_ai_train_val   = dlck_agent_readiness_maintenance_signal_value( $dlck_setting( 'dlck_agent_readiness_signal_ai_train', 'no' ), 'no' );
+$dlck_agent_readiness_content_signal        = dlck_agent_readiness_maintenance_signal_string(
+	array(
+		'search'   => $dlck_agent_readiness_signal_search_val,
+		'ai-input' => $dlck_agent_readiness_signal_ai_input_val,
+		'ai-train' => $dlck_agent_readiness_signal_ai_train_val,
+	)
+);
+$dlck_agent_readiness_sitemap_url           = $dlck_rank_math_sitemap_enabled ? home_url( '/sitemap_index.xml' ) : ( function_exists( 'wp_sitemaps_get_server' ) && get_option( 'blog_public' ) ? home_url( '/wp-sitemap.xml' ) : '' );
+$dlck_agent_readiness_physical_robots       = file_exists( ABSPATH . 'robots.txt' );
+$dlck_agent_readiness_cloudflare_request    = ! empty( $_SERVER['HTTP_CF_RAY'] ) || ! empty( $_SERVER['HTTP_CF_CONNECTING_IP'] ) || ! empty( $_SERVER['HTTP_CF_VISITOR'] );
+$dlck_agent_readiness_pretty_permalinks     = get_option( 'permalink_structure' ) !== '';
+$dlck_agent_readiness_home_url              = home_url( '/' );
+$dlck_agent_readiness_index_md_url          = home_url( '/index.md' );
+$dlck_agent_readiness_robots_url            = home_url( '/robots.txt' );
+$dlck_agent_readiness_link_header_command   = 'curl -I ' . $dlck_agent_readiness_home_url . ' | grep -i "^link:"';
+$dlck_agent_readiness_diagnostic_rows       = array(
+	array(
+		'label' => __( 'Content Signals', 'lc-tweaks' ),
+		'value' => $dlck_agent_readiness_content_signal !== '' ? $dlck_agent_readiness_content_signal : __( 'No signals configured', 'lc-tweaks' ),
+	),
+	array(
+		'label' => __( 'WordPress robots.txt', 'lc-tweaks' ),
+		'value' => $dlck_agent_readiness_physical_robots ? __( 'A physical robots.txt file exists and may bypass WordPress virtual robots output.', 'lc-tweaks' ) : __( 'WordPress virtual robots output can be filtered by LC Tweaks.', 'lc-tweaks' ),
+	),
+	array(
+		'label' => __( 'Cloudflare Request', 'lc-tweaks' ),
+		'value' => $dlck_agent_readiness_cloudflare_request ? __( 'This admin request appears to be behind Cloudflare. Check the public robots.txt response because Cloudflare managed robots may prepend edge rules.', 'lc-tweaks' ) : __( 'Not detected on this admin request. Public traffic may still pass through Cloudflare.', 'lc-tweaks' ),
+	),
+	array(
+		'label' => __( 'Permalink Fallbacks', 'lc-tweaks' ),
+		'value' => $dlck_agent_readiness_pretty_permalinks ? __( 'Pretty permalinks are enabled, so singular /page/index.md fallbacks can resolve.', 'lc-tweaks' ) : __( 'Pretty permalinks are disabled; use Accept: text/markdown and the homepage /index.md fallback.', 'lc-tweaks' ),
+	),
+	array(
+		'label' => __( 'Rank Math LLMS Txt', 'lc-tweaks' ),
+		'value' => $dlck_rank_math_llms_enabled ? __( 'Available at /llms.txt.', 'lc-tweaks' ) : __( 'Not available from Rank Math right now.', 'lc-tweaks' ),
+	),
+	array(
+		'label' => __( 'Sitemap URL', 'lc-tweaks' ),
+		'value' => $dlck_agent_readiness_sitemap_url !== '' ? $dlck_agent_readiness_sitemap_url : __( 'No public sitemap URL detected.', 'lc-tweaks' ),
+	),
+);
+
 ?>
 
 <div id="maintenance" class="tool <?php echo $active_tab === 'maintenance' ? 'tool-active' : ''; ?>">
@@ -807,6 +881,100 @@ $dlck_rank_math_llms_summary_rows            = array(
 							<p class="description"><?php echo esc_html_e( 'This raw editor is intentionally separate from the main schema fields. Use a top-level JSON object keyed by entity type. Invalid JSON, or top-level arrays, will be rejected on save and the previously saved value will be kept.', 'lc-tweaks' ); ?></p>
 							<textarea name="dlck_rank_math_schema_advanced_json" rows="14" cols="60" style="width:100%;" placeholder="{&#10;  &quot;organization&quot;: {&#10;    &quot;location&quot;: [&#10;      {&#10;        &quot;@type&quot;: &quot;Place&quot;,&#10;        &quot;name&quot;: &quot;Cape Town Office&quot;&#10;      }&#10;    ]&#10;  },&#10;  &quot;localbusiness&quot;: {&#10;    &quot;areaServed&quot;: [&quot;South Africa&quot;, &quot;Europe&quot;]&#10;  },&#10;  &quot;place&quot;: {&#10;    &quot;publicAccess&quot;: true&#10;  },&#10;  &quot;webpage&quot;: {&#10;    &quot;speakable&quot;: {&#10;      &quot;@type&quot;: &quot;SpeakableSpecification&quot;&#10;    }&#10;  }&#10;}"><?php echo esc_textarea( $dlck_rank_math_schema_advanced_json_val ); ?></textarea>
 						</details>
+				</div>
+			</div>
+		</div>
+
+		<div class="lc-kit trigger">
+			<div class="box-title">
+				<h3><span class="new">new</span><?php echo esc_html_e( 'AI Agent Readiness', 'lc-tweaks' ); ?></h3>
+				<div class="box-descr">
+					<p><?php echo esc_html_e( 'Serve public WordPress content in agent-friendly Markdown, publish Content Signals, and expose honest discovery hints without faking MCP, API, OAuth, or commerce capabilities.', 'lc-tweaks' ); ?></p>
+				</div>
+			</div>
+			<div class="box-content minibox">
+				<div class="checkbox">
+					<input name="dlck_agent_readiness_enabled" type="checkbox" value="1" <?php checked( '1', $dlck_agent_readiness_enabled_val ); ?> />
+				</div>
+			</div>
+		</div>
+		<div class="dlck-hide">
+			<div class="lc-kit first nopad">
+				<div class="box-title"></div>
+				<div class="box-content dlck-rank-math-schema-panel dlck-agent-readiness-panel">
+					<div class="info">
+						<p><?php echo esc_html_e( 'This feature targets normal public content sites. It improves what agents can discover and read, but it does not publish placeholder protocol endpoints for capabilities the site does not actually provide.', 'lc-tweaks' ); ?></p>
+						<p><?php echo esc_html_e( 'If this site already uses Cloudflare Pro, Business, or Enterprise, you can also enable Cloudflare Markdown for Agents at the edge. LC Tweaks keeps an origin-level WordPress fallback for non-Cloudflare sites and local testing.', 'lc-tweaks' ); ?></p>
+					</div>
+
+					<div class="dlck-agent-readiness-options">
+						<label>
+							<input type="checkbox" class="minicheckbox" name="dlck_agent_readiness_markdown_accept" value="1" <?php checked( '1', $dlck_agent_readiness_markdown_accept_val ); ?> />
+							<?php esc_html_e( 'Serve Markdown for public pages that request Accept: text/markdown', 'lc-tweaks' ); ?>
+						</label>
+						<label>
+							<input type="checkbox" class="minicheckbox" name="dlck_agent_readiness_index_md" value="1" <?php checked( '1', $dlck_agent_readiness_index_md_val ); ?> />
+							<?php esc_html_e( 'Enable /index.md Markdown fallback URLs', 'lc-tweaks' ); ?>
+						</label>
+						<label>
+							<input type="checkbox" class="minicheckbox" name="dlck_agent_readiness_robots_signals" value="1" <?php checked( '1', $dlck_agent_readiness_robots_signals_val ); ?> />
+							<?php esc_html_e( 'Add Content Signals to WordPress virtual robots.txt', 'lc-tweaks' ); ?>
+						</label>
+						<label>
+							<input type="checkbox" class="minicheckbox" name="dlck_agent_readiness_discovery_headers" value="1" <?php checked( '1', $dlck_agent_readiness_discovery_headers_val ); ?> />
+							<?php esc_html_e( 'Add discovery Link headers and a Markdown alternate link for real resources', 'lc-tweaks' ); ?>
+						</label>
+						<label>
+							<input type="checkbox" class="minicheckbox" name="dlck_agent_readiness_llms_enrichment" value="1" <?php checked( '1', $dlck_agent_readiness_llms_enrichment_val ); ?> />
+							<?php esc_html_e( 'Add a concise AI Agent Readiness section to Rank Math llms.txt output', 'lc-tweaks' ); ?>
+						</label>
+					</div>
+
+					<div class="info" style="margin-top:15px;">
+						<h4><?php echo esc_html_e( 'Content Signals', 'lc-tweaks' ); ?></h4>
+						<p><?php echo esc_html_e( 'Defaults allow search and real-time AI input while reserving rights against AI training. Set a signal to Unset only when the site owner has not chosen a preference for that use.', 'lc-tweaks' ); ?></p>
+						<div class="dlck-agent-readiness-signal-grid">
+							<label>
+								<span><?php esc_html_e( 'Search', 'lc-tweaks' ); ?></span>
+								<select name="dlck_agent_readiness_signal_search">
+									<option value="yes" <?php selected( 'yes', $dlck_agent_readiness_signal_search_val ); ?>><?php esc_html_e( 'Yes', 'lc-tweaks' ); ?></option>
+									<option value="no" <?php selected( 'no', $dlck_agent_readiness_signal_search_val ); ?>><?php esc_html_e( 'No', 'lc-tweaks' ); ?></option>
+									<option value="unset" <?php selected( 'unset', $dlck_agent_readiness_signal_search_val ); ?>><?php esc_html_e( 'Unset', 'lc-tweaks' ); ?></option>
+								</select>
+							</label>
+							<label>
+								<span><?php esc_html_e( 'AI Input', 'lc-tweaks' ); ?></span>
+								<select name="dlck_agent_readiness_signal_ai_input">
+									<option value="yes" <?php selected( 'yes', $dlck_agent_readiness_signal_ai_input_val ); ?>><?php esc_html_e( 'Yes', 'lc-tweaks' ); ?></option>
+									<option value="no" <?php selected( 'no', $dlck_agent_readiness_signal_ai_input_val ); ?>><?php esc_html_e( 'No', 'lc-tweaks' ); ?></option>
+									<option value="unset" <?php selected( 'unset', $dlck_agent_readiness_signal_ai_input_val ); ?>><?php esc_html_e( 'Unset', 'lc-tweaks' ); ?></option>
+								</select>
+							</label>
+							<label>
+								<span><?php esc_html_e( 'AI Training', 'lc-tweaks' ); ?></span>
+								<select name="dlck_agent_readiness_signal_ai_train">
+									<option value="yes" <?php selected( 'yes', $dlck_agent_readiness_signal_ai_train_val ); ?>><?php esc_html_e( 'Yes', 'lc-tweaks' ); ?></option>
+									<option value="no" <?php selected( 'no', $dlck_agent_readiness_signal_ai_train_val ); ?>><?php esc_html_e( 'No', 'lc-tweaks' ); ?></option>
+									<option value="unset" <?php selected( 'unset', $dlck_agent_readiness_signal_ai_train_val ); ?>><?php esc_html_e( 'Unset', 'lc-tweaks' ); ?></option>
+								</select>
+							</label>
+						</div>
+						<p class="description"><?php echo esc_html( sprintf( __( 'Current header/directive value: %s', 'lc-tweaks' ), $dlck_agent_readiness_content_signal !== '' ? $dlck_agent_readiness_content_signal : __( 'none', 'lc-tweaks' ) ) ); ?></p>
+					</div>
+
+					<div class="info" style="margin-top:15px;">
+						<h4><?php echo esc_html_e( 'Diagnostics', 'lc-tweaks' ); ?></h4>
+						<?php dlck_rank_math_maintenance_render_summary_rows( $dlck_agent_readiness_diagnostic_rows ); ?>
+					</div>
+
+					<div class="info" style="margin-top:15px;">
+						<h4><?php echo esc_html_e( 'Copyable Test Commands', 'lc-tweaks' ); ?></h4>
+						<pre class="dlck-agent-readiness-command">curl -I <?php echo esc_html( $dlck_agent_readiness_home_url ); ?></pre>
+						<pre class="dlck-agent-readiness-command">curl -H "Accept: text/markdown" <?php echo esc_html( $dlck_agent_readiness_home_url ); ?></pre>
+						<pre class="dlck-agent-readiness-command">curl <?php echo esc_html( $dlck_agent_readiness_index_md_url ); ?></pre>
+						<pre class="dlck-agent-readiness-command">curl <?php echo esc_html( $dlck_agent_readiness_robots_url ); ?></pre>
+						<pre class="dlck-agent-readiness-command"><?php echo esc_html( $dlck_agent_readiness_link_header_command ); ?></pre>
+					</div>
 				</div>
 			</div>
 		</div>
