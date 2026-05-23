@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 
+1.6.5
+- Moved AI Agent Readiness Content Signals to the top of virtual robots.txt output and send no-cache headers so checkers can detect current policy before longer plugin robots rules.
+
 1.6.4
 - Added an optional AI Agent Readiness `.htaccess` fallback that can install a homepage Link response header for cached/CDN-served pages.
 

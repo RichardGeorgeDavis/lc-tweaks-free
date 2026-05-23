@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 add_action( 'template_redirect', 'dlck_agent_readiness_maybe_render_markdown', 0 );
 add_action( 'template_redirect', 'dlck_agent_readiness_send_discovery_headers', 11 );
+add_action( 'do_robotstxt', 'dlck_agent_readiness_send_robots_headers', 0 );
 add_filter( 'robots_txt', 'dlck_agent_readiness_filter_robots_txt', 20, 2 );
 add_action( 'wp_head', 'dlck_agent_readiness_render_markdown_alternate_link', 2 );
 add_filter( 'rank_math/llms_txt/extra_content', 'dlck_agent_readiness_enrich_llms_extra_content', 30 );
@@ -613,6 +614,17 @@ function dlck_agent_readiness_send_markdown_response( string $markdown ): void {
 }
 
 /**
+ * Keep virtual robots.txt Content Signals from being cached as stale policy.
+ */
+function dlck_agent_readiness_send_robots_headers(): void {
+	if ( headers_sent() || ! dlck_agent_readiness_enabled( 'dlck_agent_readiness_robots_signals', '1' ) ) {
+		return;
+	}
+
+	nocache_headers();
+}
+
+/**
  * Add Content Signals to WordPress virtual robots.txt output.
  *
  * @param string $output Existing robots.txt output.
@@ -632,12 +644,12 @@ function dlck_agent_readiness_filter_robots_txt( string $output, bool $public ):
 		return $output;
 	}
 
-	$block = "\n# LC Tweaks AI Agent Readiness Content Signals\nUser-agent: *\nContent-Signal: " . $content_signal . "\n";
+	$block = "# LC Tweaks AI Agent Readiness Content Signals\nUser-agent: *\nContent-Signal: " . $content_signal . "\n";
 	if ( $public ) {
 		$block .= "Allow: /\n";
 	}
 
-	return rtrim( $output ) . "\n" . $block;
+	return $block . "\n" . ltrim( $output );
 }
 
 /**

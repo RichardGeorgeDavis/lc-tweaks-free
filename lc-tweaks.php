@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: LC Tweaks
-Version: 1.6.4
+Version: 1.6.5
 Plugin URI: https://lucidity.design/product/lc-tweaks/
 Description: Powerful tools to customize the Divi Theme, WordPress and WooCommerce - added functionality, boosted performance and improved page metric results.
 Author: Lucidity Design
