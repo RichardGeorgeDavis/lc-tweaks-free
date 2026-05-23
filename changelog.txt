@@ -3,6 +3,10 @@ Changelog
 
 Unreleased
 
+1.6.7
+- Moved Rank Math Schema Enrichment and AI Agent Readiness controls from Maintenance into a dedicated SEO & Schema admin page.
+- Changed AI Agent Readiness Content Signals to inject into existing robots.txt user-agent groups so checkers still detect the policy when WooCommerce adds its own wildcard robots rules.
+
 1.6.6
 - Added an AI Agent Readiness option to exclude WooCommerce products and configured store pages from Markdown output and discovery links.
 - Added optional WooCommerce product/catalog Markdown enhancements for included store content.

@@ -25,6 +25,7 @@ LC Tweaks Free includes focused toggles for:
 - Divi frontend, builder, media, video, layout, dashboard, and helper tweaks.
 - WooCommerce performance, catalog, checkout, admin, order, email, and product identifier tools.
 - Maintenance tooling for cache clearing, settings import/export, diagnostics, presets, scope rules, and migration helpers.
+- A dedicated SEO & Schema page for Rank Math schema enrichment and AI Agent Readiness controls.
 
 ## WordPress Options
 

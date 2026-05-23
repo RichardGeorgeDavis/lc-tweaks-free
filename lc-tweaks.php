@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: LC Tweaks
-Version: 1.6.6
+Version: 1.6.7
 Plugin URI: https://lucidity.design/product/lc-tweaks/
 Description: Powerful tools to customize the Divi Theme, WordPress and WooCommerce - added functionality, boosted performance and improved page metric results.
 Author: Lucidity Design
@@ -675,7 +675,7 @@ if ( ! function_exists( 'dlck_agent_readiness_htaccess_action' ) ) {
 		wp_safe_redirect(
 			add_query_arg(
 				array(
-					'tab'                             => 'maintenance',
+					'tab'                             => 'seo-schema',
 					'dlck_agent_readiness_htaccess'  => sanitize_key( (string) $status ),
 				),
 				admin_url( 'admin.php?page=lc_tweaks' )
@@ -2116,7 +2116,7 @@ add_action( 'admin_enqueue_scripts', 'dlck_lc_kit_enqueue_scripts_admin' );
 // Admin page (Tweaks + Woo Tweaks + Settings)
 // ---------------------------------------------------------------------
 function divi_lc_kit() {
-	$allowed_tabs = array( 'tweaks', 'divi-tweaks', 'divi-helpers', 'modules', 'woo-tweaks', 'settings', 'deprecated', 'maintenance' );
+	$allowed_tabs = array( 'tweaks', 'divi-tweaks', 'divi-helpers', 'modules', 'woo-tweaks', 'seo-schema', 'settings', 'deprecated', 'maintenance' );
 	$active_tab   = 'tweaks';
 	$divi_active  = dlck_is_divi_theme_active();
 	$wppt_exists  = file_exists( DLCK_LC_KIT_PLUGIN_DIR . 'functions/modules/wp-page-transition/wp-page-transition.php' );
@@ -2426,6 +2426,7 @@ function divi_lc_kit() {
 				<?php if ( dlck_is_woocommerce_active() ) : ?>
 					<a href="?page=<?php echo esc_attr( $page_slug ); ?>&tab=woo-tweaks" class="nav-tab <?php echo $active_tab === 'woo-tweaks' ? 'nav-tab-active' : ''; ?>">WooCommerce</a>
 				<?php endif; ?>
+				<a href="?page=<?php echo esc_attr( $page_slug ); ?>&tab=seo-schema" class="nav-tab <?php echo $active_tab === 'seo-schema' ? 'nav-tab-active' : ''; ?>">SEO &amp; Schema</a>
 				<a href="?page=<?php echo esc_attr( $page_slug ); ?>&tab=maintenance" class="nav-tab <?php echo $active_tab === 'maintenance' ? 'nav-tab-active' : ''; ?>">Maintenance</a>
 			</h2>
 
@@ -2464,6 +2465,9 @@ function divi_lc_kit() {
 						break;
 					case 'deprecated':
 						include_once DLCK_LC_KIT_PLUGIN_DIR . '/tools/deprecated.php';
+						break;
+					case 'seo-schema':
+						include_once DLCK_LC_KIT_PLUGIN_DIR . '/tools/seo-schema.php';
 						break;
 					case 'maintenance':
 						include_once DLCK_LC_KIT_PLUGIN_DIR . '/tools/maintenance.php';

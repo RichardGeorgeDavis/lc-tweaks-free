@@ -995,6 +995,43 @@ function dlck_agent_readiness_filter_robots_txt( string $output, bool $public ):
 		return $output;
 	}
 
+	return dlck_agent_readiness_add_content_signal_to_robots_groups( $output, $content_signal, $public );
+}
+
+/**
+ * Add Content Signals inside existing robots user-agent groups.
+ */
+function dlck_agent_readiness_add_content_signal_to_robots_groups( string $output, string $content_signal, bool $public ): string {
+	$lines = preg_split( '/\r\n|\r|\n/', $output );
+	if ( ! is_array( $lines ) ) {
+		$lines = array( $output );
+	}
+
+	$result   = array();
+	$inserted = false;
+	$total    = count( $lines );
+
+	for ( $i = 0; $i < $total; $i++ ) {
+		$line     = $lines[ $i ];
+		$result[] = $line;
+
+		if ( ! preg_match( '/^\s*User-agent\s*:/i', $line ) ) {
+			continue;
+		}
+
+		$next_line = $lines[ $i + 1 ] ?? '';
+		if ( preg_match( '/^\s*User-agent\s*:/i', $next_line ) ) {
+			continue;
+		}
+
+		$result[] = 'Content-Signal: ' . $content_signal;
+		$inserted = true;
+	}
+
+	if ( $inserted ) {
+		return "# LC Tweaks AI Agent Readiness Content Signals\n" . ltrim( implode( "\n", $result ) );
+	}
+
 	$block = "# LC Tweaks AI Agent Readiness Content Signals\nUser-agent: *\nContent-Signal: " . $content_signal . "\n";
 	if ( $public ) {
 		$block .= "Allow: /\n";
