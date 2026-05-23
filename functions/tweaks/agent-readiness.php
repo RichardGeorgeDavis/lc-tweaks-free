@@ -652,29 +652,13 @@ function dlck_agent_readiness_send_discovery_headers(): void {
 		return;
 	}
 
-	$links   = array();
-	$links[] = '<' . esc_url_raw( home_url( '/robots.txt' ) ) . '>; rel="robots"; type="text/plain"';
-
-	$sitemap_url = dlck_agent_readiness_get_sitemap_url();
-	if ( $sitemap_url !== '' ) {
-		$links[] = '<' . esc_url_raw( $sitemap_url ) . '>; rel="sitemap"; type="application/xml"';
-	}
-
-	$llms_url = dlck_agent_readiness_get_llms_url();
-	if ( $llms_url !== '' ) {
-		$links[] = '<' . esc_url_raw( $llms_url ) . '>; rel="describedby"; type="text/plain"';
-	}
-
 	$markdown_url = dlck_agent_readiness_get_current_markdown_url();
-	if ( $markdown_url !== '' ) {
-		$links[] = '<' . esc_url_raw( $markdown_url ) . '>; rel="alternate"; type="text/markdown"';
-	}
-
-	if ( empty( $links ) ) {
+	$link_header  = function_exists( 'dlck_agent_readiness_get_discovery_link_header_value' ) ? dlck_agent_readiness_get_discovery_link_header_value( $markdown_url ) : '';
+	if ( $link_header === '' ) {
 		return;
 	}
 
-	header( 'Link: ' . implode( ', ', $links ), false );
+	header( 'Link: ' . $link_header, false );
 }
 
 /**

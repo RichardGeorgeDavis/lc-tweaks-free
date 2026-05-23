@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: LC Tweaks
-Version: 1.6.3
+Version: 1.6.4
 Plugin URI: https://lucidity.design/product/lc-tweaks/
 Description: Powerful tools to customize the Divi Theme, WordPress and WooCommerce - added functionality, boosted performance and improved page metric results.
 Author: Lucidity Design
@@ -485,6 +485,247 @@ add_action(
 		load_plugin_textdomain( 'lc-tweaks' );
 	}
 );
+
+if ( ! function_exists( 'dlck_agent_readiness_get_discovery_link_entries' ) ) {
+	/**
+	 * Build honest Link header entries for public agent discovery.
+	 *
+	 * @return string[]
+	 */
+	function dlck_agent_readiness_get_discovery_link_entries( string $markdown_url = '' ): array {
+		$links = array();
+
+		if ( $markdown_url !== '' ) {
+			$links[] = '<' . esc_url_raw( $markdown_url ) . '>; rel="alternate"; type="text/markdown"';
+		}
+
+		$rank_math_active  = class_exists( 'RankMath' ) || function_exists( 'rank_math' );
+		$rank_math_modules = get_option( 'rank_math_modules', array() );
+		if ( $rank_math_active && is_array( $rank_math_modules ) && in_array( 'llms-txt', $rank_math_modules, true ) ) {
+			$links[] = '<' . esc_url_raw( home_url( '/llms.txt' ) ) . '>; rel="describedby"; type="text/plain"';
+		}
+
+		if ( $rank_math_active && is_array( $rank_math_modules ) && in_array( 'sitemap', $rank_math_modules, true ) ) {
+			$links[] = '<' . esc_url_raw( home_url( '/sitemap_index.xml' ) ) . '>; rel="sitemap"; type="application/xml"';
+		} elseif ( function_exists( 'wp_sitemaps_get_server' ) && get_option( 'blog_public' ) ) {
+			$links[] = '<' . esc_url_raw( home_url( '/wp-sitemap.xml' ) ) . '>; rel="sitemap"; type="application/xml"';
+		}
+
+		$links[] = '<' . esc_url_raw( home_url( '/robots.txt' ) ) . '>; rel="describedby"; type="text/plain"';
+
+		return array_values( array_unique( $links ) );
+	}
+}
+
+if ( ! function_exists( 'dlck_agent_readiness_get_discovery_link_header_value' ) ) {
+	/**
+	 * Return the full Link header field value for public agent discovery.
+	 */
+	function dlck_agent_readiness_get_discovery_link_header_value( string $markdown_url = '' ): string {
+		return implode( ', ', dlck_agent_readiness_get_discovery_link_entries( $markdown_url ) );
+	}
+}
+
+if ( ! function_exists( 'dlck_agent_readiness_get_htaccess_home_pattern' ) ) {
+	/**
+	 * Build an Apache Request_URI regex for the WordPress homepage path.
+	 */
+	function dlck_agent_readiness_get_htaccess_home_pattern(): string {
+		$home_path = wp_parse_url( home_url( '/' ), PHP_URL_PATH );
+		$home_path = is_string( $home_path ) && $home_path !== '' ? '/' . trim( $home_path, '/' ) : '/';
+
+		if ( $home_path === '/' ) {
+			return '^/$';
+		}
+
+		return '^' . preg_quote( $home_path, '#' ) . '/?$';
+	}
+}
+
+if ( ! function_exists( 'dlck_agent_readiness_build_htaccess_block' ) ) {
+	/**
+	 * Build the optional Apache fallback for cached homepage Link headers.
+	 */
+	function dlck_agent_readiness_build_htaccess_block(): string {
+		$link_header = dlck_agent_readiness_get_discovery_link_header_value( home_url( '/index.md' ) );
+		$link_header = str_replace( '"', '\\"', $link_header );
+
+		return implode(
+			"\n",
+			array(
+				'# BEGIN LC Tweaks AI Agent Readiness',
+				'<IfModule mod_headers.c>',
+				"\tSetEnvIfNoCase Request_URI \"" . dlck_agent_readiness_get_htaccess_home_pattern() . '" LC_AGENT_READY_HOME=1',
+				"\tHeader always merge Link \"" . $link_header . '" env=LC_AGENT_READY_HOME',
+				'</IfModule>',
+				'# END LC Tweaks AI Agent Readiness',
+				'',
+			)
+		);
+	}
+}
+
+if ( ! function_exists( 'dlck_agent_readiness_get_htaccess_path' ) ) {
+	/**
+	 * Return the root .htaccess path for this WordPress install.
+	 */
+	function dlck_agent_readiness_get_htaccess_path(): string {
+		return trailingslashit( ABSPATH ) . '.htaccess';
+	}
+}
+
+if ( ! function_exists( 'dlck_agent_readiness_htaccess_regex' ) ) {
+	/**
+	 * Return the managed block regex.
+	 */
+	function dlck_agent_readiness_htaccess_regex(): string {
+		return '/\R?' . preg_quote( '# BEGIN LC Tweaks AI Agent Readiness', '/' ) . '\R.*?' . preg_quote( '# END LC Tweaks AI Agent Readiness', '/' ) . '\R?/s';
+	}
+}
+
+if ( ! function_exists( 'dlck_agent_readiness_get_htaccess_status' ) ) {
+	/**
+	 * Inspect the optional Apache fallback block.
+	 *
+	 * @return array{path:string,exists:bool,readable:bool,writable:bool,installed:bool,snippet:string}
+	 */
+	function dlck_agent_readiness_get_htaccess_status(): array {
+		$path       = dlck_agent_readiness_get_htaccess_path();
+		$exists     = file_exists( $path );
+		$readable   = $exists && is_readable( $path );
+		$writable   = $exists ? is_writable( $path ) : is_writable( dirname( $path ) );
+		$content    = $readable ? file_get_contents( $path ) : '';
+		$installed  = is_string( $content ) && preg_match( dlck_agent_readiness_htaccess_regex(), $content ) === 1;
+
+		return array(
+			'path'      => $path,
+			'exists'    => $exists,
+			'readable'  => $readable,
+			'writable'  => $writable,
+			'installed' => $installed,
+			'snippet'   => dlck_agent_readiness_build_htaccess_block(),
+		);
+	}
+}
+
+if ( ! function_exists( 'dlck_agent_readiness_update_htaccess_block' ) ) {
+	/**
+	 * Install or remove the managed Apache fallback block.
+	 *
+	 * @return string|WP_Error Result status.
+	 */
+	function dlck_agent_readiness_update_htaccess_block( bool $install ) {
+		$status = dlck_agent_readiness_get_htaccess_status();
+		if ( ! $status['writable'] ) {
+			return new WP_Error( 'not_writable', __( 'The root .htaccess file is not writable.', 'lc-tweaks' ) );
+		}
+
+		$path    = $status['path'];
+		$content = $status['exists'] ? file_get_contents( $path ) : '';
+		if ( ! is_string( $content ) ) {
+			return new WP_Error( 'read_failed', __( 'Could not read the root .htaccess file.', 'lc-tweaks' ) );
+		}
+
+		$regex     = dlck_agent_readiness_htaccess_regex();
+		$has_block = preg_match( $regex, $content ) === 1;
+
+		if ( $install ) {
+			$block       = dlck_agent_readiness_build_htaccess_block();
+			$new_content = $has_block ? preg_replace( $regex, "\n" . $block, $content ) : rtrim( $content ) . ( trim( $content ) === '' ? '' : "\n\n" ) . $block;
+			$result      = $has_block ? 'updated' : 'installed';
+		} else {
+			if ( ! $has_block ) {
+				return 'not_installed';
+			}
+
+			$new_content = preg_replace( $regex, "\n", $content );
+			$new_content = trim( (string) $new_content, "\r\n" );
+			$new_content = $new_content === '' ? '' : $new_content . "\n";
+			$result      = 'removed';
+		}
+
+		if ( ! is_string( $new_content ) || file_put_contents( $path, $new_content, LOCK_EX ) === false ) {
+			return new WP_Error( 'write_failed', __( 'Could not write the root .htaccess file.', 'lc-tweaks' ) );
+		}
+
+		return $result;
+	}
+}
+
+if ( ! function_exists( 'dlck_agent_readiness_htaccess_action' ) ) {
+	/**
+	 * Handle optional .htaccess install/remove actions.
+	 */
+	function dlck_agent_readiness_htaccess_action(): void {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'Sorry, you are not allowed to do that.', 'lc-tweaks' ) );
+		}
+
+		$action  = current_action();
+		$install = $action === 'admin_post_dlck_agent_readiness_install_htaccess';
+		check_admin_referer( $install ? 'dlck_agent_readiness_install_htaccess' : 'dlck_agent_readiness_remove_htaccess' );
+
+		$result = dlck_agent_readiness_update_htaccess_block( $install );
+		$status = is_wp_error( $result ) ? $result->get_error_code() : $result;
+
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'tab'                             => 'maintenance',
+					'dlck_agent_readiness_htaccess'  => sanitize_key( (string) $status ),
+				),
+				admin_url( 'admin.php?page=lc_tweaks' )
+			)
+		);
+		exit;
+	}
+}
+
+add_action( 'admin_post_dlck_agent_readiness_install_htaccess', 'dlck_agent_readiness_htaccess_action' );
+add_action( 'admin_post_dlck_agent_readiness_remove_htaccess', 'dlck_agent_readiness_htaccess_action' );
+
+if ( ! function_exists( 'dlck_agent_readiness_htaccess_notice' ) ) {
+	/**
+	 * Show the result of optional .htaccess install/remove actions.
+	 */
+	function dlck_agent_readiness_htaccess_notice(): void {
+		if ( empty( $_GET['dlck_agent_readiness_htaccess'] ) ) {
+			return;
+		}
+
+		$status = sanitize_key( wp_unslash( $_GET['dlck_agent_readiness_htaccess'] ) );
+		$type   = 'success';
+		$message = '';
+
+		switch ( $status ) {
+			case 'installed':
+				$message = __( 'LC Tweaks added the AI Agent Readiness Link header fallback to .htaccess. Purge page/CDN caches before retesting.', 'lc-tweaks' );
+				break;
+			case 'updated':
+				$message = __( 'LC Tweaks refreshed the AI Agent Readiness Link header fallback in .htaccess. Purge page/CDN caches before retesting.', 'lc-tweaks' );
+				break;
+			case 'removed':
+				$message = __( 'LC Tweaks removed the AI Agent Readiness Link header fallback from .htaccess.', 'lc-tweaks' );
+				break;
+			case 'not_installed':
+				$type    = 'warning';
+				$message = __( 'No LC Tweaks AI Agent Readiness .htaccess block was found to remove.', 'lc-tweaks' );
+				break;
+			case 'not_writable':
+				$type    = 'error';
+				$message = __( 'LC Tweaks could not update .htaccess because it is not writable. Copy the snippet manually or update file permissions.', 'lc-tweaks' );
+				break;
+			default:
+				$type    = 'error';
+				$message = __( 'LC Tweaks could not update the AI Agent Readiness .htaccess block.', 'lc-tweaks' );
+				break;
+		}
+
+		echo '<div class="notice notice-' . esc_attr( $type ) . ' is-dismissible"><p>' . esc_html( $message ) . '</p></div>';
+	}
+}
+
+add_action( 'admin_notices', 'dlck_agent_readiness_htaccess_notice' );
 
 /**
  * Ensure mutually exclusive options and precedence rules.
@@ -1853,7 +2094,7 @@ function dlck_lc_kit_enqueue_scripts_admin( $hook ) {
 wp_enqueue_media();
 wp_enqueue_script( 'dlck_on-off-switch', DLCK_LC_KIT_PLUGIN_URI . '/assets/js/admin/on-off-switch.js', array( 'jquery' ) );
 wp_enqueue_script( 'dlck_lc_kit_settings_admin_js', DLCK_LC_KIT_PLUGIN_URI . '/assets/js/admin/lc-kit-admin-scripts.js', array( 'jquery', 'wp-color-picker' ), '0.0.13', true );
-wp_enqueue_style( 'dlck-admin-css', DLCK_LC_KIT_PLUGIN_URI . '/assets/css/admin/admin-lc-kit-styles.css', array(), '0.0.7' );
+wp_enqueue_style( 'dlck-admin-css', DLCK_LC_KIT_PLUGIN_URI . '/assets/css/admin/admin-lc-kit-styles.css', array(), '0.0.8' );
 	wp_localize_script(
 		'dlck_lc_kit_settings_admin_js',
 		'dlck_admin',

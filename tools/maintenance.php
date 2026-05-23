@@ -551,6 +551,16 @@ $dlck_agent_readiness_home_url              = home_url( '/' );
 $dlck_agent_readiness_index_md_url          = home_url( '/index.md' );
 $dlck_agent_readiness_robots_url            = home_url( '/robots.txt' );
 $dlck_agent_readiness_link_header_command   = 'curl -I ' . $dlck_agent_readiness_home_url . ' | grep -i "^link:"';
+$dlck_agent_readiness_htaccess_status       = function_exists( 'dlck_agent_readiness_get_htaccess_status' ) ? dlck_agent_readiness_get_htaccess_status() : array();
+$dlck_agent_readiness_htaccess_snippet      = isset( $dlck_agent_readiness_htaccess_status['snippet'] ) ? (string) $dlck_agent_readiness_htaccess_status['snippet'] : '';
+$dlck_agent_readiness_htaccess_installed    = ! empty( $dlck_agent_readiness_htaccess_status['installed'] );
+$dlck_agent_readiness_htaccess_writable     = ! empty( $dlck_agent_readiness_htaccess_status['writable'] );
+$dlck_agent_readiness_htaccess_path         = isset( $dlck_agent_readiness_htaccess_status['path'] ) ? (string) $dlck_agent_readiness_htaccess_status['path'] : ABSPATH . '.htaccess';
+$dlck_agent_readiness_htaccess_install_url  = wp_nonce_url( admin_url( 'admin-post.php?action=dlck_agent_readiness_install_htaccess' ), 'dlck_agent_readiness_install_htaccess' );
+$dlck_agent_readiness_htaccess_remove_url   = wp_nonce_url( admin_url( 'admin-post.php?action=dlck_agent_readiness_remove_htaccess' ), 'dlck_agent_readiness_remove_htaccess' );
+$dlck_agent_readiness_htaccess_label        = $dlck_agent_readiness_htaccess_installed
+	? __( 'Installed in .htaccess. Purge page/CDN caches after updates.', 'lc-tweaks' )
+	: ( $dlck_agent_readiness_htaccess_writable ? __( 'Not installed. LC Tweaks can add it because .htaccess is writable.', 'lc-tweaks' ) : __( 'Not installed. Copy the snippet manually because .htaccess is not writable.', 'lc-tweaks' ) );
 $dlck_agent_readiness_diagnostic_rows       = array(
 	array(
 		'label' => __( 'Content Signals', 'lc-tweaks' ),
@@ -575,6 +585,10 @@ $dlck_agent_readiness_diagnostic_rows       = array(
 	array(
 		'label' => __( 'Sitemap URL', 'lc-tweaks' ),
 		'value' => $dlck_agent_readiness_sitemap_url !== '' ? $dlck_agent_readiness_sitemap_url : __( 'No public sitemap URL detected.', 'lc-tweaks' ),
+	),
+	array(
+		'label' => __( 'Apache Link Header Fallback', 'lc-tweaks' ),
+		'value' => $dlck_agent_readiness_htaccess_label,
 	),
 );
 
@@ -965,6 +979,24 @@ $dlck_agent_readiness_diagnostic_rows       = array(
 					<div class="info" style="margin-top:15px;">
 						<h4><?php echo esc_html_e( 'Diagnostics', 'lc-tweaks' ); ?></h4>
 						<?php dlck_rank_math_maintenance_render_summary_rows( $dlck_agent_readiness_diagnostic_rows ); ?>
+					</div>
+
+					<div class="info" style="margin-top:15px;">
+						<h4><?php echo esc_html_e( 'Cached Homepage Link Header Fallback', 'lc-tweaks' ); ?></h4>
+						<p><?php echo esc_html_e( 'Some page caches and CDNs serve homepage HTML without PHP-generated Link response headers. This optional Apache block adds the same discovery header at .htaccess level for the homepage only.', 'lc-tweaks' ); ?></p>
+						<p><?php echo esc_html( sprintf( __( 'Target file: %s', 'lc-tweaks' ), $dlck_agent_readiness_htaccess_path ) ); ?></p>
+						<div class="dlck-agent-readiness-actions">
+							<?php if ( $dlck_agent_readiness_htaccess_writable ) : ?>
+								<a class="dlck-settings-button" href="<?php echo esc_url( $dlck_agent_readiness_htaccess_install_url ); ?>"><?php echo esc_html( $dlck_agent_readiness_htaccess_installed ? __( 'Refresh .htaccess Block', 'lc-tweaks' ) : __( 'Add .htaccess Block', 'lc-tweaks' ) ); ?></a>
+							<?php else : ?>
+								<button type="button" class="dlck-settings-button" disabled><?php echo esc_html_e( '.htaccess Not Writable', 'lc-tweaks' ); ?></button>
+							<?php endif; ?>
+							<?php if ( $dlck_agent_readiness_htaccess_installed ) : ?>
+								<a class="button" href="<?php echo esc_url( $dlck_agent_readiness_htaccess_remove_url ); ?>"><?php echo esc_html_e( 'Remove .htaccess Block', 'lc-tweaks' ); ?></a>
+							<?php endif; ?>
+						</div>
+						<p class="description"><?php echo esc_html_e( 'If the button is unavailable, copy this block into the site root .htaccess file, then clear page cache, object cache, and CDN cache before retesting Link headers.', 'lc-tweaks' ); ?></p>
+						<pre class="dlck-agent-readiness-command dlck-agent-readiness-snippet"><?php echo esc_html( $dlck_agent_readiness_htaccess_snippet ); ?></pre>
 					</div>
 
 					<div class="info" style="margin-top:15px;">

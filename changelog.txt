@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 
+1.6.4
+- Added an optional AI Agent Readiness `.htaccess` fallback that can install a homepage Link response header for cached/CDN-served pages.
+
 1.6.3
 - Added an AI Agent Readiness maintenance feature for public content sites, including Markdown negotiation, `/index.md` fallbacks, Content Signals, honest discovery headers, Rank Math `llms.txt` context, and admin diagnostics.
 
