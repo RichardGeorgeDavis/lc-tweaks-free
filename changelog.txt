@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 
+1.6.16
+- Fixed the Divi Contact Form header callback to accept the three arguments emitted by current Divi versions, preventing a fatal error when the copy-to-sender feature is enabled.
+
 1.6.15
 - Added an authenticated WP-CLI full cache-clear command with JSON results, per-provider status reporting, non-zero failure exits, and optional user browser-local-storage flagging.
 - Reused the shared automated cache-clear service for SSH/WP-CLI maintenance across Divi, LC Tweaks, WP Rocket, and available host/cache integrations.

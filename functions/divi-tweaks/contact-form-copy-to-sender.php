@@ -13,11 +13,10 @@
  * @param array  $headers        Existing headers.
  * @param string $contact_name   Sender name from the form.
  * @param string $contact_email  Sender email from the form.
- * @param string $contact_subject (unused here, but included for signature compatibility).
  *
  * @return array Modified headers.
  */
-add_filter( 'et_contact_page_headers', function ( $headers, $contact_name, $contact_email, $contact_subject ) {
+add_filter( 'et_contact_page_headers', function ( $headers, $contact_name, $contact_email ) {
 
 	$email = sanitize_email( $contact_email );
 	if ( ! $email || ! is_email( $email ) ) {
@@ -34,6 +33,6 @@ add_filter( 'et_contact_page_headers', function ( $headers, $contact_name, $cont
 	);
 
 	return $headers;
-}, 10, 4 );
+}, 10, 3 );
 
 ?>
