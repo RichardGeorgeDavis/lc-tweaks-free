@@ -50,6 +50,7 @@ function dlck_edit_in_visual_builder_row_action( $actions, $post ) {
 	$builder_url = function_exists( 'dlck_get_divi_visual_builder_url' )
 		? dlck_get_divi_visual_builder_url( $permalink )
 		: ( function_exists( 'et_fb_get_vb_url' ) ? et_fb_get_vb_url( $permalink ) : add_query_arg( 'et_fb', '1', $permalink ) );
+	$builder_url = add_query_arg( 'PageSpeed', 'off', $builder_url );
 
 	$edit_in_visual_builder_action = sprintf(
 		'<a href="%1$s">%2$s</a>',

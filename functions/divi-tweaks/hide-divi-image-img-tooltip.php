@@ -11,20 +11,23 @@ function dlck_hide_divi_image_tooltip()
     if ( ! $collecting && ( is_admin() || wp_doing_ajax() ) ) {
         return;
     }
-	$js = <<<JS
+	$js = <<<'JS'
 jQuery(document).ready(function($) {
     // Disable title tooltip without altering alt/caption content.
-    $("img").mouseenter(function() {
-        let $pac_da_title = $(this).attr("title");
-        if (typeof $pac_da_title !== 'undefined') {
-            $(this).attr("pac_da_title", $pac_da_title);
-            $(this).attr("title", "");
+    $("img").on("mouseenter", function() {
+        var $img       = $(this),
+            titleValue = $img.attr("title");
+        if (titleValue !== undefined) {
+            $img.attr("data-pac-da-title", titleValue);
+            $img.removeAttr("title");
         }
-    }).mouseleave(function() {
-        let $pac_da_title = $(this).attr("pac_da_title");
-        if (typeof $pac_da_title !== 'undefined') {
-            $(this).attr("title", $pac_da_title);
-            $(this).removeAttr("pac_da_title");
+    });
+    $("img").on("mouseleave", function() {
+        var $img       = $(this),
+            titleValue = $img.attr("data-pac-da-title");
+        if (titleValue !== undefined) {
+            $img.attr("title", titleValue);
+            $img.removeAttr("data-pac-da-title");
         }
     });
 });

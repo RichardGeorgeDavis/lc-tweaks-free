@@ -186,6 +186,12 @@ foreach ( $dlck_layouts as $dlck_layout ) {
 		<?php
 		dlck_divi_helpers_toggle( 'dlck_divi_vb_disable_inline_text_toolbar', __( 'Disable inline text toolbar', 'lc-tweaks' ), __( 'Hide the floating inline text editing toolbar when it gets in the way.', 'lc-tweaks' ) );
 		dlck_divi_helpers_toggle( 'dlck_divi_vb_swap_global_saved_colors', __( 'Swap saved and global color buttons', 'lc-tweaks' ), __( 'Move saved colors ahead of global colors in compatible Divi color fields.', 'lc-tweaks' ) );
+		dlck_divi_helpers_toggle( 'dlck_divi_vb_fullscreen', __( 'Disable block editor fullscreen', 'lc-tweaks' ), __( 'Disable fullscreen mode in the WordPress block editor when this is enabled.', 'lc-tweaks' ) );
+		dlck_divi_helpers_toggle( 'dlck_divi_vb_hide_divi_builder_btn_ce', __( 'Hide Divi Builder button in Classic editor', 'lc-tweaks' ), __( 'Hide the “Use Divi” link when editing in the Classic editor screen.', 'lc-tweaks' ) );
+		dlck_divi_helpers_toggle( 'dlck_divi_vb_hide_divi_builder_btn_be', __( 'Hide Divi Builder button in Block editor', 'lc-tweaks' ), __( 'Hide the Divi switch shown in the Block editor toolbar.', 'lc-tweaks' ) );
+		dlck_divi_helpers_toggle( 'dlck_divi_vb_hide_editor_switch_buttons', __( 'Hide editor switch buttons', 'lc-tweaks' ), __( 'Hide editor toggle buttons for switching between Divi and Gutenberg.', 'lc-tweaks' ) );
+		dlck_divi_helpers_toggle( 'dlck_divi_vb_hide_divi_cloud', __( 'Hide Divi Cloud actions', 'lc-tweaks' ), __( 'Hide Divi Cloud save/load upsell and action buttons in Visual Builder surfaces.', 'lc-tweaks' ) );
+		dlck_divi_helpers_toggle( 'dlck_divi_vb_hide_layouts_btn', __( 'Hide Add Layouts button', 'lc-tweaks' ), __( 'Hide Divi Cloud layout modal upsell content in the Visual Builder.', 'lc-tweaks' ) );
 		dlck_divi_helpers_toggle( 'dlck_divi_vb_full_width_post_content_rows', __( 'Full-width rows inside Post Content', 'lc-tweaks' ), __( 'Let rows nested in the Theme Builder Post Content module use the full content width.', 'lc-tweaks' ) );
 		dlck_divi_helpers_toggle( 'dlck_divi_vb_hide_marketplace_layout_promo', __( 'Hide marketplace layout promos', 'lc-tweaks' ), __( 'Hide marketplace and promotional layout cards/buttons in builder library views.', 'lc-tweaks' ) );
 		dlck_divi_helpers_toggle( 'dlck_divi_vb_hide_explore_modules', __( 'Hide Explore Modules buttons', 'lc-tweaks' ), __( 'Remove module-marketplace exploration links from builder module pickers.', 'lc-tweaks' ) );
@@ -211,6 +217,7 @@ foreach ( $dlck_layouts as $dlck_layout ) {
 		dlck_divi_helpers_toggle( 'dlck_remove_howdy', __( 'Remove Howdy from admin bar', 'lc-tweaks' ) );
 		dlck_divi_helpers_toggle( 'dlck_admin_bar_frontend_hide', __( 'Hide admin bar on frontend', 'lc-tweaks' ), __( 'Hide the WordPress admin bar on the public site while keeping it available in wp-admin.', 'lc-tweaks' ) );
 		dlck_divi_helpers_toggle( 'dlck_admin_bar_hover', __( 'Reveal hidden admin bar on hover', 'lc-tweaks' ), __( 'When the frontend admin bar is hidden, reveal it when hovering near the top of the screen.', 'lc-tweaks' ) );
+		dlck_divi_helpers_toggle( 'dlck_disable_comment_settings', __( 'Disable comment settings (posts/pages)', 'lc-tweaks' ), __( 'Hide comments admin menu, remove post/page comments support, and hide comments in the admin bar.', 'lc-tweaks' ) );
 		dlck_divi_helpers_toggle( 'dlck_divi_quick_links_enabled', __( 'Divi quick links', 'lc-tweaks' ), __( 'Add common Divi admin links to the WordPress admin bar.', 'lc-tweaks' ) );
 		dlck_divi_helpers_toggle( 'dlck_divi_quick_links_in_builder', __( 'Divi quick links in builder', 'lc-tweaks' ), __( 'Add a compact quick-links button in Visual Builder views.', 'lc-tweaks' ) );
 		dlck_divi_helpers_trigger_toggle( 'dlck_custom_quick_links_enabled', __( 'Custom quick links', 'lc-tweaks' ), __( 'Add your own admin-bar quick links. Use one Label | URL pair per line.', 'lc-tweaks' ) );
@@ -281,8 +288,30 @@ foreach ( $dlck_layouts as $dlck_layout ) {
 		</div>
 		<?php
 		dlck_divi_helpers_toggle( 'dlck_divi_editor_back_links', __( 'Back links in Divi editors', 'lc-tweaks' ), __( 'Add a simple return link in Divi Library and classic edit screens.', 'lc-tweaks' ) );
-		dlck_divi_helpers_toggle( 'dlck_admin_notes_enabled', __( 'Admin Notes', 'lc-tweaks' ), __( 'Add an internal note box to pages, posts, projects, and Divi Library layouts.', 'lc-tweaks' ) );
+			dlck_divi_helpers_toggle( 'dlck_admin_notes_enabled', __( 'Admin Notes', 'lc-tweaks' ), __( 'Add an internal note box to pages, posts, projects, and Divi Library layouts.', 'lc-tweaks' ) );
 		?>
+	</div>
+
+	<h2 class="tool-section"><?php esc_html_e( 'Projects', 'lc-tweaks' ); ?></h2>
+	<div class="tool-wrap">
+		<?php
+		dlck_divi_helpers_trigger_toggle( 'dlck_divi_project_rename', __( 'Rename Divi Projects', 'lc-tweaks' ), __( 'Rename the Project post type and taxonomy labels without affecting post data.', 'lc-tweaks' ) );
+		?>
+		<div class="dlck-hide">
+			<?php
+			dlck_divi_helpers_text( 'dlck_divi_project_plural_name', __( 'Project plural label', 'lc-tweaks' ), __( 'Label used for the project menu and archive listings.', 'lc-tweaks' ), __( 'Projects', 'lc-tweaks' ) );
+			dlck_divi_helpers_text( 'dlck_divi_project_singular_name', __( 'Project singular label', 'lc-tweaks' ), __( 'Single item label used in admin and UI.', 'lc-tweaks' ), __( 'Project', 'lc-tweaks' ) );
+			dlck_divi_helpers_text( 'dlck_divi_project_slug', __( 'Project slug', 'lc-tweaks' ), __( 'Rewrite slug for project URLs.', 'lc-tweaks' ), __( 'projects', 'lc-tweaks' ) );
+
+			dlck_divi_helpers_text( 'dlck_divi_project_plural_category', __( 'Project category plural label', 'lc-tweaks' ), __( 'Label used for project category archives and listings.', 'lc-tweaks' ), __( 'Project Categories', 'lc-tweaks' ) );
+			dlck_divi_helpers_text( 'dlck_divi_project_singular_category', __( 'Project category singular label', 'lc-tweaks' ), __( 'Single category label used in taxonomy UI.', 'lc-tweaks' ), __( 'Project Category', 'lc-tweaks' ) );
+			dlck_divi_helpers_text( 'dlck_divi_project_category_slug', __( 'Project category slug', 'lc-tweaks' ), __( 'Rewrite slug for the project category taxonomy.', 'lc-tweaks' ), __( 'project_category', 'lc-tweaks' ) );
+
+			dlck_divi_helpers_text( 'dlck_divi_project_plural_tag', __( 'Project tag plural label', 'lc-tweaks' ), __( 'Label used for project tag archives and listings.', 'lc-tweaks' ), __( 'Project Tags', 'lc-tweaks' ) );
+			dlck_divi_helpers_text( 'dlck_divi_project_singular_tag', __( 'Project tag singular label', 'lc-tweaks' ), __( 'Single tag label used in taxonomy UI.', 'lc-tweaks' ), __( 'Project Tag', 'lc-tweaks' ) );
+			dlck_divi_helpers_text( 'dlck_divi_project_tag_slug', __( 'Project tag slug', 'lc-tweaks' ), __( 'Rewrite slug for the project tag taxonomy.', 'lc-tweaks' ), __( 'project_tag', 'lc-tweaks' ) );
+			?>
+		</div>
 	</div>
 
 	<h2 class="tool-section"><?php esc_html_e( 'Frontend', 'lc-tweaks' ); ?></h2>
@@ -345,6 +374,7 @@ foreach ( $dlck_layouts as $dlck_layout ) {
 		<?php
 		dlck_divi_helpers_toggle( 'dlck_svg_img_class_enabled', __( 'Add class to SVG images', 'lc-tweaks' ), __( 'Adds style-svg to SVG image output for styling scripts and CSS.', 'lc-tweaks' ) );
 		dlck_divi_helpers_trigger_toggle( 'dlck_media_filename_metadata_enabled', __( 'Generate attachment text from filenames', 'lc-tweaks' ), __( 'Populate title, alt, caption, and description from cleaned filenames.', 'lc-tweaks' ) );
+		dlck_divi_helpers_toggle( 'dlck_divi_img_module', __( 'Image module metadata sync', 'lc-tweaks' ), __( 'Use the attachment library metadata to fill Divi image module alt and title attributes.', 'lc-tweaks' ) );
 		?>
 		<div class="dlck-hide">
 			<?php dlck_divi_helpers_toggle( 'dlck_media_filename_metadata_override', __( 'Override existing attachment text', 'lc-tweaks' ), __( 'Replace existing title, alt, caption, and description values when attachment metadata is regenerated.', 'lc-tweaks' ) ); ?>

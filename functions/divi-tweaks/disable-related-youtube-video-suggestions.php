@@ -41,6 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
 		parent.appendChild(overlay);
 
 		// Use the YouTube IFrame API to detect end of playback
+		if (typeof window.YT === "undefined" || typeof window.YT.Player !== "function") {
+			return;
+		}
+
 		new YT.Player(iframe, {
 			events: {
 				'onStateChange': function (event) {
@@ -87,6 +91,10 @@ document.addEventListener('DOMContentLoaded', function () {
 		parent.appendChild(overlay);
 
 		// Use the YouTube IFrame API to detect end of playback
+		if (typeof window.YT === "undefined" || typeof window.YT.Player !== "function") {
+			return;
+		}
+
 		new YT.Player(iframe, {
 			events: {
 				'onStateChange': function (event) {

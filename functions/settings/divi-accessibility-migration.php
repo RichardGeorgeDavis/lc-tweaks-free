@@ -362,6 +362,24 @@ function dlck_divi_accessibility_migration_mark_not_required(): void {
 }
 
 /**
+ * Record that an explicit administrator action is required to continue.
+ */
+function dlck_divi_accessibility_migration_mark_pending( bool $required, bool $installed_once, string $version = '' ): void {
+	dlck_divi_accessibility_migration_update_status(
+		dlck_divi_accessibility_migration_build_status(
+			'pending',
+			__( 'Divi Accessibility migration is ready. Run it explicitly to avoid downloading or activating plugins during a routine admin page load.', 'lc-tweaks' ),
+			array(
+				'code'           => 'explicit_action_required',
+				'version'        => $version,
+				'required'       => $required,
+				'installed_once' => $installed_once,
+			)
+		)
+	);
+}
+
+/**
  * Mark a site as needing a recommendation instead of an automatic reinstall.
  *
  * @param string $code           Recommendation code.
@@ -397,9 +415,18 @@ function dlck_divi_accessibility_migration_maybe_run( string $reason = 'passive'
 	if ( function_exists( 'wp_doing_ajax' ) && wp_doing_ajax() ) {
 		return;
 	}
+	if ( function_exists( 'dlck_store_admin_performance_is_active' ) && dlck_store_admin_performance_is_active() && $reason !== 'retry' ) {
+		return;
+	}
 
 	$status = dlck_divi_accessibility_migration_get_status();
+	if ( $reason === 'passive' && (string) ( $status['status'] ?? '' ) === 'not_required' ) {
+		return;
+	}
 	if ( dlck_divi_accessibility_migration_reconcile_success() ) {
+		return;
+	}
+	if ( $reason === 'passive' && in_array( (string) ( $status['status'] ?? '' ), array( 'pending', 'failed' ), true ) ) {
 		return;
 	}
 
@@ -428,6 +455,12 @@ function dlck_divi_accessibility_migration_maybe_run( string $reason = 'passive'
 	}
 
 	if ( $reason !== 'retry' && isset( $status['status'] ) && $status['status'] === 'failed' ) {
+		return;
+	}
+
+	// Never download, update, or activate a plugin during a routine admin load.
+	if ( $reason !== 'retry' ) {
+		dlck_divi_accessibility_migration_mark_pending( $required || $installed_once, $installed_once, $version );
 		return;
 	}
 
@@ -631,7 +664,7 @@ function dlck_divi_accessibility_migration_notice(): void {
 	$retry_url  = wp_nonce_url( $action_url, 'dlck_retry_divi_accessibility_migration' );
 	$plugin     = dlck_divi_accessibility_migration_get_installed_plugin();
 
-	if ( $status['status'] === 'failed' ) {
+	if ( $status['status'] === 'failed' || $status['status'] === 'pending' ) {
 		$needs_install = dlck_divi_accessibility_migration_needs_install_step( $plugin );
 		$can_retry     = dlck_divi_accessibility_migration_current_user_can_run( $needs_install );
 		if ( ! $can_retry ) {
@@ -667,6 +700,20 @@ function dlck_divi_accessibility_migration_notice(): void {
 			esc_url( $retry_url ),
 			esc_html( $link_label ),
 			$manual_link
+		);
+		return;
+	}
+
+	if ( $status['status'] === 'pending' ) {
+		$link_label = $needs_install
+			? __( 'Install and activate Divi Accessibility.', 'lc-tweaks' )
+			: __( 'Activate Divi Accessibility.', 'lc-tweaks' );
+
+		printf(
+			'<div class="notice notice-warning"><p>%1$s <a href="%2$s">%3$s</a></p></div>',
+			esc_html( (string) $status['message'] ),
+			esc_url( $retry_url ),
+			esc_html( $link_label )
 		);
 		return;
 	}

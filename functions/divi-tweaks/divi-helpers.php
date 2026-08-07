@@ -141,6 +141,17 @@ if ( ! function_exists( 'dlck_divi_helper_add_inline_assets' ) ) {
 			$css[] = '#wpadminbar #wp-admin-bar-dlck-environment-badge>.ab-item{background:' . $bg . '!important;color:' . $text . '!important;font-weight:700;}';
 		}
 
+		if ( dlck_divi_helper_enabled( 'dlck_divi_vb_hide_divi_builder_btn_ce' ) ) {
+			$css[] = 'a#et_pb_use_the_builder.et_pb_ready{display:none!important;}';
+		}
+
+		if ( dlck_divi_helper_enabled( 'dlck_divi_vb_hide_divi_builder_btn_be' ) ) {
+			$css[] = "button.editor-post-switch-to-divi[data-editor='divi']{display:none!important;}";
+		}
+		if ( dlck_divi_helper_enabled( 'dlck_divi_vb_hide_editor_switch_buttons' ) ) {
+			$css[] = 'button#et-switch-to-gutenberg.components-button.is-default{display:none!important;}#et_pb_toggle_builder[data-builder=\'divi\'][data-editor=\'visual-builder\'].et_pb_builder_is_used{display:none!important;}button.editor-post-switch-to-gutenberg[data-editor=\'gutenberg\']{display:none!important;}';
+		}
+
 		return array(
 			'css' => $css,
 			'js'  => array(),
@@ -184,6 +195,12 @@ if ( ! function_exists( 'dlck_divi_helper_add_inline_assets' ) ) {
 
 		if ( dlck_divi_helper_enabled( 'dlck_divi_vb_hide_explore_modules' ) ) {
 			$css[] = '.et-fb-modules-list__more,.et-fb-module-item--marketplace,.et-vb-module-marketplace,[data-testid*="explore" i],[aria-label*="Explore" i]{display:none!important;}';
+		}
+		if ( dlck_divi_helper_enabled( 'dlck_divi_vb_hide_divi_cloud' ) ) {
+			$css[] = "button.et-vb-right-click-option[value='save-to-cloud'], .et-vb-modal.et-vb-modal--main[data-modal-name='divi/add-to-library'] div.et-vb-save-to-library-options div.et-vb-field:nth-child(3), .et-vb-modal.et-vb-modal--main[data-modal-name='divi/add-to-library'] div.et-vb-save-to-library-options div.et-vb-field:nth-child(4), .et-vb-modal.et-vb-modal--main[data-modal-name='divi/add-module'] div.et-vb-modal-panel--add-from-library div.et-cloud-app-sidebar__content div.et-cloud-app__upsell.card-library.card-default, .et-vb-modal.et-vb-modal--main[data-modal-name='divi/load-layout']:has(.et-vb-modal-tab:nth-child(2).et-vb-modal-tab--active) .et-cloud-app__upsell.card-library.card-default, .et-vb-modal.et-vb-modal--main[data-modal-name='divi/load-layout']:has(.et-vb-modal-tab:nth-child(3).et-vb-modal-tab--active) .et-cloud-app__upsell.card-library.card-default, .et-vb-modal.et-vb-modal--main[data-modal-name='divi/add-module'] .et-cloud-app-view-header .et-cloud-app-view-header--right .et-cloud-toggle, .et-vb-modal.et-vb-modal--main[data-modal-name='divi/load-layout'] .et-cloud-app-view-header .et-cloud-app-view-header--right .et-cloud-toggle{display:none!important;}";
+		}
+		if ( dlck_divi_helper_enabled( 'dlck_divi_vb_hide_layouts_btn' ) ) {
+			$css[] = ".et-vb-modal.et-vb-modal--main[data-modal-name='divi/load-layout']:has(.et-vb-modal-tab:nth-child(1).et-vb-modal-tab--active) .et-cloud-app__upsell.card-library.card-default{display:none!important;}";
 		}
 
 		$ai_selectors = array();
@@ -243,6 +260,41 @@ if ( ! function_exists( 'dlck_divi_helper_add_inline_assets' ) ) {
 		dlck_divi_helper_add_inline_assets( dlck_divi_helper_admin_assets(), 'admin' );
 	}
 	add_action( 'dlck_collect_inline_assets_admin', 'dlck_divi_helper_collect_admin_assets' );
+
+if ( ! function_exists( 'dlck_divi_helper_disable_comment_settings_menu' ) ) {
+	function dlck_divi_helper_disable_comment_settings_menu(): void {
+		remove_menu_page( 'edit-comments.php' );
+	}
+
+	function dlck_divi_helper_disable_comment_settings_post_type_support(): void {
+		remove_post_type_support( 'post', 'comments' );
+		remove_post_type_support( 'page', 'comments' );
+	}
+
+	function dlck_divi_helper_disable_comment_settings_admin_bar(): void {
+		global $wp_admin_bar;
+		if ( isset( $wp_admin_bar ) ) {
+			$wp_admin_bar->remove_menu( 'comments' );
+		}
+	}
+
+	if ( dlck_divi_helper_enabled( 'dlck_disable_comment_settings' ) ) {
+		add_action( 'admin_menu', 'dlck_divi_helper_disable_comment_settings_menu' );
+		add_action( 'init', 'dlck_divi_helper_disable_comment_settings_post_type_support', 100 );
+		add_action( 'wp_before_admin_bar_render', 'dlck_divi_helper_disable_comment_settings_admin_bar' );
+	}
+}
+
+if ( ! function_exists( 'dlck_divi_helper_disable_block_editor_fullscreen' ) ) {
+	function dlck_divi_helper_disable_block_editor_fullscreen(): void {
+		if ( ! dlck_divi_helper_enabled( 'dlck_divi_vb_fullscreen' ) ) {
+			return;
+		}
+		$script = "jQuery(window).on('load',function(){if(!window.wp||!wp.data||!wp.data.select||!wp.data.dispatch){return;}var editorData=wp.data.select('core/edit-post');if(!editorData){return;}if(editorData.isFeatureActive('fullscreenMode')){wp.data.dispatch('core/edit-post').toggleFeature('fullscreenMode');}});";
+		wp_add_inline_script( 'wp-blocks', $script );
+	}
+	add_action( 'enqueue_block_editor_assets', 'dlck_divi_helper_disable_block_editor_fullscreen' );
+}
 
 	function dlck_divi_helper_is_builder_asset_request(): bool {
 		if ( function_exists( 'dlck_is_divi_visual_builder_request' ) && dlck_is_divi_visual_builder_request() ) {
@@ -1045,4 +1097,435 @@ if ( ! function_exists( 'dlck_divi_helper_path_matches' ) ) {
 		exit;
 	}
 	add_action( 'template_redirect', 'dlck_divi_helper_render_site_availability', 1 );
+}
+
+if ( ! function_exists( 'dlck_divi_helper_project_labels_value' ) ) {
+	function dlck_divi_helper_project_labels_value( string $option_key, string $fallback ): string {
+		$value = dlck_get_option( $option_key, $fallback );
+		if ( ! is_scalar( $value ) ) {
+			$value = $fallback;
+		}
+
+		$value = sanitize_text_field( (string) $value );
+		return $value !== '' ? $value : $fallback;
+	}
+
+	function dlck_divi_helper_project_slug_value( string $option_key, string $fallback ): string {
+		$value = dlck_get_option( $option_key, $fallback );
+		if ( ! is_scalar( $value ) ) {
+			$value = $fallback;
+		}
+		$value = sanitize_title( (string) $value );
+		return $value !== '' ? $value : $fallback;
+	}
+
+	function dlck_divi_helper_project_rename_post_type_args( array $args, string $post_type ): array {
+		if ( ! dlck_divi_helper_enabled( 'dlck_divi_project_rename' ) || $post_type !== 'project' ) {
+			return $args;
+		}
+
+		$plural = dlck_divi_helper_project_labels_value( 'dlck_divi_project_plural_name', __( 'Projects', 'lc-tweaks' ) );
+		$singular = dlck_divi_helper_project_labels_value( 'dlck_divi_project_singular_name', __( 'Project', 'lc-tweaks' ) );
+		$slug = dlck_divi_helper_project_slug_value( 'dlck_divi_project_slug', __( 'projects', 'lc-tweaks' ) );
+
+		$args['labels'] = array(
+			'name'                  => $plural,
+			'singular_name'         => $singular,
+			'add_new_item'          => sprintf( __( 'Add New %s', 'lc-tweaks' ), $singular ),
+			'edit_item'             => sprintf( __( 'Edit %s', 'lc-tweaks' ), $singular ),
+			'new_item'              => sprintf( __( 'New %s', 'lc-tweaks' ), $singular ),
+			'all_items'             => sprintf( __( 'All %s', 'lc-tweaks' ), $plural ),
+			'view_item'             => sprintf( __( 'View %s', 'lc-tweaks' ), $singular ),
+			'search_items'          => sprintf( __( 'Search %s', 'lc-tweaks' ), $plural ),
+			'not_found'             => sprintf( __( 'No %s found', 'lc-tweaks' ), strtolower( $plural ) ),
+			'not_found_in_trash'    => sprintf( __( 'No %s found in Trash', 'lc-tweaks' ), strtolower( $plural ) ),
+		);
+
+		$args['rewrite'] = array_merge(
+			is_array( $args['rewrite'] ?? null ) ? (array) $args['rewrite'] : array(),
+			array( 'slug' => $slug )
+		);
+
+		return $args;
+	}
+
+	function dlck_divi_helper_project_rename_taxonomy_args( array $args, string $taxonomy ): array {
+		if ( ! dlck_divi_helper_enabled( 'dlck_divi_project_rename' ) ) {
+			return $args;
+		}
+
+		if ( $taxonomy === 'project_category' ) {
+			$plural = dlck_divi_helper_project_labels_value( 'dlck_divi_project_plural_category', __( 'Project Categories', 'lc-tweaks' ) );
+			$singular = dlck_divi_helper_project_labels_value( 'dlck_divi_project_singular_category', __( 'Project Category', 'lc-tweaks' ) );
+			$slug = dlck_divi_helper_project_slug_value( 'dlck_divi_project_category_slug', __( 'project_category', 'lc-tweaks' ) );
+
+			$args['labels'] = array(
+				'name'                  => $plural,
+				'singular_name'         => $singular,
+				'search_items'          => sprintf( __( 'Search %s', 'lc-tweaks' ), $plural ),
+				'all_items'             => sprintf( __( 'All %s', 'lc-tweaks' ), $plural ),
+				'parent_item'           => sprintf( __( 'Parent %s', 'lc-tweaks' ), $singular ),
+				'parent_item_colon'     => sprintf( __( 'Parent %s:', 'lc-tweaks' ), $singular ),
+				'edit_item'             => sprintf( __( 'Edit %s', 'lc-tweaks' ), $singular ),
+				'update_item'           => sprintf( __( 'Update %s', 'lc-tweaks' ), $singular ),
+				'add_new_item'          => sprintf( __( 'Add New %s', 'lc-tweaks' ), $singular ),
+				'new_item_name'         => sprintf( __( 'New %s Name', 'lc-tweaks' ), $singular ),
+				'menu_name'             => $plural,
+				'not_found'             => sprintf( __( 'You currently don\'t have any %s.', 'lc-tweaks' ), strtolower( $plural ) ),
+			);
+
+			$args['rewrite'] = array_merge(
+				is_array( $args['rewrite'] ?? null ) ? (array) $args['rewrite'] : array(),
+				array( 'slug' => $slug )
+			);
+		}
+
+		if ( $taxonomy === 'project_tag' ) {
+			$plural = dlck_divi_helper_project_labels_value( 'dlck_divi_project_plural_tag', __( 'Project Tags', 'lc-tweaks' ) );
+			$singular = dlck_divi_helper_project_labels_value( 'dlck_divi_project_singular_tag', __( 'Project Tag', 'lc-tweaks' ) );
+			$slug = dlck_divi_helper_project_slug_value( 'dlck_divi_project_tag_slug', __( 'project_tag', 'lc-tweaks' ) );
+
+			$args['labels'] = array(
+				'name'                  => $plural,
+				'singular_name'         => $singular,
+				'search_items'          => sprintf( __( 'Search %s', 'lc-tweaks' ), $plural ),
+				'all_items'             => sprintf( __( 'All %s', 'lc-tweaks' ), $plural ),
+				'parent_item'           => sprintf( __( 'Parent %s', 'lc-tweaks' ), $singular ),
+				'parent_item_colon'     => sprintf( __( 'Parent %s:', 'lc-tweaks' ), $singular ),
+				'edit_item'             => sprintf( __( 'Edit %s', 'lc-tweaks' ), $singular ),
+				'update_item'           => sprintf( __( 'Update %s', 'lc-tweaks' ), $singular ),
+				'add_new_item'          => sprintf( __( 'Add New %s', 'lc-tweaks' ), $singular ),
+				'new_item_name'         => sprintf( __( 'New %s Name', 'lc-tweaks' ), $singular ),
+				'menu_name'             => $plural,
+				'not_found'             => sprintf( __( 'You currently don\'t have any  %s.', 'lc-tweaks' ), strtolower( $plural ) ),
+			);
+
+			$args['rewrite'] = array_merge(
+				is_array( $args['rewrite'] ?? null ) ? (array) $args['rewrite'] : array(),
+				array( 'slug' => $slug )
+			);
+		}
+
+		return $args;
+	}
+
+	add_action(
+		'init',
+		static function (): void {
+			if ( ! dlck_divi_helper_enabled( 'dlck_divi_project_rename' ) ) {
+				return;
+			}
+
+			add_filter( 'register_post_type_args', 'dlck_divi_helper_project_rename_post_type_args', 20, 2 );
+			add_filter( 'register_taxonomy_args', 'dlck_divi_helper_project_rename_taxonomy_args', 20, 2 );
+		},
+		20
+	);
+
+	function dlck_divi_helper_image_module_attachment_id_by_url( string $url ): int {
+		static $cache = array();
+		if ( isset( $cache[ $url ] ) ) {
+			return $cache[ $url ];
+		}
+
+		$url = trim( $url );
+		if ( '' === $url ) {
+			$cache[ $url ] = 0;
+			return 0;
+		}
+
+		$attachment_id = attachment_url_to_postid( $url );
+		if ( $attachment_id ) {
+			$cache[ $url ] = (int) $attachment_id;
+			return (int) $attachment_id;
+		}
+
+		$without_size = preg_replace( '/-(\d+)x(\d+)\./', '.', $url );
+		if ( is_string( $without_size ) ) {
+			$attachment_id = attachment_url_to_postid( $without_size );
+			if ( $attachment_id ) {
+				$cache[ $url ] = (int) $attachment_id;
+				return (int) $attachment_id;
+			}
+		}
+
+		$clean_url = strtok( $url, '?' );
+		$scaled = '';
+		if ( is_string( $clean_url ) ) {
+			$scaled = preg_replace( '/(\.[A-Za-z0-9]+)$/', '-scaled$1', preg_replace( '/-(\d+)x(\d+)\./', '.', $clean_url ) );
+			if ( is_string( $scaled ) ) {
+				$attachment_id = attachment_url_to_postid( $scaled );
+				if ( $attachment_id ) {
+					$cache[ $url ] = (int) $attachment_id;
+					return (int) $attachment_id;
+				}
+			}
+		}
+
+		$parsed_url = wp_parse_url( $url );
+		if ( empty( $parsed_url['path'] ) ) {
+			$cache[ $url ] = 0;
+			return 0;
+		}
+
+		global $wpdb;
+
+		$filename = pathinfo( trim( $parsed_url['path'], '/' ), PATHINFO_FILENAME );
+		if ( preg_match( '/%[0-9A-Fa-f]{2}/', $filename ) ) {
+			$filename = urldecode( $filename );
+		}
+		$filename = sanitize_file_name( $filename );
+		$base_filename = preg_replace( '/-\d+x\d+$/', '', $filename );
+		$base_filename = preg_replace( '/-scaled$/', '', $base_filename );
+
+		if ( '' === $base_filename ) {
+			$cache[ $url ] = 0;
+			return 0;
+		}
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT pm.post_id, pm.meta_value
+				 FROM $wpdb->postmeta pm
+				 INNER JOIN $wpdb->posts p ON pm.post_id = p.ID
+				 WHERE pm.meta_key = '_wp_attached_file'
+				 AND pm.meta_value LIKE %s
+				 AND p.post_type = 'attachment'
+				 AND p.post_status = 'inherit'",
+				'%' . $wpdb->esc_like( $base_filename ) . '%'
+			)
+		);
+		// phpcs:enable
+
+		if ( ! empty( $results ) ) {
+			$candidates = array_unique( array_map( 'strtolower', array( $filename, $base_filename ) ) );
+			foreach ( $results as $result ) {
+				$meta_filename = strtolower( pathinfo( (string) $result->meta_value, PATHINFO_FILENAME ) );
+				if ( in_array( $meta_filename, $candidates, true ) ) {
+					$cache[ $url ] = (int) $result->post_id;
+					return (int) $result->post_id;
+				}
+			}
+		}
+
+		$cache[ $url ] = 0;
+		return 0;
+	}
+
+	function dlck_divi_helper_image_module_library_meta( string $image_url ): array {
+		static $cache = array();
+		if ( isset( $cache[ $image_url ] ) ) {
+			return $cache[ $image_url ];
+		}
+
+		$meta = array(
+			'alt'   => '',
+			'title' => '',
+		);
+
+		$attachment_id = dlck_divi_helper_image_module_attachment_id_by_url( $image_url );
+		if ( ! $attachment_id ) {
+			$cache[ $image_url ] = $meta;
+			return $meta;
+		}
+
+		$meta['title'] = get_the_title( $attachment_id );
+		$meta['alt']   = (string) get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+
+		$cache[ $image_url ] = $meta;
+		return $meta;
+	}
+
+	function dlck_divi_helper_set_image_tag_attribute( string $tag, string $name, string $value ): string {
+		$value = str_replace( '>', '&gt;', esc_attr( $value ) );
+		$existing = '/(\s' . preg_quote( $name, '/' ) . ')\s*=\s*(["\']).*?\2/is';
+		if ( preg_match( $existing, $tag ) ) {
+			return preg_replace_callback(
+				$existing,
+				static function ( array $matches ) use ( $value ): string {
+					return $matches[1] . '="' . $value . '"';
+				},
+				$tag,
+				1
+			);
+		}
+
+		return preg_replace_callback(
+			'/\s*\/?>\s*$/',
+			static function ( array $matches ) use ( $name, $value ): string {
+				return ' ' . $name . '="' . $value . '"' . $matches[0];
+			},
+			$tag,
+			1
+		);
+	}
+
+	function dlck_divi_helper_set_image_tag_metadata( string $tag, array $meta ): string {
+		if ( '' !== ( $meta['alt'] ?? '' ) ) {
+			$tag = dlck_divi_helper_set_image_tag_attribute( $tag, 'alt', (string) $meta['alt'] );
+		}
+		if ( '' !== ( $meta['title'] ?? '' ) ) {
+			$tag = dlck_divi_helper_set_image_tag_attribute( $tag, 'title', (string) $meta['title'] );
+		}
+		return $tag;
+	}
+
+	function dlck_divi_helper_override_image_module_attributes_divi5( string $element, array $args, $instance ): string {
+		if ( ! dlck_divi_helper_enabled( 'dlck_divi_img_module' ) || ! is_string( $element ) || $element === '' ) {
+			return $element;
+		}
+
+		$instance_name = '';
+		if ( is_object( $instance ) && isset( $instance->name ) ) {
+			$instance_name = (string) $instance->name;
+		}
+		if ( '' === $instance_name && is_array( $instance ) && isset( $instance['name'] ) ) {
+			$instance_name = (string) $instance['name'];
+		}
+
+		if ( ( $args['attrName'] ?? '' ) !== 'image' || $instance_name !== 'divi/image' ) {
+			return $element;
+		}
+
+		$module_attrs = is_object( $instance ) ? (array) $instance->module_attrs : array();
+		$image_src    = isset( $module_attrs['image']['innerContent']['desktop']['value']['src'] ) ? (string) $module_attrs['image']['innerContent']['desktop']['value']['src'] : '';
+		$image_src    = trim( $image_src );
+		if ( $image_src === '' ) {
+			return $element;
+		}
+
+		if ( ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || wp_doing_ajax() || is_admin() || ( function_exists( 'et_core_is_fb_enabled' ) && et_core_is_fb_enabled() ) ) {
+			return $element;
+		}
+
+		$meta = dlck_divi_helper_image_module_library_meta( $image_src );
+		if ( '' === $meta['alt'] && '' === $meta['title'] ) {
+			return $element;
+		}
+
+		$updated = $element;
+		$updated = preg_replace_callback(
+			'/<img\b(?:"[^"]*"|\'[^\']*\'|[^>"\'])*>/i',
+			static function ( array $matches ) use ( $meta ): string {
+				return dlck_divi_helper_set_image_tag_metadata( $matches[0], $meta );
+			},
+			$updated,
+			1
+		);
+
+		return is_string( $updated ) ? $updated : $element;
+	}
+
+	function dlck_divi_helper_override_image_module_attributes_divi5_wrapper( string $module_wrapper, array $args ): string {
+		if ( ! dlck_divi_helper_enabled( 'dlck_divi_img_module' ) || ! is_string( $module_wrapper ) || $module_wrapper === '' ) {
+			return $module_wrapper;
+		}
+
+		$instance_name = isset( $args['name'] ) ? (string) $args['name'] : '';
+		if ( 'divi/image' !== $instance_name ) {
+			return $module_wrapper;
+		}
+
+		if ( ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || wp_doing_ajax() || is_admin() || ( function_exists( 'et_core_is_fb_enabled' ) && et_core_is_fb_enabled() ) ) {
+			return $module_wrapper;
+		}
+
+		if ( stripos( $module_wrapper, '<img' ) === false ) {
+			return $module_wrapper;
+		}
+
+		$module_attrs  = isset( $args['attrs'] ) && is_array( $args['attrs'] ) ? (array) $args['attrs'] : array();
+		$target_src    = '';
+		$wrapper_meta  = array(
+			'alt'   => '',
+			'title' => '',
+		);
+		$target_raw    = isset( $module_attrs['image']['innerContent']['desktop']['value']['src'] ) ? (string) $module_attrs['image']['innerContent']['desktop']['value']['src'] : '';
+		$target_raw    = trim( $target_raw );
+		$target_cmp    = '';
+		if ( '' === $target_raw && isset( $args['module_attrs'] ) && is_array( $args['module_attrs'] ) ) {
+			$target_raw = isset( $args['module_attrs']['image']['innerContent']['desktop']['value']['src'] ) ? (string) $args['module_attrs']['image']['innerContent']['desktop']['value']['src'] : '';
+			$target_raw = trim( $target_raw );
+		}
+
+		if ( $target_raw !== '' ) {
+			$target_src = $target_raw;
+			$target_cmp = preg_replace( '/\?.*$/', '', $target_raw );
+			$target_cmp = is_string( $target_cmp ) ? trim( $target_cmp ) : '';
+			$wrapper_meta = dlck_divi_helper_image_module_library_meta( $target_src );
+			if ( '' === $wrapper_meta['alt'] && '' === $wrapper_meta['title'] ) {
+				return $module_wrapper;
+			}
+		}
+
+		$updated = preg_replace_callback(
+			'/<img\b(?:"[^"]*"|\'[^\']*\'|[^>"\'])*>/i',
+			static function ( array $matches ) use ( $target_src, $target_cmp, $wrapper_meta ): string {
+				$tag = $matches[0];
+				if ( ! preg_match( '/\bsrc\s*=\s*(?:(["\'])((?:(?!\1).)*)\1|([^\s>]+))/i', $tag, $src_match ) ) {
+					return $tag;
+				}
+
+				$tag_src = is_string( $src_match[2] ?? '' ) && '' !== (string) $src_match[2] ? (string) $src_match[2] : ( is_string( $src_match[3] ?? '' ) ? (string) $src_match[3] : '' );
+				$tag_src = trim( $tag_src );
+				if ( '' === $tag_src ) {
+					return $tag;
+				}
+
+				if ( '' !== $target_src ) {
+					$cmp = preg_replace( '/\?.*$/', '', $tag_src );
+					$cmp = is_string( $cmp ) ? trim( $cmp ) : '';
+					if ( '' === $cmp || $cmp !== $target_cmp ) {
+						return $tag;
+					}
+
+					if ( '' === trim( $wrapper_meta['alt'] ) && '' === trim( $wrapper_meta['title'] ) ) {
+						return $tag;
+					}
+
+					return dlck_divi_helper_set_image_tag_metadata( $tag, $wrapper_meta );
+				}
+
+				$meta = dlck_divi_helper_image_module_library_meta( $tag_src );
+				if ( '' === trim( $meta['alt'] ) && '' === trim( $meta['title'] ) ) {
+					return $tag;
+				}
+
+				return dlck_divi_helper_set_image_tag_metadata( $tag, $meta );
+			},
+			$module_wrapper
+		);
+
+		return is_string( $updated ) ? $updated : $module_wrapper;
+	}
+
+	function dlck_divi_helper_override_image_module_attributes_divi4( array $props, array $attrs, string $render_slug, $_address = null, $content = null ): array {
+		if ( ! dlck_divi_helper_enabled( 'dlck_divi_img_module' ) || ! in_array( $render_slug, array( 'et_pb_image', 'et_pb_fullwidth_image' ), true ) ) {
+			return $props;
+		}
+
+		if ( ( function_exists( 'et_fb_is_enabled' ) && et_fb_is_enabled() ) || ( function_exists( 'et_builder_bfb_enabled' ) && et_builder_bfb_enabled() ) ) {
+			return $props;
+		}
+
+		$image_src = isset( $props['src'] ) ? trim( (string) $props['src'] ) : '';
+		if ( '' === $image_src ) {
+			return $props;
+		}
+
+		$meta = dlck_divi_helper_image_module_library_meta( $image_src );
+		if ( '' !== $meta['alt'] ) {
+			$props['alt'] = $meta['alt'];
+		}
+		if ( '' !== $meta['title'] ) {
+			$props['title'] = $meta['title'];
+		}
+
+		return $props;
+	}
+
+	add_filter( 'divi_module_elements_render', 'dlck_divi_helper_override_image_module_attributes_divi5', 10, 3 );
+	add_filter( 'divi_module_wrapper_render', 'dlck_divi_helper_override_image_module_attributes_divi5_wrapper', 10, 2 );
+	add_filter( 'et_pb_module_shortcode_attributes', 'dlck_divi_helper_override_image_module_attributes_divi4', 10, 5 );
 }

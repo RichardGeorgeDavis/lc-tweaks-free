@@ -38,24 +38,26 @@ function dlck_buy_now_button() {
  * Add cached JS to keep the Buy Now URL synced with quantity/variation.
  */
 function dlck_collect_buy_now_assets() {
-	dlck_add_inline_js(
-		"jQuery(function($){\n" .
-		"var button=$('a.buy_now_button');\n" .
-		"if(!button.length){return;}\n" .
-		"function updateBuyNowURL(){\n" .
-		"var qty=$('form.cart').find('input.qty').val()||1;\n" .
-		"var productId=button.data('product-id');\n" .
-		"var variationId=$('form.cart').find('input[name=\"variation_id\"]').val();\n" .
-		"if(variationId&&variationId!=='0'){productId=variationId;}\n" .
-		"var baseUrl=button.data('base-url')||'/checkout-link/';\n" .
-		"var newUrl=baseUrl+'?products='+productId+':'+qty;\n" .
-		"button.attr('href',newUrl);\n" .
-		"}\n" .
-		"$(document).on('change input','form.cart input.qty',updateBuyNowURL);\n" .
-		"$('form.cart').on('show_variation hide_variation',updateBuyNowURL);\n" .
-		"updateBuyNowURL();\n" .
-		"});"
-	);
+	$js = <<<'JS'
+jQuery(function($){
+var button=$('a.buy_now_button');
+if(!button.length){return;}
+function updateBuyNowURL(){
+var qty=$('form.cart').find('input.qty').val()||1;
+var productId=button.data('product-id');
+var variationId=$('form.cart').find('input[name="variation_id"]').val();
+if(variationId&&variationId!=='0'){productId=variationId;}
+var baseUrl=button.data('base-url')||'/checkout-link/';
+var newUrl=baseUrl+'?products='+productId+':'+qty;
+button.attr('href',newUrl);
+}
+$(document).on('change input','form.cart input.qty',updateBuyNowURL);
+$('form.cart').on('show_variation hide_variation',updateBuyNowURL);
+updateBuyNowURL();
+});
+JS;
+
+	dlck_add_inline_js( $js );
 }
 
 ?>

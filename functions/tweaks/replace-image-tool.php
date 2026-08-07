@@ -22,6 +22,14 @@ function dlck_replace_image_enqueue_scripts(): void {
 		return;
 	}
 
+	if ( function_exists( 'get_current_screen' ) ) {
+		$screen        = get_current_screen();
+		$allowed_bases = array( 'post', 'media', 'upload' );
+		if ( $screen && ! in_array( (string) $screen->base, $allowed_bases, true ) ) {
+			return;
+		}
+	}
+
 	wp_enqueue_script(
 		'dlck-lc-kit-replace-image',
 		DLCK_LC_KIT_PLUGIN_URI . '/assets/js/admin/lc-kit-replace-image.js',

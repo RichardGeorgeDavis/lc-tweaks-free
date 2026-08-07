@@ -3,6 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+const DLCK_TOOLBOX_MIGRATION_VERSION = 1;
+
 /**
  * Utility: detect if an option does not exist without clobbering valid falsey values.
  */
@@ -84,19 +86,25 @@ function dlck_strip_license_fields( $settings ) {
 }
 
 /**
- * One-time migration: if a site previously ran the renamed LC Kit and its data
- * lives under dlck_* keys, copy it back into the Divi Toolbox namespace so the
- * original plugin regains its settings.
+ * One-time migration: if a site previously ran LC Kit and its data lives under
+ * dlck_* keys, copy it into the Divi Toolbox dtb_* namespace so Divi Toolbox
+ * regains its settings.
  */
 function dlck_restore_divi_toolbox_data() {
-	if ( get_option( 'dlck_migrated_toolbox_data' ) ) {
+	$migration_state = get_option( 'dlck_migrated_toolbox_data', false );
+	$is_complete     = is_array( $migration_state )
+		? (int) ( $migration_state['version'] ?? 0 ) >= DLCK_TOOLBOX_MIGRATION_VERSION
+		: ! empty( $migration_state );
+
+	// Older successful migrations stored a timestamp string. Treat those as complete.
+	if ( $is_complete ) {
 		return array(
 			'copied'  => false,
 			'message' => '',
 		);
 	}
 
-	if ( ! is_admin() ) {
+	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
 		return array(
 			'copied'  => false,
 			'message' => '',
@@ -124,9 +132,17 @@ function dlck_restore_divi_toolbox_data() {
 		$copied_anything = true;
 	}
 
-	if ( $copied_anything ) {
-		update_option( 'dlck_migrated_toolbox_data', current_time( 'mysql' ) );
+	update_option(
+		'dlck_migrated_toolbox_data',
+		array(
+			'version' => DLCK_TOOLBOX_MIGRATION_VERSION,
+			'checked' => time(),
+			'copied'  => $copied_anything,
+		),
+		false
+	);
 
+	if ( $copied_anything ) {
 		return array(
 			'copied'  => true,
 			'message' => __( 'Divi Toolbox data restored from LC Kit.', 'lc-tweaks' ),
@@ -138,4 +154,3 @@ function dlck_restore_divi_toolbox_data() {
 		'message' => '',
 	);
 }
-add_action( 'plugins_loaded', 'dlck_restore_divi_toolbox_data', 5 );

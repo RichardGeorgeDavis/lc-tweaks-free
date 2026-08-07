@@ -475,6 +475,7 @@ jQuery(function ($) {
         var fallback = {
             lazy: !!config.lazyEnabled,
             wpRocket: false,
+            wpRocketCloudflare: false,
             liteSpeedCache: false,
             w3TotalCache: false,
             nginxHelperCache: false,
@@ -497,6 +498,7 @@ jQuery(function ($) {
                 dfd.resolve({
                     lazy: !!config.lazyEnabled,
                     wpRocket: String(response.data.wp_rocket) === '1' || response.data.wp_rocket === true,
+                    wpRocketCloudflare: String(response.data.wp_rocket_cloudflare) === '1' || response.data.wp_rocket_cloudflare === true,
                     liteSpeedCache: String(response.data.litespeed_cache) === '1' || response.data.litespeed_cache === true,
                     w3TotalCache: String(response.data.w3_total_cache) === '1' || response.data.w3_total_cache === true,
                     nginxHelperCache: String(response.data.nginx_helper_cache) === '1' || response.data.nginx_helper_cache === true,
@@ -582,6 +584,19 @@ jQuery(function ($) {
                             _wpnonce: config.allNonce,
                             step: 'wp_rocket'
                         }, 'WP Rocket cache step failed.');
+                    }
+                });
+            }
+
+            if (capabilities.wpRocketCloudflare) {
+                steps.push({
+                    label: 'WP Rocket > Clear All Cloudflare Cache Files',
+                    run: function () {
+                        return requestAction({
+                            action: 'dlck_misc_clear_all_cache_step',
+                            _wpnonce: config.allNonce,
+                            step: 'wp_rocket_cloudflare'
+                        }, 'WP Rocket Cloudflare cache step failed.');
                     }
                 });
             }
@@ -1295,6 +1310,95 @@ if ( ! function_exists( 'dlck_misc_csc_run_wp_rocket_step' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'dlck_misc_csc_wp_rocket_cloudflare_subscriber' ) ) :
+	/**
+	 * Get WP Rocket's Cloudflare subscriber when its add-on is active.
+	 *
+	 * @return object|null
+	 */
+	function dlck_misc_csc_wp_rocket_cloudflare_subscriber() {
+		if ( ! function_exists( 'get_rocket_option' ) || ! get_rocket_option( 'do_cloudflare', false ) ) {
+			return null;
+		}
+
+		$container = apply_filters( 'rocket_container', null );
+		if ( ! is_object( $container ) || ! method_exists( $container, 'has' ) || ! method_exists( $container, 'get' ) || ! $container->has( 'cloudflare_subscriber' ) ) {
+			return null;
+		}
+
+		try {
+			$subscriber = $container->get( 'cloudflare_subscriber' );
+		} catch ( Throwable $e ) {
+			return null;
+		}
+
+		return is_object( $subscriber ) && method_exists( $subscriber, 'purge_cache_no_die' ) ? $subscriber : null;
+	}
+endif;
+
+if ( ! function_exists( 'dlck_misc_csc_wp_rocket_cloudflare_available' ) ) :
+	/**
+	 * Check whether WP Rocket's configured Cloudflare add-on can be purged.
+	 */
+	function dlck_misc_csc_wp_rocket_cloudflare_available(): bool {
+		return current_user_can( 'rocket_purge_cloudflare_cache' )
+			&& null !== dlck_misc_csc_wp_rocket_cloudflare_subscriber();
+	}
+endif;
+
+if ( ! function_exists( 'dlck_misc_csc_run_wp_rocket_cloudflare_step' ) ) :
+	/**
+	 * Purge all Cloudflare cache files through WP Rocket's configured add-on.
+	 *
+	 * @return array{status:string,message:string}
+	 */
+	function dlck_misc_csc_run_wp_rocket_cloudflare_step(): array {
+		if ( ! dlck_misc_csc_wp_rocket_cloudflare_available() ) {
+			return array(
+				'status'  => 'skipped',
+				'message' => __( 'WP Rocket Cloudflare add-on is not active or available to this user, so this step was skipped.', 'lc-tweaks' ),
+			);
+		}
+
+		$user_id       = get_current_user_id();
+		$transient_key = $user_id . '_cloudflare_purge_result';
+		$subscriber    = dlck_misc_csc_wp_rocket_cloudflare_subscriber();
+
+		if ( ! $subscriber ) {
+			return array(
+				'status'  => 'skipped',
+				'message' => __( 'WP Rocket Cloudflare add-on is unavailable, so this step was skipped.', 'lc-tweaks' ),
+			);
+		}
+
+		delete_transient( $transient_key );
+
+		try {
+			$subscriber->purge_cache_no_die();
+		} catch ( Throwable $e ) {
+			return array(
+				'status'  => 'error',
+				'message' => __( 'WP Rocket Cloudflare cache purge failed.', 'lc-tweaks' ),
+			);
+		}
+
+		$result = get_transient( $transient_key );
+		delete_transient( $transient_key );
+
+		if ( is_array( $result ) && isset( $result['result'] ) && $result['result'] === 'success' ) {
+			return array(
+				'status'  => 'success',
+				'message' => __( 'WP Rocket Cloudflare cache cleared.', 'lc-tweaks' ),
+			);
+		}
+
+		return array(
+			'status'  => 'error',
+			'message' => __( 'WP Rocket Cloudflare cache purge failed.', 'lc-tweaks' ),
+		);
+	}
+endif;
+
 if ( ! function_exists( 'dlck_misc_csc_litespeed_available' ) ) :
 	/**
 	 * Check if LiteSpeed cache purge hooks are available.
@@ -1773,69 +1877,160 @@ if ( ! function_exists( 'dlck_misc_csc_run_full_cache_clear_server_side' ) ) :
 	 * Run the full cache-clear sequence server-side.
 	 *
 	 * @param int $user_id Current user ID for one-time local storage clear flag.
-	 * @return array{failed:int,skipped:int}
+	 * @return array{status:string,failed:int,skipped:int,user_id:int,steps:array<string,array{status:string,message:string}>}
 	 */
 	function dlck_misc_csc_run_full_cache_clear_server_side( int $user_id = 0 ): array {
 		$failed  = 0;
 		$skipped = 0;
+		$steps   = array();
 
-		if ( ! dlck_csc_clear_static_css_generation() ) {
-			$skipped++;
-		}
+		$record_step = static function ( string $id, $result ) use ( &$failed, &$skipped, &$steps ): void {
+			$status = is_array( $result ) && isset( $result['status'] ) ? (string) $result['status'] : 'error';
+			$message = is_array( $result ) && isset( $result['message'] ) ? (string) $result['message'] : __( 'Cache step did not return a valid result.', 'lc-tweaks' );
 
-		if ( $user_id > 0 ) {
-			dlck_csc_flag_local_storage_clear_for_user( $user_id );
-		} else {
-			$skipped++;
-		}
-
-		$lc_tweaks_cache_result = dlck_misc_csc_run_lc_tweaks_css_js_cache_step();
-		if ( $lc_tweaks_cache_result['status'] === 'error' ) {
-			$failed++;
-		} elseif ( $lc_tweaks_cache_result['status'] === 'skipped' ) {
-			$skipped++;
-		}
-
-		if ( dlck_csc_lazy_cache_enabled() ) {
-			if ( function_exists( 'dlck_divi_lazy_clear_cache_all' ) ) {
-				try {
-					dlck_divi_lazy_clear_cache_all();
-				} catch ( Throwable $e ) {
-					$failed++;
-				}
-			} else {
-				$skipped++;
-			}
-		}
-
-		$step_functions = array(
-			'dlck_misc_csc_run_wp_rocket_step',
-			'dlck_misc_csc_run_litespeed_step',
-			'dlck_misc_csc_run_w3_total_cache_step',
-			'dlck_misc_csc_run_nginx_helper_step',
-			'dlck_misc_csc_run_siteground_step',
-			'dlck_misc_csc_run_wp_engine_step',
-			'dlck_misc_csc_run_stack_cache_step',
-			'dlck_misc_csc_run_bluehost_cache_step',
-		);
-
-		foreach ( $step_functions as $function ) {
-			if ( ! function_exists( $function ) ) {
-				continue;
+			if ( ! in_array( $status, array( 'success', 'skipped', 'error' ), true ) ) {
+				$status = 'error';
 			}
 
-			$result = call_user_func( $function );
-			$status = ( is_array( $result ) && isset( $result['status'] ) ) ? (string) $result['status'] : 'error';
+			$steps[ $id ] = array(
+				'status'  => $status,
+				'message' => $message,
+			);
+
 			if ( $status === 'error' ) {
 				$failed++;
 			} elseif ( $status === 'skipped' ) {
 				$skipped++;
 			}
+		};
+
+		$record_step(
+			'divi_static_css',
+			dlck_csc_clear_static_css_generation()
+				? array(
+					'status'  => 'success',
+					'message' => __( 'Divi static CSS generation cache cleared.', 'lc-tweaks' ),
+				)
+				: array(
+					'status'  => 'skipped',
+					'message' => __( 'Divi static CSS generation is unavailable, so this step was skipped.', 'lc-tweaks' ),
+				)
+		);
+
+		if ( $user_id > 0 ) {
+			if ( ! get_user_by( 'id', $user_id ) ) {
+				$record_step(
+					'browser_local_storage',
+					array(
+						'status'  => 'error',
+						'message' => sprintf( __( 'User ID %d was not found; browser local storage was not flagged.', 'lc-tweaks' ), $user_id ),
+					)
+				);
+			} else {
+				dlck_csc_flag_local_storage_clear_for_user( $user_id );
+				$record_step(
+					'browser_local_storage',
+					array(
+						'status'  => 'success',
+						'message' => sprintf( __( 'Browser local storage was flagged for user ID %d on the next logged-in page load.', 'lc-tweaks' ), $user_id ),
+					)
+				);
+			}
+		} else {
+			$record_step(
+				'browser_local_storage',
+				array(
+					'status'  => 'skipped',
+					'message' => __( 'SSH/WP-CLI cannot clear browser local storage directly; pass --user=<id> to flag a user for the next logged-in page load.', 'lc-tweaks' ),
+				)
+			);
+		}
+
+		$lc_tweaks_cache_result = dlck_misc_csc_run_lc_tweaks_css_js_cache_step();
+		$record_step( 'lc_tweaks_inline_assets', $lc_tweaks_cache_result );
+
+		if ( dlck_csc_lazy_cache_enabled() ) {
+			if ( function_exists( 'dlck_divi_lazy_clear_cache_all' ) ) {
+				try {
+					dlck_divi_lazy_clear_cache_all();
+					$record_step(
+						'divi_lazy_cache',
+						array(
+							'status'  => 'success',
+							'message' => __( 'Divi lazy-load cache cleared.', 'lc-tweaks' ),
+						)
+					);
+				} catch ( Throwable $e ) {
+					$record_step(
+						'divi_lazy_cache',
+						array(
+							'status'  => 'error',
+							'message' => __( 'Divi lazy-load cache purge failed.', 'lc-tweaks' ),
+						)
+					);
+				}
+			} else {
+				$record_step(
+					'divi_lazy_cache',
+					array(
+						'status'  => 'skipped',
+						'message' => __( 'Divi lazy-load cache is enabled but its clear helper is unavailable.', 'lc-tweaks' ),
+					)
+				);
+			}
+		} else {
+			$record_step(
+				'divi_lazy_cache',
+				array(
+					'status'  => 'skipped',
+					'message' => __( 'Divi lazy-load cache is disabled, so this step was skipped.', 'lc-tweaks' ),
+				)
+			);
+		}
+
+		$step_functions = array(
+			'wp_rocket'            => 'dlck_misc_csc_run_wp_rocket_step',
+			'wp_rocket_cloudflare' => 'dlck_misc_csc_run_wp_rocket_cloudflare_step',
+			'litespeed'            => 'dlck_misc_csc_run_litespeed_step',
+			'w3_total_cache'       => 'dlck_misc_csc_run_w3_total_cache_step',
+			'nginx_helper'         => 'dlck_misc_csc_run_nginx_helper_step',
+			'siteground'           => 'dlck_misc_csc_run_siteground_step',
+			'wp_engine'            => 'dlck_misc_csc_run_wp_engine_step',
+			'stack_cache'          => 'dlck_misc_csc_run_stack_cache_step',
+			'bluehost_cache'       => 'dlck_misc_csc_run_bluehost_cache_step',
+		);
+
+		foreach ( $step_functions as $id => $function ) {
+			if ( ! function_exists( $function ) ) {
+				$record_step(
+					$id,
+					array(
+						'status'  => 'skipped',
+						'message' => sprintf( __( 'The %s cache integration is unavailable, so this step was skipped.', 'lc-tweaks' ), str_replace( '_', ' ', $id ) ),
+					)
+				);
+				continue;
+			}
+
+			try {
+				$record_step( $id, call_user_func( $function ) );
+			} catch ( Throwable $e ) {
+				$record_step(
+					$id,
+					array(
+						'status'  => 'error',
+						'message' => sprintf( __( '%s cache purge failed unexpectedly.', 'lc-tweaks' ), str_replace( '_', ' ', $id ) ),
+					)
+				);
+			}
 		}
 
 		return array(
+			'status'  => $failed > 0 ? 'error' : 'success',
 			'failed'  => $failed,
 			'skipped' => $skipped,
+			'user_id' => $user_id,
+			'steps'   => $steps,
 		);
 	}
 endif;
@@ -2116,7 +2311,8 @@ if ( is_admin() && ! function_exists( 'dlck_misc_csc_cache_automation_step_ajax'
 
 		wp_send_json_success(
 			array(
-				'wp_rocket'          => function_exists( 'rocket_clean_domain' ) ? '1' : '0',
+				'wp_rocket'            => function_exists( 'rocket_clean_domain' ) ? '1' : '0',
+				'wp_rocket_cloudflare' => dlck_misc_csc_wp_rocket_cloudflare_available() ? '1' : '0',
 				'litespeed_cache'    => dlck_misc_csc_litespeed_available() ? '1' : '0',
 				'w3_total_cache'     => dlck_misc_csc_w3_total_cache_available() ? '1' : '0',
 				'nginx_helper_cache' => dlck_misc_csc_nginx_helper_available() ? '1' : '0',
@@ -2152,6 +2348,9 @@ if ( is_admin() && ! function_exists( 'dlck_misc_csc_cache_automation_step_ajax'
 				break;
 			case 'wp_rocket':
 				$result = dlck_misc_csc_run_wp_rocket_step();
+				break;
+			case 'wp_rocket_cloudflare':
+				$result = dlck_misc_csc_run_wp_rocket_cloudflare_step();
 				break;
 			case 'litespeed_cache':
 				$result = dlck_misc_csc_run_litespeed_step();

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: LC Tweaks
-Version: 1.6.7
+Version: 1.6.15
 Plugin URI: https://lucidity.design/product/lc-tweaks/
 Description: Powerful tools to customize the Divi Theme, WordPress and WooCommerce - added functionality, boosted performance and improved page metric results.
 Author: Lucidity Design
@@ -487,7 +487,8 @@ add_action(
 	'init',
 	static function () {
 		load_plugin_textdomain( 'lc-tweaks' );
-	}
+	},
+	0
 );
 
 if ( ! function_exists( 'dlck_agent_readiness_get_discovery_link_entries' ) ) {
@@ -1217,6 +1218,10 @@ register_activation_hook( __FILE__, 'dlck_maybe_rebuild_front_head_cache_on_upda
 function dlck_clear_plugin_scheduled_events_on_deactivation(): void {
 	wp_clear_scheduled_hook( 'dlck_woo_session_cleanup_cron' );
 	wp_clear_scheduled_hook( 'dlck_divi_cache_scheduled_clear' );
+	wp_clear_scheduled_hook( 'dlck_woo_resave_all_products_batch' );
+	if ( function_exists( 'as_unschedule_all_actions' ) ) {
+		as_unschedule_all_actions( 'dlck_woo_resave_all_products_batch', array(), 'lc-tweaks' );
+	}
 }
 register_deactivation_hook( __FILE__, 'dlck_clear_plugin_scheduled_events_on_deactivation' );
 
@@ -2002,6 +2007,9 @@ function dlck_lite_run_migration() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
+	if ( function_exists( 'dlck_store_admin_performance_is_active' ) && dlck_store_admin_performance_is_active() ) {
+		return;
+	}
 
 	$result = dlck_restore_divi_toolbox_data();
 
@@ -2457,7 +2465,6 @@ function divi_lc_kit() {
 					case 'woo-tweaks':
 						if ( dlck_is_woocommerce_active() ) {
 							include_once DLCK_LC_KIT_PLUGIN_DIR . '/tools/woo-tweaks.php';
-							include_once DLCK_LC_KIT_PLUGIN_DIR . '/tools/woocommerce.php';
 						}
 						break;
 					case 'settings':
@@ -3207,6 +3214,11 @@ function dlck_load_active_tweaks() {
 
 	// Woo tweaks.
 	if ( dlck_is_woocommerce_active() ) {
+		$woo_resave_tool = DLCK_LC_KIT_PLUGIN_DIR . 'functions/woo-tweaks/woo-resave-all-products.php';
+		if ( file_exists( $woo_resave_tool ) ) {
+			require_once $woo_resave_tool;
+		}
+
 		if (
 			! dlck_builder_safe_mode_blocks_option( 'dlck_woo_cart_script_policy' )
 			&& dlck_scope_rules_allow_option( 'dlck_woo_cart_script_policy' )
@@ -3218,7 +3230,6 @@ function dlck_load_active_tweaks() {
 		}
 
 		$woo_tweaks = array(
-			'dlck_woo_resave_all_products'                         => 'functions/woo-tweaks/woo-resave-all-products.php',
 			'dlck_disable_woocommerce_admin'                       => 'functions/woo-tweaks/woo-disable-admin-package.php',
 			'dlck_remove_woo_files'                                => 'functions/woo-tweaks/woo-remove-script-and-css-pages.php',
 			'dlck_remove_woo_all_files'                            => 'functions/woo-tweaks/woo-remove-script-and-css-site.php',

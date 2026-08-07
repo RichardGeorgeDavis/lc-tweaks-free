@@ -10,6 +10,8 @@
 	};
 
 	$dlck_woo_resave_all_products_val = $dlck_setting( 'dlck_woo_resave_all_products' );
+	$dlck_woo_resave_progress = get_option( 'dlck_woo_resave_progress', array() );
+	$dlck_woo_resave_progress = is_array( $dlck_woo_resave_progress ) ? $dlck_woo_resave_progress : array();
 	$dlck_disable_woocommerce_admin_val = $dlck_setting( 'dlck_disable_woocommerce_admin' );
 		$dlck_remove_woo_files_val = $dlck_setting( 'dlck_remove_woo_files' );
 		$dlck_remove_woo_all_files_val = $dlck_setting( 'dlck_remove_woo_all_files' );
@@ -61,6 +63,7 @@
 	$dlck_woo_buy_now_button_val = $dlck_setting( 'dlck_woo_buy_now_button' );
 	$dlck_woo_move_orders_menu_item_val = $dlck_setting( 'dlck_woo_move_orders_menu_item' );
 	$dlck_woo_store_admin_view_val = $dlck_setting( 'dlck_woo_store_admin_view' );
+	$dlck_woo_store_admin_performance_val = $dlck_setting( 'dlck_woo_store_admin_performance', '1' );
 	$dlck_woo_email_item_meta_tags_val = $dlck_setting( 'dlck_woo_email_item_meta_tags' );
 	$dlck_woo_email_product_name_symbols_val = $dlck_setting( 'dlck_woo_email_product_name_symbols' );
 	$dlck_woo_order_items_sort_val = $dlck_setting( 'dlck_woo_order_items_sort' );
@@ -102,6 +105,8 @@
 			</div>
 		</div>
 
+		<?php include DLCK_LC_KIT_PLUGIN_DIR . '/tools/woocommerce.php'; ?>
+
 		<h2 class="tool-section"><?php echo esc_html_e( 'Performance & Cleanup', 'lc-tweaks' ); ?></h2>
     <div class="tool-wrap">
 
@@ -110,13 +115,18 @@
 					<h3><?php echo esc_html_e('Resave All Products', 'lc-tweaks'); ?></h3>
 					<div class="box-descr">
 						<p>
-							<?php echo esc_html_e( 'Force each product to resave. Updates 50 per admin page load until complete.', 'lc-tweaks' ); ?>
+								<?php echo esc_html_e( 'Queue product resaves in background batches of 50 without slowing interactive admin page loads.', 'lc-tweaks' ); ?>
 						</p>
 					</div>
 			</div>
 			<div class="box-content minibox">
 				<?php if ( $dlck_woo_resave_all_products_val === '1' ) : ?>
-					<button type="button" class="dlck-settings-button" disabled><?php echo esc_html_e( 'Running...', 'lc-tweaks' ); ?></button>
+						<button type="button" class="dlck-settings-button" disabled>
+							<?php
+							$processed = isset( $dlck_woo_resave_progress['processed'] ) ? absint( $dlck_woo_resave_progress['processed'] ) : 0;
+							echo esc_html( $processed > 0 ? sprintf( __( 'Running... %d processed', 'lc-tweaks' ), $processed ) : __( 'Queued...', 'lc-tweaks' ) );
+							?>
+						</button>
 				<?php else : ?>
 					<a class="dlck-settings-button" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=dlck_woo_resave_all_products' ), 'dlck_woo_resave_all_products' ) ); ?>">
 						<?php echo esc_html_e( 'Run Resave', 'lc-tweaks' ); ?>
@@ -1214,7 +1224,7 @@
 			<div class="box-title">
 				<h3><span class="new divi4">top</span><?php echo esc_html_e( 'Store Admin View', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Add a toolbar toggle to switch into a WooCommerce-only admin menu view.', 'lc-tweaks' ); ?></p>
+					<p><?php echo esc_html_e( 'Add a toolbar toggle for a focused WooCommerce admin view with optional performance protections.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -1229,7 +1239,29 @@
 				</div>
 				<div class="box-content">
 					<div class="info">
-						<p><?php echo esc_html_e( 'Cuts the admin menu down to WooCommerce-only items to reduce distractions when many plugins add menu entries.', 'lc-tweaks' ); ?></p>
+						<p><?php echo esc_html_e( 'Cuts the admin menu down to WooCommerce and Profile items. The mode uses a secure admin-only cookie and does not alter frontend links.', 'lc-tweaks' ); ?></p>
+					</div>
+				</div>
+			</div>
+			<div class="lc-kit first nopad">
+				<div class="box-title">
+					<h3><?php echo esc_html_e( 'Store Admin Performance Mode', 'lc-tweaks' ); ?></h3>
+					<div class="box-descr">
+						<p><?php echo esc_html_e( 'Defer maintenance work that can delay operational WooCommerce admin screens while Store Admin View is active.', 'lc-tweaks' ); ?></p>
+					</div>
+				</div>
+				<div class="box-content minibox">
+					<div class="checkbox">
+						<input name="dlck_woo_store_admin_performance" type="checkbox" value="1" <?php checked( '1', $dlck_woo_store_admin_performance_val ); ?> />
+					</div>
+				</div>
+			</div>
+			<div class="lc-kit first nopad">
+				<div class="box-title">
+				</div>
+				<div class="box-content">
+					<div class="info">
+						<p><?php echo esc_html_e( 'Defers interactive WordPress core, plugin, theme, LC Tweaks migration, and YITH update checks and hides related notices. Cron, Action Scheduler, AJAX, REST, WP-CLI, explicit update screens, and LC Tweaks maintenance screens continue normally.', 'lc-tweaks' ); ?></p>
 					</div>
 				</div>
 			</div>

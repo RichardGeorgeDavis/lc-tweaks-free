@@ -21,20 +21,21 @@ function dlck_collect_add_to_cart_click_counter_assets() {
 		'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 		'nonce'   => wp_create_nonce( 'dlck_add_cart_clicked' ),
 	);
-	$js = 'var dlckAddCart=' . wp_json_encode( $data ) . ";\n" .
-		"(function(){\n" .
-		"function init(){\n" .
-		"if(!window.jQuery){return;}\n" .
-		"var $=window.jQuery;\n" .
-		"$(document).on('click','.single_add_to_cart_button',function(){\n" .
-		"var $button=$(this);\n" .
-		"var pid=$button.val()||$button.attr('value')||$button.closest('form.cart').find('[name=\"add-to-cart\"],[name=\"product_id\"]').first().val();\n" .
-		"if(!pid){return;}\n" .
-		"$.post(dlckAddCart.ajaxUrl,{action:'dlck_add_cart_clicked',pid:pid,nonce:dlckAddCart.nonce});\n" .
-		"});\n" .
-		"}\n" .
-		"if(document.readyState==='complete'){init();}else{window.addEventListener('load',init);}\n" .
-		"})();";
+	$js = 'var dlckAddCart=' . wp_json_encode( $data ) . ";\n" . <<<'JS'
+(function(){
+function init(){
+if(!window.jQuery){return;}
+var $=window.jQuery;
+$(document).on('click','.single_add_to_cart_button',function(){
+var $button=$(this);
+var pid=$button.val()||$button.attr('value')||$button.closest('form.cart').find('[name="add-to-cart"],[name="product_id"]').first().val();
+if(!pid){return;}
+$.post(dlckAddCart.ajaxUrl,{action:'dlck_add_cart_clicked',pid:pid,nonce:dlckAddCart.nonce});
+});
+}
+if(document.readyState==='complete'){init();}else{window.addEventListener('load',init);}
+})();
+JS;
 	dlck_add_inline_js( $js, 'front_head' );
 }
 

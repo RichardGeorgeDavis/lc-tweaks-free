@@ -97,13 +97,14 @@ These options appear when Divi is active.
 
 These options appear when Divi is active and are available in the free edition unless marked pro-only in the plugin UI.
 
-- **Visual Builder Helpers:** ESC modal close, sticky builder toolbar, taller HTML/code fields, taller icon picker, inline toolbar hiding, saved/global color ordering, post-content row width, marketplace promo hiding, and Explore Modules hiding.
+- **Visual Builder Helpers:** ESC modal close, sticky builder toolbar, taller HTML/code fields, taller icon picker, inline toolbar hiding, saved/global color ordering, post-content row width, marketplace promo hiding, hide/block-editor button controls, and Explore Modules hiding.
 - **Granular Divi AI Hiding:** hide specific AI surfaces such as Quick Sites, page, section, layout, text, image, and code actions.
-- **Utility Helpers:** Divi quick links, custom quick links, Theme Builder links, environment badge, remove Howdy, frontend admin-bar hiding/hover reveal, duplicate actions, shortcode-in-menu support, and Divi Library shortcode/widget output.
-- **Library and Admin Lists:** enhanced Divi Library preview/actions, Visual Builder row links, Divi Builder filters on posts/pages, featured-image columns, default featured-image fallbacks, editor back links, and Admin Notes.
+- **Utility Helpers:** Divi quick links, custom quick links, Theme Builder links, environment badge, remove Howdy, frontend admin-bar hiding/hover reveal, duplicate actions, disable comment settings, shortcode-in-menu support, and Divi Library shortcode/widget output.
+- **Library and Admin Lists:** enhanced Divi Library preview/actions, Visual Builder row links (`PageSpeed=off`), Divi Builder filters on posts/pages, featured-image columns, default featured-image fallbacks, editor back links, and Admin Notes.
 - **Frontend Helpers:** anchor offset, text-selection highlight color, horizontal overflow prevention, custom scrollbar styling, custom back-to-top button, and content text replacement rules.
-- **Media Helpers:** max upload size override, SVG output class, and attachment title/alt/caption/description generation from filenames.
+- **Media Helpers:** max upload size override, SVG output class, attachment title/alt/caption/description generation from filenames, and Divi image module alt/title sync from Media Library metadata.
 - **Maintenance Helpers:** scheduled Divi cache clearing, Visual Builder cache buttons, and coming-soon/maintenance mode with path exclusions, IP allow lists, bypass token, and no-cache headers.
+- **Projects:** rename Divi Projects (post type and related category/tag labels and slugs) from the Divi Helpers UI.
 
 ## WooCommerce Options
 
@@ -115,7 +116,7 @@ These options appear when WooCommerce is active.
 
 ### Performance & Cleanup
 
-- **Resave All Products:** admin tool for resaving product data.
+- **Resave All Products:** queue product data resaves in background batches with progress tracking.
 - **Clean and Optimize WooCommerce Sessions Table:** maintain WooCommerce session data.
 - **Disable Persistent Carts:** disable persistent cart behavior.
 - **Woo Cart Script Policy:** control Woo cart script loading rules.
@@ -178,7 +179,7 @@ These options appear when WooCommerce is active.
 - **Filter Products by Sale Status:** add sale-status filtering.
 - **Allow Only Simple Products:** restrict product type behavior.
 - **Remove Payments Menu:** hide Woo payments menu item.
-- **Store Admin View:** adjust store admin access/view behavior.
+- **Store Admin View:** switch to a focused WooCommerce admin menu and optionally defer interactive maintenance and update checks on operational store screens.
 - **Sort Order Items:** sort line items in orders.
 - **Email Item Meta Tags:** adjust item meta output in emails.
 - **Fix Email Product Name Symbols:** make trademark, registered, and copyright symbols email-friendly.
@@ -195,9 +196,10 @@ These options appear when WooCommerce is active.
 - **Preset Apply/Restore:** apply preset settings and restore previous settings.
 - **Diagnostics Export:** export diagnostic data for support.
 - **Scope Rules:** limit selected tweaks by login state, role, include paths, and exclude paths.
-- **Cache Tools:** clear plugin-managed caches and selected external caches where supported.
+- **Cache Tools:** clear plugin-managed caches and selected external caches where supported, including WP Rocket's configured Cloudflare add-on.
+- **SSH/WP-CLI Cache Clear:** run the full authenticated cache-clear sequence with `wp lc-tweaks cache clear --all --format=json`; use `--user=<id>` to flag browser local-storage clearing for that user's next logged-in page load.
 - **Force Update Checks:** force fresh WordPress plugin/theme update checks.
-- **Divi Accessibility Migration:** support migration from the previously bundled Divi Accessibility module to the standalone plugin.
+- **Divi Accessibility Migration:** offer an explicit administrator action to migrate from the previously bundled Divi Accessibility module to the standalone plugin without installing it during routine page loads.
 
 ## Pro-Only Exclusions
 

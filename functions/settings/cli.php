@@ -724,10 +724,37 @@ if ( defined( 'WP_CLI' ) && WP_CLI && class_exists( 'WP_CLI_Command' ) ) {
 		 *   - lazy
 		 *   - woo_sessions
 		 * ---
+		 *
+		 * [--all]
+		 * : Run the full shared cache-clear sequence. Equivalent to --target=all.
+		 *
+		 * [--user=<id>]
+		 * : Flag a WordPress user for browser local-storage clearing on their next logged-in page load.
+		 *
+		 * [--format=<format>]
+		 * : Output format for the full cache-clear sequence.
+		 * ---
+		 * default: txt
+		 * options:
+		 *   - txt
+		 *   - json
+		 * ---
 		 */
 		public function cache( array $args, array $assoc_args ): void {
 			$action = isset( $args[0] ) ? sanitize_key( (string) $args[0] ) : 'status';
 			$target = isset( $assoc_args['target'] ) ? sanitize_key( (string) $assoc_args['target'] ) : 'all';
+			$format = isset( $assoc_args['format'] ) ? sanitize_key( (string) $assoc_args['format'] ) : 'txt';
+			$user_id = isset( $assoc_args['user'] ) ? absint( $assoc_args['user'] ) : 0;
+
+			if ( ! in_array( $format, array( 'txt', 'json' ), true ) ) {
+				WP_CLI::error( 'Unsupported format. Use --format=txt or --format=json.' );
+				return;
+			}
+
+			if ( isset( $assoc_args['user'] ) && $user_id <= 0 ) {
+				WP_CLI::error( 'The --user value must be a valid positive WordPress user ID.' );
+				return;
+			}
 
 			if ( $action === 'status' ) {
 				if ( function_exists( 'dlck_build_diagnostics_report' ) ) {
@@ -751,6 +778,52 @@ if ( defined( 'WP_CLI' ) && WP_CLI && class_exists( 'WP_CLI_Command' ) ) {
 
 			if ( ! in_array( $target, array( 'all', 'inline', 'lazy', 'woo_sessions' ), true ) ) {
 				WP_CLI::error( 'Unsupported cache target. Use: all, inline, lazy, woo_sessions.' );
+				return;
+			}
+
+			if ( isset( $assoc_args['all'] ) ) {
+				$target = 'all';
+			}
+
+			if ( $target === 'all' ) {
+				if ( ! function_exists( 'dlck_misc_csc_run_full_cache_clear_server_side' ) ) {
+					WP_CLI::error( 'The full cache-clear service is unavailable. This command requires the automated cache integration to be loaded.' );
+					return;
+				}
+
+				$result = dlck_misc_csc_run_full_cache_clear_server_side( $user_id );
+
+				if ( $format === 'json' ) {
+					$output = wp_json_encode( $result, JSON_PRETTY_PRINT );
+					if ( ! is_string( $output ) ) {
+						WP_CLI::error( 'Could not encode cache-clear results to JSON.' );
+						return;
+					}
+
+					WP_CLI::line( $output );
+					if ( ! empty( $result['failed'] ) ) {
+						WP_CLI::halt( 1 );
+					}
+
+					return;
+				}
+
+				WP_CLI::line( sprintf( 'Full cache clear completed with %d failed and %d skipped step(s).', (int) $result['failed'], (int) $result['skipped'] ) );
+				foreach ( $result['steps'] as $id => $step ) {
+					WP_CLI::line( sprintf( '%s: %s - %s', $id, strtoupper( (string) $step['status'] ), (string) $step['message'] ) );
+				}
+
+				if ( ! empty( $result['failed'] ) ) {
+					WP_CLI::error( 'Full cache clear completed with failed step(s).' );
+					return;
+				}
+
+				WP_CLI::success( 'Full cache clear completed.' );
+				return;
+			}
+
+			if ( $format === 'json' ) {
+				WP_CLI::error( '--format=json is currently supported with --all or --target=all only.' );
 				return;
 			}
 

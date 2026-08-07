@@ -3,6 +3,47 @@ Changelog
 
 Unreleased
 
+1.6.15
+- Added an authenticated WP-CLI full cache-clear command with JSON results, per-provider status reporting, non-zero failure exits, and optional user browser-local-storage flagging.
+- Reused the shared automated cache-clear service for SSH/WP-CLI maintenance across Divi, LC Tweaks, WP Rocket, and available host/cache integrations.
+
+1.6.14
+- Fixed the image tooltip suppression snippet to avoid malformed inline script output in cached `dlck-inline-front.js` builds that could throw `Unexpected token '!=='` at runtime.
+
+1.6.13
+- Guarded the pro Code Helper JavaScript path so malformed user snippets no longer break the whole `dlck-inline-front.js` bundle at parse time.
+- Removed `$`-prefixed inline JavaScript variable names in the image tooltip suppression snippet to prevent malformed cached scripts causing `Unexpected token '!=='` parse errors.
+
+1.6.12
+- Prevented the YouTube end-screen overlay tweak from throwing an error when
+  the YouTube IFrame API is unavailable.
+- Added a conditional full Cloudflare cache purge to the automated cache clear
+  flow when WP Rocket's configured Cloudflare add-on is available.
+
+1.6.11
+- Fixed cached frontend JavaScript snippets so PHP cannot remove JavaScript variables during generation.
+
+1.6.10
+- Fixed WordPress 6.7+ early translation-loading warnings by initializing the pro licence client after the LC Tweaks text domain loads on `init`.
+
+1.6.9
+- Fixed the WooCommerce settings layout around Request Protection and limited Divi Library layout controls to sites where Divi is active.
+- Added an optional Store Admin performance mode that defers interactive core, plugin, theme, LC Tweaks migration, and YITH update work on operational WooCommerce screens while preserving background jobs and explicit maintenance screens.
+- Hardened Store Admin View with a secure admin-only cookie, focused WooCommerce menu filtering, and no global admin URL rewriting.
+- Made the LC Kit-to-Divi Toolbox settings migration record its first completed scan, including no-data outcomes, so it cannot repeat on later admin requests.
+- Moved Resave All Products into scheduled background batches with progress tracking and recovery after scheduler interruptions.
+- Reduced repeated YITH admin work by caching plugin slug discovery and serving the empty onboarding queue without per-request transient writes.
+- Deferred Divi Accessibility installation and activation to an explicit administrator action instead of running it during routine admin page loads.
+- Scoped Replace Image Tool assets to post and Media Library screens.
+- Reduced licensing and update latency with short routine request timeouts, persistent status caching, update request deduplication, and explicit status refresh controls while retaining live validation before automatic installation.
+
+1.6.8
+- Added Divi Helper parity updates from Divi Assistant by appending `PageSpeed=off` to Visual Builder row actions, adding a scoped comment-settings disable option, adding optional block-editor fullscreen suppression, and adding classic/block editor button hiding options for Divi Builder entry points.
+- Added additional Divi Helper parity toggles for editor switch buttons and Divi Cloud/Layouts upsell suppression in the Visual Builder surfaces.
+- Added runtime support for project rename settings so Divi Projects post type and taxonomy labels/slugs can be customized safely without changing stored content.
+- Added Divi image-module metadata sync so `alt` and `title` attributes are populated from attached Media Library attachment data (Divi 4 shortcode attributes and Divi 5 module renderer hooks).
+- Hardened the Divi image-module metadata syncing path by making `<img>` attribute replacement quote-aware, avoiding malformed replacements, and limiting Divi 5 wrapper syncing to the active image module source.
+
 1.6.7
 - Moved Rank Math Schema Enrichment and AI Agent Readiness controls from Maintenance into a dedicated SEO & Schema admin page.
 - Changed AI Agent Readiness Content Signals to inject into existing robots.txt user-agent groups so checkers still detect the policy when WooCommerce adds its own wildcard robots rules.
