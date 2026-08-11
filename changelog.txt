@@ -1,7 +1,8 @@
 Changelog
 =========
 
-Unreleased
+1.6.17
+- Encrypted the separately stored SMTP password with authenticated server-side encryption, while preserving and safely migrating existing saved passwords.
 
 1.6.16
 - Fixed the Divi Contact Form header callback to accept the three arguments emitted by current Divi versions, preventing a fatal error when the copy-to-sender feature is enabled.

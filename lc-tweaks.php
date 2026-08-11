@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: LC Tweaks
-Version: 1.6.16
+Version: 1.6.17
 Plugin URI: https://lucidity.design/product/lc-tweaks/
 Description: Powerful tools to customize the Divi Theme, WordPress and WooCommerce - added functionality, boosted performance and improved page metric results.
 Author: Lucidity Design
@@ -465,7 +465,12 @@ if ( ! function_exists( 'dlck_save_sensitive_helper_options_from_post' ) ) {
 		} elseif ( isset( $_POST['dlck_smtp_password'] ) ) {
 			$password = (string) wp_unslash( $_POST['dlck_smtp_password'] );
 			if ( $password !== '' ) {
-				update_option( 'dlck_smtp_password', $password, false );
+				$encrypted_password = function_exists( 'dlck_pro_smtp_encrypt_password' )
+					? dlck_pro_smtp_encrypt_password( $password )
+					: false;
+				if ( false !== $encrypted_password ) {
+					update_option( 'dlck_smtp_password', $encrypted_password, false );
+				}
 			}
 		}
 
