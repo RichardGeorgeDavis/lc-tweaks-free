@@ -111,6 +111,13 @@ function dlck_divi_lazy_defer_sections( $content ) {
 	}
 
 	for ( $i = $initial; $i < count( $sections ); $i++ ) {
+		// content-visibility can prevent Divi's animation and motion waypoints from
+		// measuring or rendering their targets correctly. Keep those sections in
+		// the normal rendering flow; the remaining sections can still be deferred.
+		if ( dlck_divi_lazy_section_has_motion( $sections[ $i ] ) ) {
+			continue;
+		}
+
 		$sections[ $i ] = dlck_divi_lazy_add_defer_class( $sections[ $i ] );
 	}
 
@@ -809,6 +816,51 @@ function dlck_divi_lazy_add_defer_class( string $section_html ): string {
 }
 
 /**
+ * Determine whether a section contains Divi animation or scroll-effect data.
+ *
+ * Deferred rendering is not compatible with Divi's animation or motion-effect
+ * measurement, so affected sections must remain in the normal render flow.
+ */
+function dlck_divi_lazy_section_has_motion( string $section_html ): bool {
+	if ( $section_html === '' ) {
+		return false;
+	}
+
+	if ( preg_match( '/\bet_(?:animated|waypoint|is_animating)\b|\bet_pb_animation_[a-z0-9_-]+\b/i', $section_html ) ) {
+		return true;
+	}
+
+	if ( preg_match( '/\sdata-animation-(?:style|repeat|duration|delay|intensity|starting-opacity|speed-curve)=/i', $section_html ) ) {
+		return true;
+	}
+
+	if ( ! class_exists( 'ET_Builder_Element' ) || ! property_exists( 'ET_Builder_Element', '_scroll_effects_fields' ) ) {
+		return false;
+	}
+
+	$motion_fields = ET_Builder_Element::$_scroll_effects_fields;
+	foreach ( $motion_fields as $device_fields ) {
+		if ( ! is_array( $device_fields ) ) {
+			continue;
+		}
+
+		foreach ( $device_fields as $motion_field ) {
+			$selector = isset( $motion_field['id'] ) ? trim( (string) $motion_field['id'] ) : '';
+			if ( $selector === '' ) {
+				continue;
+			}
+
+			$selector_class = ltrim( $selector, '.#' );
+			if ( $selector_class !== '' && preg_match( '/\b' . preg_quote( $selector_class, '/' ) . '\b/i', $section_html ) ) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+/**
  * Determine if a DOM element is a Divi section.
  */
 function dlck_divi_lazy_is_section_node( DOMNode $node ): bool {
@@ -1207,6 +1259,9 @@ function dlck_divi_lazy_save_metabox( int $post_id, WP_Post $post ): void {
  */
 function dlck_divi_lazy_rocket_delay_exclusions( array $exclusions ): array {
 	$exclusions[] = 'divi-lazy-load.js';
+	// Divi Pixel uses this DOM-ready script to remove body.dipi-anim-preload.
+	// Delaying it leaves the page in its animation-preload state.
+	$exclusions[] = 'dipi_anim_preload.min.js';
 	return $exclusions;
 }
 

@@ -1370,6 +1370,24 @@ jQuery(document).ready(function($) {
 		}
 	}
 
+	function refreshDiviPixelViewportModules() {
+		try {
+			window.dispatchEvent(new Event('resize'));
+			window.dispatchEvent(new Event('scroll'));
+		} catch (e) {
+			// Ignore native viewport event errors.
+		}
+
+		try {
+			if (typeof jQuery !== 'undefined' && jQuery(window).trigger) {
+				jQuery(window).trigger('resize');
+				jQuery(window).trigger('scroll');
+			}
+		} catch (e) {
+			// Ignore jQuery viewport event errors.
+		}
+	}
+
 	function initDiviPixelModules($context) {
 		if (!$context || !$context.length) {
 			return;
@@ -1387,6 +1405,7 @@ jQuery(document).ready(function($) {
 		initDiviPixelFilterableGrid($context);
 		initDiviPixelMasonryGallery($context);
 		dispatchDiviPixelEvents();
+		refreshDiviPixelViewportModules();
 	}
 
 	var dlckScrollEffectsRefreshTimer = null;
@@ -1924,6 +1943,51 @@ jQuery(document).ready(function($) {
 		}, 3000);
 	}
 
+	function hasDiviMotion($section) {
+		if (!$section || !$section.length) {
+			return false;
+		}
+
+		if (
+			$section
+			.is('.et_animated, .et-waypoint, .et_is_animating, [class*="et_pb_animation_"]') ||
+			$section.find('.et_animated, .et-waypoint, .et_is_animating, [class*="et_pb_animation_"]').length > 0 ||
+			$section.find('[data-animation-style], [data-animation-repeat], [data-animation-duration], [data-animation-delay], [data-animation-intensity], [data-animation-starting-opacity], [data-animation-speed-curve]').length > 0
+		) {
+			return true;
+		}
+
+		var motionElements = window.et_pb_motion_elements || {};
+		var deviceNames = Array.isArray(motionElements) ? [] : ['desktop', 'tablet', 'phone'];
+		var deviceGroups = Array.isArray(motionElements) ? [motionElements] : deviceNames.map(function(device) {
+			return motionElements[device];
+		});
+
+		for (var i = 0; i < deviceGroups.length; i++) {
+			var effects = deviceGroups[i];
+			if (!Array.isArray(effects)) {
+				continue;
+			}
+
+			for (var j = 0; j < effects.length; j++) {
+				var selector = effects[j] && typeof effects[j].id === 'string' ? effects[j].id : '';
+				if (!selector) {
+					continue;
+				}
+
+				try {
+					if ($section.is(selector) || $section.find(selector).length > 0) {
+						return true;
+					}
+				} catch (e) {
+					// Ignore invalid third-party selectors.
+				}
+			}
+		}
+
+		return false;
+	}
+
 	function initDeferSections() {
 		if (!deferSections) {
 			return;
@@ -1933,11 +1997,23 @@ jQuery(document).ready(function($) {
 			return;
 		}
 
-		var $sections = $('.dlck-defer-section');
+		var $sections = $('.dlck-defer-section').filter(function() {
+			var $section = $(this);
+			if (!hasDiviMotion($section)) {
+				return true;
+			}
+
+			// Remove stale markers from cached HTML generated before the motion
+			// compatibility guard was added.
+			$section.removeClass('dlck-defer-section is-deferred is-revealed');
+			return false;
+		});
 		if (!$sections.length) {
 			var $fallback = $('#main-content .et_pb_section');
 			if ($fallback.length) {
-				$sections = $fallback.slice(deferInitial);
+				$sections = $fallback.slice(deferInitial).filter(function() {
+					return !hasDiviMotion($(this));
+				});
 				if ($sections.length) {
 					$sections.addClass('dlck-defer-section');
 				}

@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.6.18
+- Preserved Divi entrance animations and scroll effects by keeping affected below-fold sections out of content-visibility deferral.
+- Refreshed native viewport events after deferred Divi Pixel modules initialise, including parallax and scroll-bound effects.
+- Excluded Divi Pixel's animation-preload cleanup script from WP Rocket Delay JavaScript Execution so animated pages can leave preload state on DOM ready.
+- Completed WP Rocket automatic-expiry purges by clearing generated minify and cache-busting assets, then purging the current site's 20i StackCDN edge cache.
+- Replaced the 20i Stack Cache purge path with an explicit site-hostname request so WP-CLI and cron runs do not incorrectly identify the purge as the operating-system user.
+
 1.6.17
 - Encrypted the separately stored SMTP password with authenticated server-side encryption, while preserving and safely migrating existing saved passwords.
 
