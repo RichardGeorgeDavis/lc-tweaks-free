@@ -12,15 +12,12 @@
 $dlck_clear_divi_static_css_cache_local_storage_val = $dlck_setting( 'dlck_clear_divi_static_css_cache_local_storage' );
 $dlck_auto_clear_cache_after_updates_val = $dlck_setting( 'dlck_auto_clear_cache_after_updates' );
 $dlck_auto_clear_cache_after_post_save_builder_exit_val = $dlck_setting( 'dlck_auto_clear_cache_after_post_save_builder_exit' );
-$dlck_edit_in_visual_builder_link_val    = $dlck_setting( 'dlck_edit_in_visual_builder_link' );
 $dlck_copy_sender_contact_form_val         = $dlck_setting( 'dlck_copy_sender_contact_form' );
 $dlck_fix_divi_user_scalable_val           = $dlck_setting( 'dlck_fix_divi_user_scalable' );
 $dlck_disable_premade_layouts_val          = $dlck_setting( 'dlck_disable_premade_layouts' );
 $dlck_disable_divi_ai_val                  = $dlck_setting( 'dlck_disable_divi_ai' );
 $dlck_stop_map_module_excerpts_loading_val = $dlck_setting( 'dlck_stop_map_module_excerpts_loading' );
-$dlck_hide_divi_cloud_val                  = $dlck_setting( 'dlck_hide_divi_cloud' );
 $dlck_disable_upsells_divi_dashboard_val   = $dlck_setting( 'dlck_disable_upsells_divi_dashboard' );
-$dlck_divi_library_view_val                = $dlck_setting( 'dlck_divi_library_view' );
 $dlck_full_width_divi_footer_val           = $dlck_setting( 'dlck_full_width_divi_footer' );
 $dlck_sticky_footer_val                   = $dlck_setting( 'dlck_sticky_footer' );
 $dlck_social_target_val                   = $dlck_setting( 'dlck_social_target' );
@@ -30,7 +27,6 @@ $dlck_divi_disable_related_video_suggestions_val = $dlck_setting( 'dlck_divi_dis
 $dlck_divi_autoplay_video_on_hover_val     = $dlck_setting( 'dlck_divi_autoplay_video_on_hover' );
 $dlck_divi_fix_youtube_loading_height_val  = $dlck_setting( 'dlck_divi_fix_youtube_loading_height' );
 $dlck_divi_accordions_closed_default_val   = $dlck_setting( 'dlck_divi_accordions_closed_default' );
-$dlck_maintenance_layout_val               = $dlck_setting( 'dlck_maintenance_layout' );
 $dlck_make_phone_number_click_to_call_val  = $dlck_setting( 'dlck_make_phone_number_click_to_call' );
 $dlck_move_sidebar_to_top_on_mobile_val    = $dlck_setting( 'dlck_move_sidebar_to_top_on_mobile' );
 $dlck_hide_divi_image_tooltip_val          = $dlck_setting( 'dlck_hide_divi_image_tooltip' );
@@ -328,22 +324,6 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 		<h2 class="tool-section"><?php echo esc_html_e('Helpers', 'lc-tweaks'); ?></h2>
 		<div class="tool-wrap">
 
-				<div class="lc-kit">
-					<div class="box-title">
-						<h3><?php echo esc_html_e( 'Edit in Visual Builder (post/page list link)', 'lc-tweaks' ); ?></h3>
-						<div class="box-descr">
-							<p><?php echo esc_html_e( 'Add an "Edit in Visual Builder" link to post and page row actions when the Divi Builder is used.', 'lc-tweaks' ); ?></p>
-							<p><?php echo esc_html_e( 'Compatible with Divi 4 and Divi 5.', 'lc-tweaks' ); ?></p>
-						</div>
-					</div>
-					<div class="box-content minibox">
-						<div class="checkbox">
-							<input name="dlck_edit_in_visual_builder_link" type="checkbox" value="1"
-								<?php checked( '1', $dlck_edit_in_visual_builder_link_val ); ?> />
-						</div>
-					</div>
-				</div>
-
 			<div class="lc-kit trigger">
 				<div class="box-title">
 					<h3><span class="new">new</span><?php echo esc_html_e( 'Clear Divi static css cache + local storage', 'lc-tweaks' ); ?></h3>
@@ -401,7 +381,7 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 			<div class="box-title">
 				<h3><?php echo esc_html_e( 'Add WOFF and WOFF2 Uploads in the Divi Builder', 'lc-tweaks' ); ?></h3>
 				<div class="box-descr">
-					<p><?php echo esc_html_e( 'Enable WOFF/WOFF2 font formats in the Divi Builder upload dialog.', 'lc-tweaks' ); ?></p>
+					<p><?php echo esc_html_e( 'Enable WOFF/WOFF2 font formats in the Divi Builder upload dialog. Also enable Allow All Font Files Uploads in Maintenance when WordPress needs to accept the files.', 'lc-tweaks' ); ?></p>
 				</div>
 			</div>
 			<div class="box-content minibox">
@@ -522,23 +502,6 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 			</div>
 		</div>
 
-		<div class="lc-kit">
-			<div class="box-title">
-				<h3><span class="new">top</span><?php echo esc_html_e( 'Hide Divi Cloud', 'lc-tweaks' ); ?></h3>
-				<div class="box-descr">
-					<p>
-						<?php echo esc_html_e( 'If you do not want to use Divi Cloud and would prefer to remove it from Divi Builder.', 'lc-tweaks' ); ?>
-					</p>
-				</div>
-			</div>
-			<div class="box-content minibox">
-				<div class="checkbox">
-					<input name="dlck_hide_divi_cloud" type="checkbox" value="1"
-						<?php checked( '1', $dlck_hide_divi_cloud_val ); ?> />
-				</div>
-			</div>
-		</div>
-
 		<div class="lc-kit trigger">
 			<div class="box-title">
 				<h3><span class="new">top</span><?php echo esc_html_e('Disable Divi Premade Layouts', 'lc-tweaks'); ?></h3>
@@ -583,58 +546,6 @@ if ( $dlck_divi_lazy_prefetch_offset < 0 ) {
 				</div>
 			</div>
 
-		</div>
-
-		<div class="lc-kit">
-			<div class="box-title">
-				<h3><?php echo esc_html_e('Divi Library View', 'lc-tweaks'); ?></h3>
-				<div class="box-descr">
-					<p>
-						<?php echo esc_html_e("Allow viewing Divi library layouts on the front end, set featured images and display them in the admin screen.", "lc-tweaks"); ?>
-					</p>
-				</div>
-			</div>
-			<div class="box-content minibox">
-				<div class="checkbox">
-					<input name="dlck_divi_library_view" type="checkbox" value="1"
-						<?php checked( '1', $dlck_divi_library_view_val ); ?> />
-				</div>
-			</div>
-		</div>
-
-		<div class="lc-kit">
-			<div class="box-title">
-				<h3><?php esc_html_e('Show Custom Maintenance, Coming Soon Or Notice', 'lc-tweaks'); ?></h3>
-				<div class="box-descr">
-					<p><?php esc_html_e('This layout will be displayed globally for logged out users', "lc-tweaks"); ?>
-					</p>
-				</div>
-
-			</div>
-			<div class="box-content">
-				<?php
-					$layout_query = array(
-						'post_type'      => 'et_pb_layout',
-						'posts_per_page' => -1,
-						'post_status'    => 'publish',
-					);
-					$layouts = get_posts( $layout_query );
-					if ( $layouts ) {
-						?>
-						<select name="dlck_maintenance_layout">
-							<option value="none">----- None -----</option>
-							<?php
-							foreach ( $layouts as $layout ) {
-								echo '<option ' . selected( esc_attr( $layout->ID ), $dlck_maintenance_layout_val, false ) . ' value="' . esc_attr( $layout->ID ) . '">' . esc_attr( $layout->post_title ) . '</option>';
-							}
-							?>
-						</select>
-						<?php
-					} else {
-						printf( '<p class="info">%s</p>', esc_html__( 'Sorry, your Divi Library is empty. Create and save some layouts first...', 'lc-tweaks' ) );
-					}
-				?>
-			</div>
 		</div>
 
 	</div>

@@ -139,6 +139,14 @@ function dlck_svg_upload_sanitize_content( string $svg ): string {
 		return '';
 	}
 
+	// SVG files do not need a document type declaration to render. Removing it
+	// retains common exporter output while preventing entity declarations from
+	// reaching the XML parser.
+	$svg = preg_replace( '/<!DOCTYPE[^>\[]*(\[[^\]]*\])?\s*>/is', '', $svg );
+	if ( ! is_string( $svg ) || false !== stripos( $svg, '<!ENTITY' ) ) {
+		return '';
+	}
+
 	$previous = libxml_use_internal_errors( true );
 	$document = new DOMDocument();
 	$document->preserveWhiteSpace = false;

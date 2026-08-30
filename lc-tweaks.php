@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: LC Tweaks
-Version: 1.6.18
+Version: 1.6.19
 Plugin URI: https://lucidity.design/product/lc-tweaks/
 Description: Powerful tools to customize the Divi Theme, WordPress and WooCommerce - added functionality, boosted performance and improved page metric results.
 Author: Lucidity Design
@@ -132,6 +132,12 @@ if ( ! function_exists( 'dlck_get_divi_helper_option_keys' ) ) {
 			'dlck_divi_vb_icon_picker_height',
 			'dlck_divi_vb_disable_inline_text_toolbar',
 			'dlck_divi_vb_swap_global_saved_colors',
+			'dlck_divi_vb_fullscreen',
+			'dlck_divi_vb_hide_divi_builder_btn_ce',
+			'dlck_divi_vb_hide_divi_builder_btn_be',
+			'dlck_divi_vb_hide_editor_switch_buttons',
+			'dlck_divi_vb_hide_divi_cloud',
+			'dlck_divi_vb_hide_layouts_btn',
 			'dlck_divi_vb_full_width_post_content_rows',
 			'dlck_divi_vb_hide_marketplace_layout_promo',
 			'dlck_divi_vb_hide_explore_modules',
@@ -145,6 +151,7 @@ if ( ! function_exists( 'dlck_get_divi_helper_option_keys' ) ) {
 			'dlck_remove_howdy',
 			'dlck_admin_bar_frontend_hide',
 			'dlck_admin_bar_hover',
+			'dlck_disable_comment_settings',
 			'dlck_divi_quick_links_enabled',
 			'dlck_divi_quick_links_in_builder',
 			'dlck_custom_quick_links_enabled',
@@ -161,6 +168,8 @@ if ( ! function_exists( 'dlck_get_divi_helper_option_keys' ) ) {
 			'dlck_duplicate_posts_pages',
 			'dlck_duplicate_divi_library_layouts',
 			'dlck_divi_library_shortcode_widget',
+			'dlck_divi_library_view',
+			'dlck_edit_in_visual_builder_link',
 			'dlck_shortcode_in_menus',
 			'dlck_divi_posts_builder_filter',
 			'dlck_featured_image_admin_column',
@@ -170,6 +179,16 @@ if ( ! function_exists( 'dlck_get_divi_helper_option_keys' ) ) {
 			'dlck_default_featured_image_posts',
 			'dlck_divi_editor_back_links',
 			'dlck_admin_notes_enabled',
+			'dlck_divi_project_rename',
+			'dlck_divi_project_plural_name',
+			'dlck_divi_project_singular_name',
+			'dlck_divi_project_slug',
+			'dlck_divi_project_plural_category',
+			'dlck_divi_project_singular_category',
+			'dlck_divi_project_category_slug',
+			'dlck_divi_project_plural_tag',
+			'dlck_divi_project_singular_tag',
+			'dlck_divi_project_tag_slug',
 			'dlck_frontend_anchor_offset_enabled',
 			'dlck_frontend_anchor_offset_px',
 			'dlck_cursor_highlight_enabled',
@@ -191,6 +210,7 @@ if ( ! function_exists( 'dlck_get_divi_helper_option_keys' ) ) {
 			'dlck_svg_img_class_enabled',
 			'dlck_media_filename_metadata_enabled',
 			'dlck_media_filename_metadata_override',
+			'dlck_divi_img_module',
 			'dlck_divi_cache_auto_schedule',
 			'dlck_divi_cache_builder_buttons',
 			'dlck_site_availability_mode',
@@ -263,6 +283,12 @@ if ( ! function_exists( 'dlck_normalize_divi_helper_settings' ) ) {
 			'dlck_divi_vb_icon_picker_height_enabled',
 			'dlck_divi_vb_disable_inline_text_toolbar',
 			'dlck_divi_vb_swap_global_saved_colors',
+			'dlck_divi_vb_fullscreen',
+			'dlck_divi_vb_hide_divi_builder_btn_ce',
+			'dlck_divi_vb_hide_divi_builder_btn_be',
+			'dlck_divi_vb_hide_editor_switch_buttons',
+			'dlck_divi_vb_hide_divi_cloud',
+			'dlck_divi_vb_hide_layouts_btn',
 			'dlck_divi_vb_full_width_post_content_rows',
 			'dlck_divi_vb_hide_marketplace_layout_promo',
 			'dlck_divi_vb_hide_explore_modules',
@@ -276,6 +302,7 @@ if ( ! function_exists( 'dlck_normalize_divi_helper_settings' ) ) {
 			'dlck_remove_howdy',
 			'dlck_admin_bar_frontend_hide',
 			'dlck_admin_bar_hover',
+			'dlck_disable_comment_settings',
 			'dlck_divi_quick_links_enabled',
 			'dlck_divi_quick_links_in_builder',
 			'dlck_custom_quick_links_enabled',
@@ -286,6 +313,8 @@ if ( ! function_exists( 'dlck_normalize_divi_helper_settings' ) ) {
 			'dlck_duplicate_posts_pages',
 			'dlck_duplicate_divi_library_layouts',
 			'dlck_divi_library_shortcode_widget',
+			'dlck_divi_library_view',
+			'dlck_edit_in_visual_builder_link',
 			'dlck_shortcode_in_menus',
 			'dlck_divi_posts_builder_filter',
 			'dlck_featured_image_admin_column',
@@ -293,6 +322,7 @@ if ( ! function_exists( 'dlck_normalize_divi_helper_settings' ) ) {
 			'dlck_default_featured_image_posts_enabled',
 			'dlck_divi_editor_back_links',
 			'dlck_admin_notes_enabled',
+			'dlck_divi_project_rename',
 			'dlck_frontend_anchor_offset_enabled',
 			'dlck_cursor_highlight_enabled',
 			'dlck_disable_horizontal_scroll',
@@ -303,6 +333,7 @@ if ( ! function_exists( 'dlck_normalize_divi_helper_settings' ) ) {
 			'dlck_svg_img_class_enabled',
 			'dlck_media_filename_metadata_enabled',
 			'dlck_media_filename_metadata_override',
+			'dlck_divi_img_module',
 			'dlck_divi_cache_builder_buttons',
 			'dlck_site_availability_bypass_enabled',
 			'dlck_code_helper_enabled',
@@ -770,6 +801,46 @@ function dlck_enforce_mutually_exclusive_options( $new_value, $old_value ) { // 
 		$settings     = dlck_filter_settings_for_edition( $settings );
 		$settings     = dlck_normalize_divi_helper_settings( $settings );
 
+		// The newer Divi Helper controls replace these legacy settings. Keep a
+		// legacy value in place until its corresponding helper control is saved.
+		$legacy_divi_helper_toggles = array(
+			'dlck_divi_vb_hide_editor_switch_buttons' => 'dlck_hide_gutenberg_std_editor_buttons',
+			'dlck_divi_vb_hide_divi_cloud'            => 'dlck_hide_divi_cloud',
+		);
+		$replace_scoped_option = static function ( string $legacy_key, string $helper_key ) use ( &$settings ): void {
+			if ( ! isset( $settings['dlck_scope_rules_options'] ) || ! is_scalar( $settings['dlck_scope_rules_options'] ) ) {
+				return;
+			}
+
+			$option_keys = dlck_scope_rules_parse_lines( (string) $settings['dlck_scope_rules_options'] );
+			$option_keys = array_map(
+				static function ( $option_key ) use ( $legacy_key, $helper_key ): string {
+					return sanitize_key( (string) $option_key ) === $legacy_key ? $helper_key : sanitize_key( (string) $option_key );
+				},
+				$option_keys
+			);
+			$settings['dlck_scope_rules_options'] = implode( "\n", array_values( array_unique( array_filter( $option_keys ) ) ) );
+		};
+		foreach ( $legacy_divi_helper_toggles as $helper_key => $legacy_key ) {
+			if ( array_key_exists( $helper_key, $settings ) ) {
+				$settings[ $legacy_key ] = '0';
+				$replace_scoped_option( $legacy_key, $helper_key );
+			}
+		}
+
+		// Site Availability supersedes the old single-layout maintenance setting.
+		// If an administrator enables the newer mode without selecting a layout,
+		// retain the existing live layout rather than exposing visitors to a blank page.
+		if ( array_key_exists( 'dlck_site_availability_mode', $settings ) ) {
+			$legacy_layout_id = absint( $settings['dlck_maintenance_layout'] ?? $old_settings['dlck_maintenance_layout'] ?? 0 );
+			$availability_mode = sanitize_key( (string) $settings['dlck_site_availability_mode'] );
+			if ( in_array( $availability_mode, array( 'coming_soon', 'maintenance' ), true ) && empty( $settings['dlck_site_availability_layout_id'] ) && $legacy_layout_id ) {
+				$settings['dlck_site_availability_layout_id'] = (string) $legacy_layout_id;
+			}
+			$settings['dlck_maintenance_layout'] = '0';
+			$replace_scoped_option( 'dlck_maintenance_layout', 'dlck_site_availability_mode' );
+		}
+
 		// Normalize Woo cart script policy to known values.
 		if ( array_key_exists( 'dlck_woo_cart_script_policy', $settings ) ) {
 			$woo_cart_policy_allowed = array( 'default', 'disable_non_woo', 'disable_everywhere', 'disable_non_woo_plus_add_to_cart' );
@@ -927,6 +998,22 @@ function dlck_get_preflight_conflicts( array $settings ): array {
 		)
 	) {
 		$messages[] = __( 'Divi cache auto-clear options require "Clear Divi static css cache + local storage". Dependent options will be switched off.', 'lc-tweaks' );
+	}
+
+	$legacy_maintenance_layout_id = absint( $settings['dlck_maintenance_layout'] ?? 0 );
+	$site_availability_mode       = sanitize_key( (string) ( $settings['dlck_site_availability_mode'] ?? 'off' ) );
+	if ( $legacy_maintenance_layout_id && ! in_array( $site_availability_mode, array( 'coming_soon', 'maintenance' ), true ) ) {
+		$messages[] = __( 'A legacy maintenance layout is still active. Choose a Site Availability mode in Divi Helpers to migrate it, or set that mode to Off to disable it.', 'lc-tweaks' );
+	} elseif ( $legacy_maintenance_layout_id ) {
+		$messages[] = __( 'Site Availability is active and will replace the legacy maintenance-layout setting when these settings are saved.', 'lc-tweaks' );
+	}
+
+	if ( $is_enabled( 'dlck_disable_all_comments' ) && $is_enabled( 'dlck_disable_comment_settings' ) ) {
+		$messages[] = __( '"Disable All Comments" already disables comments site-wide. The Divi Helper comment-settings option is narrower and redundant while it is enabled.', 'lc-tweaks' );
+	}
+
+	if ( $is_enabled( 'dlck_hide_projects' ) && $is_enabled( 'dlck_divi_project_rename' ) ) {
+		$messages[] = __( '"Hide Projects" is enabled, so Rename Divi Projects has no visible effect until Projects are shown again.', 'lc-tweaks' );
 	}
 
 	$woo_cart_policy = sanitize_key( (string) ( $settings['dlck_woo_cart_script_policy'] ?? 'default' ) );

@@ -102,7 +102,7 @@ These options appear when Divi is active and are available in the free edition u
 - **Utility Helpers:** Divi quick links, custom quick links, Theme Builder links, environment badge, remove Howdy, frontend admin-bar hiding/hover reveal, duplicate actions, disable comment settings, shortcode-in-menu support, and Divi Library shortcode/widget output.
 - **Library and Admin Lists:** enhanced Divi Library preview/actions, Visual Builder row links (`PageSpeed=off`), Divi Builder filters on posts/pages, featured-image columns, default featured-image fallbacks, editor back links, and Admin Notes.
 - **Frontend Helpers:** anchor offset, text-selection highlight color, horizontal overflow prevention, custom scrollbar styling, custom back-to-top button, and content text replacement rules.
-- **Media Helpers:** max upload size override, SVG output class, attachment title/alt/caption/description generation from filenames, and Divi image module alt/title sync from Media Library metadata.
+- **Media Helpers:** max upload size override, SVG output class, attachment title/alt/caption/description generation from filenames, and Divi image module alt/title sync that fills blank values from Media Library metadata without replacing non-empty module values.
 - **Maintenance Helpers:** scheduled Divi cache clearing, Visual Builder cache buttons, and coming-soon/maintenance mode with path exclusions, IP allow lists, bypass token, and no-cache headers.
 - **Projects:** rename Divi Projects (post type and related category/tag labels and slugs) from the Divi Helpers UI.
 

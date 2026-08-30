@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.6.19
+- Hardened SVG upload sanitization by removing document type declarations before XML parsing and rejecting standalone entity declarations.
+- Updated Image module metadata sync to fill blank alt and title fields without overwriting non-empty values set in the module.
+- Consolidated duplicate Divi Helper controls for editor switches, Divi Cloud, Divi Library actions, and site availability while preserving legacy settings until they are saved through the new controls.
+- Added Site Availability migration safeguards, broader Divi Cloud selector coverage, and conflict guidance for comments and Projects settings.
+- Registered all Divi Helper settings for Scope Rules validation, preserved legacy scope targets during migration, and normalized their checkbox values consistently.
+
 1.6.18
 - Preserved Divi entrance animations and scroll effects by keeping affected below-fold sections out of content-visibility deferral.
 - Refreshed native viewport events after deferred Divi Pixel modules initialise, including parallax and scroll-bound effects.

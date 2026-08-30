@@ -68,6 +68,14 @@ if ( ! function_exists( 'dlck_divi_helper_add_inline_assets' ) ) {
 	}
 
 	/**
+	 * Return the complete Divi 4/5 Cloud suppression rules shared by wp-admin
+	 * and Visual Builder requests.
+	 */
+	function dlck_divi_helper_divi_cloud_css(): string {
+		return ".et-cloud-toggle,.et-cloud-app__upsell,.et_fb_save_module_modal .et-fb-settings-option:has(+ .et-cloud-app__upsell),.et-tb-library-save-option:has(+ .et-cloud-app__upsell),.et-save-to-library-modal .et-save-to-library-option:has(+ .et-cloud-app__upsell),.et-fb-right-click-menu__item--saveCloud,button.et-vb-right-click-option[value='save-to-cloud'],.et-vb-modal.et-vb-modal--main[data-modal-name='divi/add-to-library'] div.et-vb-save-to-library-options div.et-vb-field:nth-child(3),.et-vb-modal.et-vb-modal--main[data-modal-name='divi/add-to-library'] div.et-vb-save-to-library-options div.et-vb-field:nth-child(4),.et-vb-modal.et-vb-modal--main[data-modal-name='divi/add-module'] div.et-vb-modal-panel--add-from-library div.et-cloud-app-sidebar__content div.et-cloud-app__upsell.card-library.card-default,.et-vb-modal.et-vb-modal--main[data-modal-name='divi/load-layout']:has(.et-vb-modal-tab:nth-child(2).et-vb-modal-tab--active) .et-cloud-app__upsell.card-library.card-default,.et-vb-modal.et-vb-modal--main[data-modal-name='divi/load-layout']:has(.et-vb-modal-tab:nth-child(3).et-vb-modal-tab--active) .et-cloud-app__upsell.card-library.card-default,.et-vb-modal.et-vb-modal--main[data-modal-name='divi/add-module'] .et-cloud-app-view-header .et-cloud-app-view-header--right .et-cloud-toggle,.et-vb-modal.et-vb-modal--main[data-modal-name='divi/load-layout'] .et-cloud-app-view-header .et-cloud-app-view-header--right .et-cloud-toggle,.et-vb-field:has(+ .et-vb-field-upsell-card),.et-vb-field-upsell-card,.et-common-icon--cloud{display:none!important;}.et-cloud-app-sort-menu{margin-right:0!important;}";
+	}
+
+	/**
 	 * Collect helpers that belong on normal frontend pages.
 	 *
 	 * @return array{css:string[],js:string[]}
@@ -149,7 +157,11 @@ if ( ! function_exists( 'dlck_divi_helper_add_inline_assets' ) ) {
 			$css[] = "button.editor-post-switch-to-divi[data-editor='divi']{display:none!important;}";
 		}
 		if ( dlck_divi_helper_enabled( 'dlck_divi_vb_hide_editor_switch_buttons' ) ) {
-			$css[] = 'button#et-switch-to-gutenberg.components-button.is-default{display:none!important;}#et_pb_toggle_builder[data-builder=\'divi\'][data-editor=\'visual-builder\'].et_pb_builder_is_used{display:none!important;}button.editor-post-switch-to-gutenberg[data-editor=\'gutenberg\']{display:none!important;}';
+			$css[] = 'button#et-switch-to-gutenberg.components-button.is-default,.et-db #et-boc .et-l #et_pb_toggle_builder.et_pb_builder_is_used,#et_pb_toggle_builder[data-builder=\'divi\'][data-editor=\'visual-builder\'].et_pb_builder_is_used,button.editor-post-switch-to-gutenberg[data-editor=\'gutenberg\']{display:none!important;}.et-db #et-boc .et-l #et_pb_fb_cta{margin-left:0!important;}';
+		}
+
+		if ( dlck_divi_helper_enabled( 'dlck_divi_vb_hide_divi_cloud' ) ) {
+			$css[] = dlck_divi_helper_divi_cloud_css();
 		}
 
 		return array(
@@ -197,7 +209,7 @@ if ( ! function_exists( 'dlck_divi_helper_add_inline_assets' ) ) {
 			$css[] = '.et-fb-modules-list__more,.et-fb-module-item--marketplace,.et-vb-module-marketplace,[data-testid*="explore" i],[aria-label*="Explore" i]{display:none!important;}';
 		}
 		if ( dlck_divi_helper_enabled( 'dlck_divi_vb_hide_divi_cloud' ) ) {
-			$css[] = "button.et-vb-right-click-option[value='save-to-cloud'], .et-vb-modal.et-vb-modal--main[data-modal-name='divi/add-to-library'] div.et-vb-save-to-library-options div.et-vb-field:nth-child(3), .et-vb-modal.et-vb-modal--main[data-modal-name='divi/add-to-library'] div.et-vb-save-to-library-options div.et-vb-field:nth-child(4), .et-vb-modal.et-vb-modal--main[data-modal-name='divi/add-module'] div.et-vb-modal-panel--add-from-library div.et-cloud-app-sidebar__content div.et-cloud-app__upsell.card-library.card-default, .et-vb-modal.et-vb-modal--main[data-modal-name='divi/load-layout']:has(.et-vb-modal-tab:nth-child(2).et-vb-modal-tab--active) .et-cloud-app__upsell.card-library.card-default, .et-vb-modal.et-vb-modal--main[data-modal-name='divi/load-layout']:has(.et-vb-modal-tab:nth-child(3).et-vb-modal-tab--active) .et-cloud-app__upsell.card-library.card-default, .et-vb-modal.et-vb-modal--main[data-modal-name='divi/add-module'] .et-cloud-app-view-header .et-cloud-app-view-header--right .et-cloud-toggle, .et-vb-modal.et-vb-modal--main[data-modal-name='divi/load-layout'] .et-cloud-app-view-header .et-cloud-app-view-header--right .et-cloud-toggle{display:none!important;}";
+			$css[] = dlck_divi_helper_divi_cloud_css();
 		}
 		if ( dlck_divi_helper_enabled( 'dlck_divi_vb_hide_layouts_btn' ) ) {
 			$css[] = ".et-vb-modal.et-vb-modal--main[data-modal-name='divi/load-layout']:has(.et-vb-modal-tab:nth-child(1).et-vb-modal-tab--active) .et-cloud-app__upsell.card-library.card-default{display:none!important;}";
@@ -1049,7 +1061,7 @@ if ( ! function_exists( 'dlck_divi_helper_path_matches' ) ) {
 
 	function dlck_divi_helper_render_site_availability(): void {
 		$mode = sanitize_key( (string) dlck_get_option( 'dlck_site_availability_mode', 'off' ) );
-		if ( ! in_array( $mode, array( 'coming_soon', 'maintenance' ), true ) || is_admin() || wp_doing_ajax() || is_customize_preview() ) {
+		if ( ! in_array( $mode, array( 'coming_soon', 'maintenance' ), true ) || ( function_exists( 'dlck_scope_rules_allow_option' ) && ! dlck_scope_rules_allow_option( 'dlck_site_availability_mode' ) ) || is_admin() || wp_doing_ajax() || is_customize_preview() ) {
 			return;
 		}
 		if ( current_user_can( 'manage_options' ) ) {
@@ -1337,6 +1349,22 @@ if ( ! function_exists( 'dlck_divi_helper_project_labels_value' ) ) {
 		return $meta;
 	}
 
+	function dlck_divi_helper_image_module_metadata_with_fallback( array $module_value, array $library_meta ): array {
+		$module_alt   = isset( $module_value['alt'] ) && is_scalar( $module_value['alt'] ) ? trim( (string) $module_value['alt'] ) : '';
+		$module_title = '';
+		foreach ( array( 'titleText', 'title' ) as $key ) {
+			if ( isset( $module_value[ $key ] ) && is_scalar( $module_value[ $key ] ) && trim( (string) $module_value[ $key ] ) !== '' ) {
+				$module_title = trim( (string) $module_value[ $key ] );
+				break;
+			}
+		}
+
+		return array(
+			'alt'   => $module_alt !== '' ? $module_alt : (string) ( $library_meta['alt'] ?? '' ),
+			'title' => $module_title !== '' ? $module_title : (string) ( $library_meta['title'] ?? '' ),
+		);
+	}
+
 	function dlck_divi_helper_set_image_tag_attribute( string $tag, string $name, string $value ): string {
 		$value = str_replace( '>', '&gt;', esc_attr( $value ) );
 		$existing = '/(\s' . preg_quote( $name, '/' ) . ')\s*=\s*(["\']).*?\2/is';
@@ -1361,11 +1389,21 @@ if ( ! function_exists( 'dlck_divi_helper_project_labels_value' ) ) {
 		);
 	}
 
+	function dlck_divi_helper_image_tag_attribute_has_value( string $tag, string $name ): bool {
+		$pattern = '/\s' . preg_quote( $name, '/' ) . '\s*=\s*(?:(["\'])(.*?)\1|([^\s>]+))/is';
+		if ( ! preg_match( $pattern, $tag, $matches ) ) {
+			return false;
+		}
+
+		$value = isset( $matches[2] ) && $matches[2] !== '' ? $matches[2] : ( $matches[3] ?? '' );
+		return is_string( $value ) && trim( htmlspecialchars_decode( $value, ENT_QUOTES ) ) !== '';
+	}
+
 	function dlck_divi_helper_set_image_tag_metadata( string $tag, array $meta ): string {
-		if ( '' !== ( $meta['alt'] ?? '' ) ) {
+		if ( '' !== ( $meta['alt'] ?? '' ) && ! dlck_divi_helper_image_tag_attribute_has_value( $tag, 'alt' ) ) {
 			$tag = dlck_divi_helper_set_image_tag_attribute( $tag, 'alt', (string) $meta['alt'] );
 		}
-		if ( '' !== ( $meta['title'] ?? '' ) ) {
+		if ( '' !== ( $meta['title'] ?? '' ) && ! dlck_divi_helper_image_tag_attribute_has_value( $tag, 'title' ) ) {
 			$tag = dlck_divi_helper_set_image_tag_attribute( $tag, 'title', (string) $meta['title'] );
 		}
 		return $tag;
@@ -1388,8 +1426,9 @@ if ( ! function_exists( 'dlck_divi_helper_project_labels_value' ) ) {
 			return $element;
 		}
 
-		$module_attrs = is_object( $instance ) ? (array) $instance->module_attrs : array();
-		$image_src    = isset( $module_attrs['image']['innerContent']['desktop']['value']['src'] ) ? (string) $module_attrs['image']['innerContent']['desktop']['value']['src'] : '';
+		$module_attrs = is_object( $instance ) && isset( $instance->module_attrs ) ? (array) $instance->module_attrs : ( is_array( $instance ) && isset( $instance['module_attrs'] ) && is_array( $instance['module_attrs'] ) ? $instance['module_attrs'] : array() );
+		$module_value = isset( $module_attrs['image']['innerContent']['desktop']['value'] ) && is_array( $module_attrs['image']['innerContent']['desktop']['value'] ) ? $module_attrs['image']['innerContent']['desktop']['value'] : array();
+		$image_src    = isset( $module_value['src'] ) ? (string) $module_value['src'] : '';
 		$image_src    = trim( $image_src );
 		if ( $image_src === '' ) {
 			return $element;
@@ -1399,7 +1438,7 @@ if ( ! function_exists( 'dlck_divi_helper_project_labels_value' ) ) {
 			return $element;
 		}
 
-		$meta = dlck_divi_helper_image_module_library_meta( $image_src );
+		$meta = dlck_divi_helper_image_module_metadata_with_fallback( $module_value, dlck_divi_helper_image_module_library_meta( $image_src ) );
 		if ( '' === $meta['alt'] && '' === $meta['title'] ) {
 			return $element;
 		}
@@ -1445,15 +1484,17 @@ if ( ! function_exists( 'dlck_divi_helper_project_labels_value' ) ) {
 		$target_raw    = trim( $target_raw );
 		$target_cmp    = '';
 		if ( '' === $target_raw && isset( $args['module_attrs'] ) && is_array( $args['module_attrs'] ) ) {
+			$module_attrs = (array) $args['module_attrs'];
 			$target_raw = isset( $args['module_attrs']['image']['innerContent']['desktop']['value']['src'] ) ? (string) $args['module_attrs']['image']['innerContent']['desktop']['value']['src'] : '';
 			$target_raw = trim( $target_raw );
 		}
+		$module_value = isset( $module_attrs['image']['innerContent']['desktop']['value'] ) && is_array( $module_attrs['image']['innerContent']['desktop']['value'] ) ? $module_attrs['image']['innerContent']['desktop']['value'] : array();
 
 		if ( $target_raw !== '' ) {
 			$target_src = $target_raw;
 			$target_cmp = preg_replace( '/\?.*$/', '', $target_raw );
 			$target_cmp = is_string( $target_cmp ) ? trim( $target_cmp ) : '';
-			$wrapper_meta = dlck_divi_helper_image_module_library_meta( $target_src );
+			$wrapper_meta = dlck_divi_helper_image_module_metadata_with_fallback( $module_value, dlck_divi_helper_image_module_library_meta( $target_src ) );
 			if ( '' === $wrapper_meta['alt'] && '' === $wrapper_meta['title'] ) {
 				return $module_wrapper;
 			}
@@ -1515,10 +1556,10 @@ if ( ! function_exists( 'dlck_divi_helper_project_labels_value' ) ) {
 		}
 
 		$meta = dlck_divi_helper_image_module_library_meta( $image_src );
-		if ( '' !== $meta['alt'] ) {
+		if ( '' !== $meta['alt'] && ( ! isset( $props['alt'] ) || trim( (string) $props['alt'] ) === '' ) ) {
 			$props['alt'] = $meta['alt'];
 		}
-		if ( '' !== $meta['title'] ) {
+		if ( '' !== $meta['title'] && ( ! isset( $props['title'] ) || trim( (string) $props['title'] ) === '' ) ) {
 			$props['title'] = $meta['title'];
 		}
 

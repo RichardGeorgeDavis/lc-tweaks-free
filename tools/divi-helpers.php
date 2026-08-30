@@ -9,9 +9,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! function_exists( 'dlck_divi_helpers_value' ) ) {
 	function dlck_divi_helpers_value( string $key, $default = '' ) {
-		return function_exists( 'dlck_get_setting_from_snapshot' )
-			? dlck_get_setting_from_snapshot( $key, $default )
-			: dlck_get_option( $key, $default );
+		$settings = function_exists( 'dlck_get_settings_snapshot' )
+			? dlck_get_settings_snapshot()
+			: array();
+		$value    = array_key_exists( $key, $settings )
+			? $settings[ $key ]
+			: $default;
+
+		$legacy_toggle_map = array(
+			'dlck_divi_vb_hide_editor_switch_buttons' => 'dlck_hide_gutenberg_std_editor_buttons',
+			'dlck_divi_vb_hide_divi_cloud'            => 'dlck_hide_divi_cloud',
+		);
+		if ( isset( $legacy_toggle_map[ $key ] ) && empty( $value ) && ! empty( $settings[ $legacy_toggle_map[ $key ] ] ) ) {
+			return '1';
+		}
+
+		$legacy_layout_id = absint( $settings['dlck_maintenance_layout'] ?? 0 );
+		if ( $legacy_layout_id && $key === 'dlck_site_availability_mode' && ! in_array( sanitize_key( (string) $value ), array( 'coming_soon', 'maintenance' ), true ) ) {
+			return 'maintenance';
+		}
+		if ( $legacy_layout_id && $key === 'dlck_site_availability_layout_id' && ! absint( $value ) ) {
+			return (string) $legacy_layout_id;
+		}
+
+		return $value;
 	}
 }
 
@@ -164,6 +185,7 @@ foreach ( $dlck_layouts as $dlck_layout ) {
 			<h4><?php esc_html_e( 'What are the Divi Helpers?', 'lc-tweaks' ); ?></h4>
 			<p><?php esc_html_e( 'Assistant-style Divi, media, frontend, and maintenance helpers adapted to LC Tweaks.', 'lc-tweaks' ); ?></p>
 			<p><?php esc_html_e( 'All helpers are off by default and load only in the contexts they affect.', 'lc-tweaks' ); ?></p>
+			<p><?php esc_html_e( 'Existing editor-switch, Divi Cloud, and maintenance-layout settings are shown here and move to these controls when you save.', 'lc-tweaks' ); ?></p>
 		</div>
 	</div>
 
@@ -217,7 +239,7 @@ foreach ( $dlck_layouts as $dlck_layout ) {
 		dlck_divi_helpers_toggle( 'dlck_remove_howdy', __( 'Remove Howdy from admin bar', 'lc-tweaks' ) );
 		dlck_divi_helpers_toggle( 'dlck_admin_bar_frontend_hide', __( 'Hide admin bar on frontend', 'lc-tweaks' ), __( 'Hide the WordPress admin bar on the public site while keeping it available in wp-admin.', 'lc-tweaks' ) );
 		dlck_divi_helpers_toggle( 'dlck_admin_bar_hover', __( 'Reveal hidden admin bar on hover', 'lc-tweaks' ), __( 'When the frontend admin bar is hidden, reveal it when hovering near the top of the screen.', 'lc-tweaks' ) );
-		dlck_divi_helpers_toggle( 'dlck_disable_comment_settings', __( 'Disable comment settings (posts/pages)', 'lc-tweaks' ), __( 'Hide comments admin menu, remove post/page comments support, and hide comments in the admin bar.', 'lc-tweaks' ) );
+		dlck_divi_helpers_toggle( 'dlck_disable_comment_settings', __( 'Disable comment settings (posts/pages)', 'lc-tweaks' ), __( 'Hide comments admin UI and remove comments support from posts/pages. Use Disable All Comments for a site-wide shutdown.', 'lc-tweaks' ) );
 		dlck_divi_helpers_toggle( 'dlck_divi_quick_links_enabled', __( 'Divi quick links', 'lc-tweaks' ), __( 'Add common Divi admin links to the WordPress admin bar.', 'lc-tweaks' ) );
 		dlck_divi_helpers_toggle( 'dlck_divi_quick_links_in_builder', __( 'Divi quick links in builder', 'lc-tweaks' ), __( 'Add a compact quick-links button in Visual Builder views.', 'lc-tweaks' ) );
 		dlck_divi_helpers_trigger_toggle( 'dlck_custom_quick_links_enabled', __( 'Custom quick links', 'lc-tweaks' ), __( 'Add your own admin-bar quick links. Use one Label | URL pair per line.', 'lc-tweaks' ) );
@@ -295,7 +317,7 @@ foreach ( $dlck_layouts as $dlck_layout ) {
 	<h2 class="tool-section"><?php esc_html_e( 'Projects', 'lc-tweaks' ); ?></h2>
 	<div class="tool-wrap">
 		<?php
-		dlck_divi_helpers_trigger_toggle( 'dlck_divi_project_rename', __( 'Rename Divi Projects', 'lc-tweaks' ), __( 'Rename the Project post type and taxonomy labels without affecting post data.', 'lc-tweaks' ) );
+		dlck_divi_helpers_trigger_toggle( 'dlck_divi_project_rename', __( 'Rename Divi Projects', 'lc-tweaks' ), __( 'Rename the Project post type and taxonomy labels without affecting post data. It has no visible effect while Hide Projects is enabled.', 'lc-tweaks' ) );
 		?>
 		<div class="dlck-hide">
 			<?php
@@ -402,7 +424,7 @@ foreach ( $dlck_layouts as $dlck_layout ) {
 		dlck_divi_helpers_select(
 			'dlck_site_availability_mode',
 			__( 'Site availability mode', 'lc-tweaks' ),
-			__( 'Use a Divi Library layout as a coming-soon or maintenance screen.', 'lc-tweaks' ),
+			__( 'Use a Divi Library layout as a coming-soon or maintenance screen. This replaces the legacy maintenance-layout setting when saved.', 'lc-tweaks' ),
 			array(
 				'off'         => __( 'Off', 'lc-tweaks' ),
 				'coming_soon' => __( 'Coming Soon (200)', 'lc-tweaks' ),
