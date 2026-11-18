@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.6.20
+- Prevented Scope Rules startup checks from triggering the `lc-tweaks` translation notice before `init`.
+- Added `dlck_woo_restrict_store_guest_visible_product_ids` filter for explicitly allowing selected products on guest-restricted WooCommerce stores.
+
 1.6.19
 - Hardened SVG upload sanitization by removing document type declarations before XML parsing and rejecting standalone entity declarations.
 - Updated Image module metadata sync to fill blank alt and title fields without overwriting non-empty values set in the module.

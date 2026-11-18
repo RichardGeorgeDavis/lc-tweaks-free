@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: LC Tweaks
-Version: 1.6.19
+Version: 1.6.20
 Plugin URI: https://lucidity.design/product/lc-tweaks/
 Description: Powerful tools to customize the Divi Theme, WordPress and WooCommerce - added functionality, boosted performance and improved page metric results.
 Author: Lucidity Design
@@ -2936,18 +2936,19 @@ function dlck_scope_rules_get_saved_settings(): array {
  * Evaluate scope-rule eligibility for an option with optional context overrides.
  *
  * @param string $option_name Option key to evaluate.
- * @param array  $context     Optional context overrides.
+ * @param array  $context     Optional context overrides, including whether to build a translated reason.
  * @return array<string,mixed>
  */
 function dlck_scope_rules_evaluate_option( string $option_name, array $context = array() ): array {
 	$option_name = sanitize_key( $option_name );
-	$runtime_ok  = array_key_exists( 'runtime_context', $context ) ? (bool) $context['runtime_context'] : dlck_scope_rules_is_runtime_context();
+	$runtime_ok     = array_key_exists( 'runtime_context', $context ) ? (bool) $context['runtime_context'] : dlck_scope_rules_is_runtime_context();
+	$include_reason = array_key_exists( 'include_reason', $context ) ? (bool) $context['include_reason'] : true;
 
 	if ( ! $runtime_ok ) {
 		return array(
 			'allowed' => true,
 			'code'    => 'runtime_skipped',
-			'reason'  => __( 'Scope rules do not run in this request context.', 'lc-tweaks' ),
+			'reason'  => $include_reason ? __( 'Scope rules do not run in this request context.', 'lc-tweaks' ) : '',
 		);
 	}
 
@@ -2960,7 +2961,7 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 		return array(
 			'allowed' => true,
 			'code'    => 'rules_disabled',
-			'reason'  => __( 'Scope rules are disabled.', 'lc-tweaks' ),
+			'reason'  => $include_reason ? __( 'Scope rules are disabled.', 'lc-tweaks' ) : '',
 		);
 	}
 
@@ -2979,7 +2980,7 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 		return array(
 			'allowed' => true,
 			'code'    => 'no_targets',
-			'reason'  => __( 'Scope rules are enabled but no target option keys are listed.', 'lc-tweaks' ),
+			'reason'  => $include_reason ? __( 'Scope rules are enabled but no target option keys are listed.', 'lc-tweaks' ) : '',
 		);
 	}
 
@@ -2987,7 +2988,7 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 		return array(
 			'allowed' => true,
 			'code'    => 'option_not_targeted',
-			'reason'  => __( 'Option key is not listed in Scope Rules targets.', 'lc-tweaks' ),
+			'reason'  => $include_reason ? __( 'Option key is not listed in Scope Rules targets.', 'lc-tweaks' ) : '',
 		);
 	}
 
@@ -3001,14 +3002,14 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 		return array(
 			'allowed' => false,
 			'code'    => 'requires_logged_in',
-			'reason'  => __( 'Rule requires a logged-in visitor.', 'lc-tweaks' ),
+			'reason'  => $include_reason ? __( 'Rule requires a logged-in visitor.', 'lc-tweaks' ) : '',
 		);
 	}
 	if ( $logged_state === 'logged_out' && $is_logged_in ) {
 		return array(
 			'allowed' => false,
 			'code'    => 'requires_logged_out',
-			'reason'  => __( 'Rule requires a logged-out visitor.', 'lc-tweaks' ),
+			'reason'  => $include_reason ? __( 'Rule requires a logged-out visitor.', 'lc-tweaks' ) : '',
 		);
 	}
 
@@ -3026,14 +3027,14 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 			return array(
 				'allowed' => false,
 				'code'    => 'roles_require_logged_in',
-				'reason'  => __( 'Role rules are set, but the visitor is logged out.', 'lc-tweaks' ),
+				'reason'  => $include_reason ? __( 'Role rules are set, but the visitor is logged out.', 'lc-tweaks' ) : '',
 			);
 		}
 		if ( empty( array_intersect( $role_rules, $user_roles ) ) ) {
 			return array(
 				'allowed' => false,
 				'code'    => 'role_mismatch',
-				'reason'  => __( 'Visitor roles do not match configured role rules.', 'lc-tweaks' ),
+				'reason'  => $include_reason ? __( 'Visitor roles do not match configured role rules.', 'lc-tweaks' ) : '',
 			);
 		}
 	}
@@ -3048,7 +3049,7 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 			'allowed' => false,
 			'code'    => 'include_no_match',
 			/* translators: 1: request path, 2: include patterns */
-			'reason'  => sprintf( __( 'Path %1$s did not match include rules (%2$s).', 'lc-tweaks' ), $request_path, implode( ', ', array_slice( $include_rules, 0, 5 ) ) ),
+			'reason'  => $include_reason ? sprintf( __( 'Path %1$s did not match include rules (%2$s).', 'lc-tweaks' ), $request_path, implode( ', ', array_slice( $include_rules, 0, 5 ) ) ) : '',
 		);
 	}
 
@@ -3058,14 +3059,14 @@ function dlck_scope_rules_evaluate_option( string $option_name, array $context =
 			'allowed' => false,
 			'code'    => 'exclude_match',
 			/* translators: 1: request path, 2: exclude patterns */
-			'reason'  => sprintf( __( 'Path %1$s matched exclude rules (%2$s).', 'lc-tweaks' ), $request_path, implode( ', ', array_slice( $exclude_rules, 0, 5 ) ) ),
+			'reason'  => $include_reason ? sprintf( __( 'Path %1$s matched exclude rules (%2$s).', 'lc-tweaks' ), $request_path, implode( ', ', array_slice( $exclude_rules, 0, 5 ) ) ) : '',
 		);
 	}
 
 	return array(
 		'allowed'      => true,
 		'code'         => 'allowed',
-		'reason'       => __( 'Path and visitor conditions passed.', 'lc-tweaks' ),
+		'reason'       => $include_reason ? __( 'Path and visitor conditions passed.', 'lc-tweaks' ) : '',
 		'request_path' => $request_path,
 		'user_roles'   => $user_roles,
 	);
@@ -3136,7 +3137,7 @@ add_action( 'wp_ajax_dlck_scope_rules_test', 'dlck_scope_rules_test_ajax' );
  * Decide if a specific option is allowed under Scope Rules.
  */
 function dlck_scope_rules_allow_option( string $option_name ): bool {
-	$evaluation = dlck_scope_rules_evaluate_option( $option_name );
+	$evaluation = dlck_scope_rules_evaluate_option( $option_name, array( 'include_reason' => false ) );
 	return ! empty( $evaluation['allowed'] );
 }
 

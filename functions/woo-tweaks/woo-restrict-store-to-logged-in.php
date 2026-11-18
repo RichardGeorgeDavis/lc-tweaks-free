@@ -18,9 +18,16 @@ add_action(
 			return;
 		}
 
+		$guest_visible_product_ids = apply_filters( 'dlck_woo_restrict_store_guest_visible_product_ids', array() );
+		$guest_visible_product_ids = is_array( $guest_visible_product_ids ) ? array_map( 'absint', $guest_visible_product_ids ) : array();
+
 		if (
 			( function_exists( 'is_shop' ) && is_shop() )
-			|| ( function_exists( 'is_product' ) && is_product() )
+			|| (
+				function_exists( 'is_product' )
+				&& is_product()
+				&& ! in_array( absint( get_queried_object_id() ), $guest_visible_product_ids, true )
+			)
 			|| ( function_exists( 'is_product_category' ) && is_product_category() )
 			|| ( function_exists( 'is_product_tag' ) && is_product_tag() )
 			|| ( function_exists( 'is_cart' ) && is_cart() )

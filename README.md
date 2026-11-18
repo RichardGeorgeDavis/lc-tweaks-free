@@ -153,7 +153,7 @@ These options appear when WooCommerce is active.
 
 ### Checkout UX
 
-- **Restrict Store to Logged-in Users:** require login for store access.
+- **Restrict Store to Logged-in Users:** require login for store access, with an optional `dlck_woo_restrict_store_guest_visible_product_ids` filter to allow selected product pages.
 - **Disable Checkout Field Autocomplete:** disable browser autocomplete on checkout fields.
 - **Empty Checkout Defaults:** clear default checkout field values.
 - **Change City Label to Suburb:** relabel city field as suburb while keeping the underlying field key.
