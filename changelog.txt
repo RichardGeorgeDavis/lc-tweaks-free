@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.6.21
+- Ensure release archives keep the plugin directory web-server-traversable without allowing directory listing and retain usable cache-directory permissions under restrictive build umasks.
+- Purge the 20i StackCDN edge cache by site hostname after WP Rocket automatic expiry and domain cache clears, with per-host results in multisite requests.
+
 1.6.20
 - Prevented Scope Rules startup checks from triggering the `lc-tweaks` translation notice before `init`.
 - Added `dlck_woo_restrict_store_guest_visible_product_ids` filter for explicitly allowing selected products on guest-restricted WooCommerce stores.

@@ -1256,6 +1256,13 @@ if ( ! function_exists( 'dlck_misc_csc_stack_cache_available' ) ) :
 	 * Check if 20i Stack Cache looks purge-capable.
 	 */
 	function dlck_misc_csc_stack_cache_available(): bool {
+		// The hostname-based StackCDN endpoint is available whenever the 20i
+		// Stack Cache integration is loaded, even if its PHP purge methods are
+		// absent or unsuitable for WP-CLI/cron.
+		if ( class_exists( 'WPStackCache' ) ) {
+			return true;
+		}
+
 		foreach ( dlck_misc_csc_stack_cache_targets() as $target ) {
 			if ( dlck_misc_csc_stack_cache_target_supports_method( $target ) ) {
 				return true;
@@ -1266,6 +1273,113 @@ if ( ! function_exists( 'dlck_misc_csc_stack_cache_available' ) ) :
 
 		return $request['action'] !== '' && has_action( 'wp_ajax_' . $request['action'] );
 	}
+endif;
+
+if ( ! function_exists( 'dlck_misc_csc_run_stackcdn_edge_purge_step' ) ) :
+	/**
+	 * Purge the current site's 20i StackCDN edge cache.
+	 *
+	 * WPStackCache's PHP purge helper can derive the purge identity from the
+	 * current OS user when it runs from WP-CLI or cron. The StackCDN endpoint
+	 * instead accepts the site's hostname explicitly, which keeps automated
+	 * purges tied to the correct site.
+	 *
+	 * @return array{status:string,message:string}
+	 */
+	function dlck_misc_csc_run_stackcdn_edge_purge_step(): array {
+		static $results = array();
+
+		$host      = wp_parse_url( home_url( '/' ), PHP_URL_HOST );
+		$host      = is_string( $host ) ? strtolower( trim( $host ) ) : '';
+		$cache_key = $host !== '' ? $host : '__unknown__';
+
+		if ( isset( $results[ $cache_key ] ) ) {
+			return $results[ $cache_key ];
+		}
+
+		if ( ! class_exists( 'WPStackCache' ) ) {
+			$results[ $cache_key ] = array(
+				'status'  => 'skipped',
+				'message' => __( '20i StackCDN is not active, so the edge purge was skipped.', 'lc-tweaks' ),
+			);
+			return $results[ $cache_key ];
+		}
+
+		if ( $host === '' ) {
+			$results[ $cache_key ] = array(
+				'status'  => 'error',
+				'message' => __( 'The site hostname could not be determined for the 20i StackCDN purge.', 'lc-tweaks' ),
+			);
+			return $results[ $cache_key ];
+		}
+
+		$url      = add_query_arg( array( 'q' => 'all', 'iam' => $host ), 'http://cache.stackcp.com/cache.php' );
+		$response = wp_remote_get(
+			$url,
+			array(
+				'timeout'   => 20,
+				'blocking'  => true,
+				'sslverify' => false,
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			$results[ $cache_key ] = array(
+				'status'  => 'error',
+				'message' => __( 'The 20i StackCDN edge purge request failed.', 'lc-tweaks' ),
+			);
+			return $results[ $cache_key ];
+		}
+
+		$status_code = (int) wp_remote_retrieve_response_code( $response );
+		$body        = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		if ( $status_code !== 200 || ! is_array( $body ) || empty( $body['user'] ) || strtolower( (string) $body['user'] ) !== $host ) {
+			$results[ $cache_key ] = array(
+				'status'  => 'error',
+				'message' => __( 'The 20i StackCDN edge purge returned an unexpected response.', 'lc-tweaks' ),
+			);
+			return $results[ $cache_key ];
+		}
+
+		$results[ $cache_key ] = array(
+			'status'  => 'success',
+			'message' => __( '20i StackCDN edge cache cleared for this site.', 'lc-tweaks' ),
+		);
+		return $results[ $cache_key ];
+	}
+endif;
+
+if ( ! function_exists( 'dlck_misc_csc_rocket_automatic_purge_coherence' ) ) :
+	/**
+	 * Complete WP Rocket's automatic expiry purge for generated assets and CDN.
+	 */
+	function dlck_misc_csc_rocket_automatic_purge_coherence(): void {
+		if ( function_exists( 'rocket_clean_minify' ) ) {
+			rocket_clean_minify();
+		}
+
+		if ( function_exists( 'rocket_clean_cache_busting' ) ) {
+			rocket_clean_cache_busting();
+		}
+
+		dlck_misc_csc_run_stackcdn_edge_purge_step();
+	}
+
+	add_action( 'rocket_after_automatic_cache_purge', 'dlck_misc_csc_rocket_automatic_purge_coherence', 20, 0 );
+endif;
+
+if ( ! function_exists( 'dlck_misc_csc_rocket_domain_purge_edge_cache' ) ) :
+	/**
+	 * Purge the site edge cache after a normal WP Rocket domain clear.
+	 *
+	 * @param mixed ...$args Hook arguments supplied by WP Rocket.
+	 */
+	function dlck_misc_csc_rocket_domain_purge_edge_cache( ...$args ): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
+		dlck_misc_csc_run_stackcdn_edge_purge_step();
+	}
+
+	add_action( 'after_rocket_clean_domain', 'dlck_misc_csc_rocket_domain_purge_edge_cache', 20, 3 );
 endif;
 
 if ( ! function_exists( 'dlck_misc_csc_run_wp_rocket_step' ) ) :
@@ -1741,11 +1855,13 @@ if ( ! function_exists( 'dlck_misc_csc_run_stack_cache_step' ) ) :
 	 * @return array{status:string,message:string}
 	 */
 	function dlck_misc_csc_run_stack_cache_step(): array {
+		$edge_result = dlck_misc_csc_run_stackcdn_edge_purge_step();
+		if ( $edge_result['status'] !== 'skipped' ) {
+			return $edge_result;
+		}
+
 		if ( ! dlck_misc_csc_stack_cache_available() ) {
-			return array(
-				'status'  => 'skipped',
-				'message' => __( '20i Stack Cache is not active, so this step was skipped.', 'lc-tweaks' ),
-			);
+			return $edge_result;
 		}
 
 		foreach ( dlck_misc_csc_stack_cache_targets() as $target ) {
